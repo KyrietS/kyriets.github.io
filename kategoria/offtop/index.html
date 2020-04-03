@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sebastian Fojcik">
+    <meta name="description" content="Opis strony, który może mieć kilka linii.">
+    <meta name="keywords" content="blog, programowanie, studia, informatyka">
+    
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Wpisy z kategorii offtop</title>
+</head>
+<body>
+
+<div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-lime w3-center">
+    <i onclick="nav_open()" class="fa fa-bars w3-xlarge w3-button w3-theme w3-left"></i> 
+        <span style="line-height: 40px; margin-left: -56px;">Kyriet's Stuff</span>
+</div>
+
+  <!-- Header -->
+<header class="w3-container w3-theme w3-padding" id="page-header">
+    <div class="w3-center w3-padding-32">
+        <h1 class="w3-xxxlarge w3-animate-top">KYRIET'S STUFF</h1>
+        <h4 class="w3-animate-bottom">KTO PYTA, NIE BŁĄDZI. KTO SZUKA, TEN WIE.</h4>
+    </div>
+</header>
+
+<!-- Nawigacja -->
+<nav class="w3-sidebar w3-bar w3-bar-block w3-card-2 w3-animate-left w3-center w3-light-gray" style="display:none" id="navigation">
+    <div class="w3-content">
+        <a href="/" class="w3-bar-item w3-button w3-mobile">Home</a>
+
+        <div class="w3-dropdown-click w3-center">
+            <button class="w3-button" onclick="document.getElementById('dropdown-categories').classList.toggle('w3-show')">
+                Kategorie <i class="fa fa-caret-down"></i>
+            </button>
+            <div id="dropdown-categories" class="w3-dropdown-content w3-bar-block w3-card">
+
+                
+                
+                    <a href="/kategoria/%C5%BBycie%20na%20studiach" class="w3-bar-item w3-button">Życie na studiach</a>
+                
+                
+                    <a href="/kategoria/Programowanie" class="w3-bar-item w3-button">Programowanie</a>
+                
+                
+                    <a href="/kategoria/Offtop" class="w3-bar-item w3-button">Offtop</a>
+                
+                
+                    <a href="/kategoria/Pogaduchy" class="w3-bar-item w3-button">Pogaduchy</a>
+                
+
+                <!-- <a href="category.html" class="w3-bar-item w3-button">Programowanie</a>
+                <a href="#" class="w3-bar-item w3-button">Informatyka</a>
+                <a href="#" class="w3-bar-item w3-button">Warsztat</a> -->
+            </div>
+        </div>
+
+        <a href="#" class="w3-bar-item w3-button w3-mobile">Portfolio</a>
+        <a href="#" class="w3-bar-item w3-button w3-mobile">Kontakt</a>
+
+        <!-- Wyszukaj -->
+        <div class="w3-right">
+            <input type="text" class="w3-bar-item w3-input w3-white w3-mobile w3-left w3-border-left w3-left-align" placeholder="Wyszukaj...">
+            <button class="w3-bar-item w3-button w3-green w3-mobile w3-left"><i class="fa fa-search"></i></button>
+        </div>
+
+        <button class="w3-bar-item w3-button w3-hide-medium w3-hide-large" onclick="nav_close()">Zamknij <i class="fa fa-remove"></i></button>
+
+    </div>
+</nav>
+<div class="nav-gap"></div>
+
+<!-- Kategoria wpisów -->
+<div class="w3-padding-large w3-content">
+
+    <div class="w3-center section-header">
+        <h2 class="w3-xxxlarge">Kategoria: Offtop</h2>
+        <p class="w3-large">Opis kategorii jeśli jest dostępny, to tutaj powinien się pojawić</p>
+        <!-- <p class="w3-large">Wszystko co związane z programowaniem. Nauka przez praktyczne przykłady potrafi być bardzo przyjemna. Na pewno znajdziesz tutaj coś dla siebie.</p> -->
+    </div>
+
+    
+
+    <a href="/wpis/pierwszy-dawny-wpis/">
+        <div class="w3-card w3-row w3-margin-top post-card">
+            <h3 class="w3-padding-small w3-center">Tytuł pierwszego dawnego wpisu</h3>
+            <div class="w3-row">
+                <div class="w3-col m3 l2">
+                    <img src="/img/placeholder.png" alt="Miniaturka do wpisu">
+                </div>
+                <div class="w3-rest w3-padding-small">
+                    <div class="paragraph">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p>
+</div>
+                    <div class="w3-right-align w3-small w3-text-gray">
+                        <span>Pogaduchy | Offtop | 01.01.2020 </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+
+    
+
+</div>
+
+
+
+<!-- <div class="w3-center w3-margin-top">
+    <div class="w3-bar w3-border">
+        <a href="#" class="w3-bar-item w3-button">&laquo;</a>
+        <a href="#" class="w3-bar-item w3-button w3-green">1</a>
+        <a href="#" class="w3-bar-item w3-button w3-disabled">2</a>
+        <a href="#" class="w3-bar-item w3-button w3-disabled">3</a>
+        <a href="#" class="w3-bar-item w3-button w3-disabled">4</a>
+        <a href="#" class="w3-bar-item w3-button">&raquo;</a>
+    </div>
+</div> -->
+
+<hr>
+
+
+<!-- Kontakt -->
+<div class="w3-padding-large w3-content w3-center" style="margin-bottom: 30px;">
+    <h2 class="w3-xxxlarge">Kontakt z autorem</h2>
+    <p class="w3-largee">Jeśli masz jakiesz pytania lub chcesz się podzielić swoją opinią lub zgłosić błąd na stronie, to zachęcam do kontaktu ze mną. Ze względu na ograniczony czas, nie na wszystie wiadomości będę w stanie odpowiedzieć.</p>
+
+    <button class="w3-button w3-green w3-round w3-large w3-margin-top">Wyślij wiadomość</button>
+</div>
+
+
+<!-- Stopka -->
+<div class="w3-light-gray">
+    <div class="w3-row-padding w3-auto w3-margin-top w3-stretch">
+
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">O Autorze</h3>
+            <p class="w3-justify">Sebastian Fojcik - jest istotą człekokształtną, która wykazuje wzmożone zainteresowanie technologiami informatycznymi. Ma w zwyczaju narzekać siarczyście przy pracy ze źle skonstruowaną dokumentacją, którą czyta wybiórczo, a później płacze, że nic nie działa, projekt się nie kompiluje, sypie błędami, testy nie przechodzą i wszystko to jak KREW W PIACH!</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">Cytat na dziś</h3>
+            <p class="w3-center">„Największą przeszkodą, która w znaczący sposób spowalnia sprawdzanie pisanych przez państwa egzaminów jest śmiech.”</p>
+            <p class="w3-right">~ M.G.</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large w3-center">
+            <h3 class="w3-center">Polecane linki</h3>
+            <ul class="w3-left-align" style="display: inline-block">
+                <li>Ten blog :-)</li>
+                <li>Mój kanał YouTube - pewnie xD</li>
+                <li>TheCherno - YouTube C++</li>
+                <li>Computerphile - YouTube</li>
+                <li>StackOverflow - generator inż.</li>
+                <li>Wikipedia - wszyscy narzekają, każdy korzysta</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

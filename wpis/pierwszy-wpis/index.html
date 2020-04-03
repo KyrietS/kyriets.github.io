@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sebastian Fojcik">
+    <meta name="description" content="Opis strony, który może mieć kilka linii.">
+    <meta name="keywords" content="blog, programowanie, studia, informatyka">
+    
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Tytuł pierwszego wpisu</title>
+</head>
+<body>
+
+<div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-lime w3-center">
+    <i onclick="nav_open()" class="fa fa-bars w3-xlarge w3-button w3-theme w3-left"></i> 
+        <span style="line-height: 40px; margin-left: -56px;">Kyriet's Stuff</span>
+</div>
+
+  <!-- Header -->
+<header class="w3-container w3-theme w3-padding" id="page-header">
+    <div class="w3-center w3-padding-32">
+        <h1 class="w3-xxxlarge w3-animate-top">KYRIET'S STUFF</h1>
+        <h4 class="w3-animate-bottom">KTO PYTA, NIE BŁĄDZI. KTO SZUKA, TEN WIE.</h4>
+    </div>
+</header>
+
+<!-- Nawigacja -->
+<nav class="w3-sidebar w3-bar w3-bar-block w3-card-2 w3-animate-left w3-center w3-light-gray" style="display:none" id="navigation">
+    <div class="w3-content">
+        <a href="/" class="w3-bar-item w3-button w3-mobile">Home</a>
+
+        <div class="w3-dropdown-click w3-center">
+            <button class="w3-button" onclick="document.getElementById('dropdown-categories').classList.toggle('w3-show')">
+                Kategorie <i class="fa fa-caret-down"></i>
+            </button>
+            <div id="dropdown-categories" class="w3-dropdown-content w3-bar-block w3-card">
+
+                
+                
+                    <a href="/kategoria/%C5%BBycie%20na%20studiach" class="w3-bar-item w3-button">Życie na studiach</a>
+                
+                
+                    <a href="/kategoria/Programowanie" class="w3-bar-item w3-button">Programowanie</a>
+                
+                
+                    <a href="/kategoria/Offtop" class="w3-bar-item w3-button">Offtop</a>
+                
+                
+                    <a href="/kategoria/Pogaduchy" class="w3-bar-item w3-button">Pogaduchy</a>
+                
+
+                <!-- <a href="category.html" class="w3-bar-item w3-button">Programowanie</a>
+                <a href="#" class="w3-bar-item w3-button">Informatyka</a>
+                <a href="#" class="w3-bar-item w3-button">Warsztat</a> -->
+            </div>
+        </div>
+
+        <a href="#" class="w3-bar-item w3-button w3-mobile">Portfolio</a>
+        <a href="#" class="w3-bar-item w3-button w3-mobile">Kontakt</a>
+
+        <!-- Wyszukaj -->
+        <div class="w3-right">
+            <input type="text" class="w3-bar-item w3-input w3-white w3-mobile w3-left w3-border-left w3-left-align" placeholder="Wyszukaj...">
+            <button class="w3-bar-item w3-button w3-green w3-mobile w3-left"><i class="fa fa-search"></i></button>
+        </div>
+
+        <button class="w3-bar-item w3-button w3-hide-medium w3-hide-large" onclick="nav_close()">Zamknij <i class="fa fa-remove"></i></button>
+
+    </div>
+</nav>
+<div class="nav-gap"></div>
+
+<main class="w3-content w3-padding-small">
+    <article>
+        <header>
+            <h1>Tytuł pierwszego wpisu</h1>
+            <p>01.04.2020
+
+                
+                    | <a href="/kategoria/Programowanie">Programowanie</a>
+                
+
+                | <i>Sebastian Fojcik</i></p>
+        </header>
+
+        <img src="/img/placeholder.png" alt="Miniaturka do wpisu" class="w3-left" id="thumbnail">
+
+        <div class="paragraph">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p>
+</div>
+<div class="paragraph">
+<p>Nam nec ligula tempus, fringilla leo quis, pellentesque justo. Aenean semper augue in sem tempus gravida. Integer efficitur ut erat eu dignissim. Etiam vitae turpis iaculis, accumsan leo quis, scelerisque turpis. Suspendisse laoreet velit et tempor dapibus. Aenean hendrerit elementum elit vel pellentesque. Aliquam condimentum dictum massa, ac fringilla enim feugiat id. Maecenas varius ultricies auctor. Nam gravida molestie metus. Morbi fermentum fringilla ipsum, vel faucibus orci luctus eu. Nam ornare nec risus porta malesuada.</p>
+</div>
+<div class="paragraph">
+<p>In finibus aliquet sem quis pulvinar. Vivamus at ante vel diam ullamcorper commodo. Vivamus sagittis, leo et ullamcorper auctor, sapien enim tincidunt dui, ut porta enim turpis et sem. Aenean tincidunt ligula sit amet urna viverra posuere. Sed molestie, metus in tempus semper, libero arcu semper enim, quis suscipit nunc ex vel tellus. Donec consectetur, nisi eu euismod ultricies, odio nisi lacinia ipsum, a luctus urna nisi et quam. Vestibulum malesuada ante tellus, eu vestibulum ipsum luctus et. Cras eleifend sed magna vitae ullamcorper. Phasellus in nisi et lorem porttitor malesuada a sit amet dolor. Praesent ligula ante, condimentum ac viverra eu, posuere eget massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis vehicula sit amet sem sit amet congue. Nunc varius, dolor et fringilla ultrices, enim neque tincidunt mauris, non molestie nibh augue porta diam. Mauris fermentum at nibh sed ultricies. Ut laoreet nunc vel turpis tincidunt, ultrices finibus diam euismod.</p>
+</div>
+<div class="paragraph">
+<p>Nullam vitae libero tempus, sodales justo vitae, tincidunt lorem. In vitae interdum est. Etiam finibus nunc nec dui luctus volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor, orci id commodo mattis, lectus dui convallis massa, vitae facilisis lacus nulla sed velit. Mauris laoreet odio eu enim tincidunt, sit amet dapibus elit ornare. Cras luctus porttitor ex nec eleifend. Morbi ut orci id metus ultrices pretium at vitae magna. Duis finibus sagittis sapien id finibus. Maecenas quis interdum ante.</p>
+</div>
+<div class="paragraph">
+<p>Sed dictum id purus vel venenatis. Aliquam rhoncus dui mauris, eget porta augue convallis a. Sed eu hendrerit nisl. Donec a lacus sit amet elit euismod lobortis eget vitae tellus. Nulla vitae massa in massa accumsan porta. Vivamus scelerisque nisi ut auctor bibendum. Aliquam volutpat ex augue. Etiam in cursus libero. Ut rutrum feugiat metus, vitae sollicitudin turpis aliquam ultricies. Nam quis rhoncus mi. Duis id mollis justo. Phasellus non diam vehicula, porta nibh in, pharetra urna. Morbi massa arcu, fermentum nec nibh vel, tincidunt pretium tellus. Vivamus ultricies a velit et sollicitudin. Cras vitae odio nec mi pretium semper.</p>
+</div>
+
+    </article>
+
+    <h2>Zobacz jeszcze</h2>
+    <ul>
+        <li>Nauka programowania na studiach</li>
+        <li>Programowanie grafiki 2D w Processing</li>
+        <li>Studiowanie a depresja. Ciąg przyczynowo skutkowy</li>
+        <li>Dlaczego teoretyczne listy na wbudowane nie mają sensu</li>
+        <li>Python to nie jest język programowania cz. 7</li>
+    </ul>
+
+
+</main>
+
+<!-- Stopka -->
+<div class="w3-light-gray">
+    <div class="w3-row-padding w3-auto w3-margin-top w3-stretch">
+
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">O Autorze</h3>
+            <p class="w3-justify">Sebastian Fojcik - jest istotą człekokształtną, która wykazuje wzmożone zainteresowanie technologiami informatycznymi. Ma w zwyczaju narzekać siarczyście przy pracy ze źle skonstruowaną dokumentacją, którą czyta wybiórczo, a później płacze, że nic nie działa, projekt się nie kompiluje, sypie błędami, testy nie przechodzą i wszystko to jak KREW W PIACH!</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">Cytat na dziś</h3>
+            <p class="w3-center">„Największą przeszkodą, która w znaczący sposób spowalnia sprawdzanie pisanych przez państwa egzaminów jest śmiech.”</p>
+            <p class="w3-right">~ M.G.</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large w3-center">
+            <h3 class="w3-center">Polecane linki</h3>
+            <ul class="w3-left-align" style="display: inline-block">
+                <li>Ten blog :-)</li>
+                <li>Mój kanał YouTube - pewnie xD</li>
+                <li>TheCherno - YouTube C++</li>
+                <li>Computerphile - YouTube</li>
+                <li>StackOverflow - generator inż.</li>
+                <li>Wikipedia - wszyscy narzekają, każdy korzysta</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
