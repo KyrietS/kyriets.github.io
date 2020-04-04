@@ -17,7 +17,7 @@
 
 <div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-lime w3-center">
     <i onclick="nav_open()" class="fa fa-bars w3-xlarge w3-button w3-theme w3-left"></i> 
-        <span style="line-height: 40px; margin-left: -56px;">Kyriet's Stuff</span>
+    <span style="line-height: 40px; margin-left: -56px;">Kyriet's Stuff</span>
 </div>
 
   <!-- Header -->
@@ -34,11 +34,7 @@
         <a href="/" class="w3-bar-item w3-button w3-mobile">Home</a>
 
         <div class="w3-dropdown-click w3-center">
-            <button 
-                class="w3-button" 
-                onclick="document.getElementById('dropdown-categories').classList.toggle('w3-show')" 
-                onblur="document.getElementById('dropdown-categories').classList.remove('w3-show')"
-            >
+            <button id="dropdown-categories-button" class="w3-button">
                 Kategorie <i class="fa fa-caret-down"></i>
             </button>
             <div id="dropdown-categories" class="w3-dropdown-content w3-bar-block w3-card">

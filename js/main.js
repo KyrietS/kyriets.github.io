@@ -1,20 +1,35 @@
+// Pasek nawigacyjny
+const dropdownCategories = document.getElementById('dropdown-categories');
+const dropdownCategoriesButton = document.getElementById('dropdown-categories-button');
+
+// Zapobieganie schowaniu menu przy próbie wciśniecia w jedną z opcji
+dropdownCategories.addEventListener('mouseenter', () => window.menuCategories=true);
+dropdownCategories.addEventListener('mouseleave', () => window.menuCategories=false);
+
+dropdownCategoriesButton.addEventListener('click', () => dropdownCategories.classList.toggle('w3-show'));
+dropdownCategoriesButton.addEventListener('blur', () => {
+    if (!window.menuCategories) {
+        dropdownCategories.classList.remove('w3-show');
+    }
+});	
+
 // Side navigation
 function nav_open() {
-  var x = document.getElementById("navigation");
-  x.style.display = "block";
+    var x = document.getElementById("navigation");
+    x.style.display = "block";
 }
   
 function nav_close() {
-  document.getElementById("navigation").style.display = "none";
+    document.getElementById("navigation").style.display = "none";
 }
 
 var navbar = document.getElementById("navigation");
 var stickyOffet = navbar.offsetTop;
 window.addEventListener("scroll", function() {
     if (window.pageYOffset >= stickyOffet) {
-      navbar.classList.add("sticky")
+        navbar.classList.add("sticky")
     } else {
-      navbar.classList.remove("sticky");
+        navbar.classList.remove("sticky");
     }
 });
 
