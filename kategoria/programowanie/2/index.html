@@ -34,7 +34,11 @@
         <a href="/" class="w3-bar-item w3-button w3-mobile">Home</a>
 
         <div class="w3-dropdown-click w3-center">
-            <button class="w3-button" onclick="document.getElementById('dropdown-categories').classList.toggle('w3-show')">
+            <button 
+                class="w3-button" 
+                onclick="document.getElementById('dropdown-categories').classList.toggle('w3-show')" 
+                onblur="document.getElementById('dropdown-categories').classList.remove('w3-show')"
+            >
                 Kategorie <i class="fa fa-caret-down"></i>
             </button>
             <div id="dropdown-categories" class="w3-dropdown-content w3-bar-block w3-card">
