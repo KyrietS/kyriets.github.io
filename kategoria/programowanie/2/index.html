@@ -191,5 +191,42 @@
 
 <script src="/js/main.js"></script>
 
+<!-- Mathjax w wersji 3.x.x -->
+<script>
+    MathJax = {
+        loader: {load: ['input/asciimath']},
+        tex: {
+            inlineMath: [["\\(", "\\)"]],
+            displayMath: [["\\[", "\\]"]],
+            processEscapes: false,      // use \$ to produce a literal dollar sign
+        },
+        asciimath: {
+            delimiters: [["\\$", "\\$"]]
+        },
+        chtml: {
+            scale: 1,
+            matchFontHeight: true
+        },
+        options: {
+            ignoreHtmlClass: "nostem|noasciimath"
+        },
+        // Tymczasowy fix dla wersji v3.0.1 (https://github.com/mathjax/MathJax/issues/2327)
+        startup: {
+            pageReady() {
+                const options = MathJax.startup.document.options;
+                const BaseMathItem = options.MathItem;
+                options.MathItem = class FixedMathItem extends BaseMathItem {
+                    assistiveMml(document) {
+                        if (this.display !== null) super.assistiveMml(document);
+                    }
+                };
+                return MathJax.startup.defaultPageReady();
+            }
+        }
+    };
+</script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+
 </body>
 </html>

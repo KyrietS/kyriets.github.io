@@ -115,7 +115,7 @@
                 </div>
                 <div class="w3-rest w3-padding-small">
                     <div class="paragraph">
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p>
+<p>Lorem ipsum <mark>dolor sit amet</mark>, consectetur adipiscing elit. \$sqrt(4) = 2\$ Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, &#8220;double curved quotes&#8221; justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus.</p>
 </div>
                     <div class="w3-right-align w3-small w3-text-gray">
                         <span>Programowanie | Życie na studiach | 02.04.2020 </span>
@@ -232,6 +232,43 @@
 </div>
 
 <script src="/js/main.js"></script>
+
+<!-- Mathjax w wersji 3.x.x -->
+<script>
+    MathJax = {
+        loader: {load: ['input/asciimath']},
+        tex: {
+            inlineMath: [["\\(", "\\)"]],
+            displayMath: [["\\[", "\\]"]],
+            processEscapes: false,      // use \$ to produce a literal dollar sign
+        },
+        asciimath: {
+            delimiters: [["\\$", "\\$"]]
+        },
+        chtml: {
+            scale: 1,
+            matchFontHeight: true
+        },
+        options: {
+            ignoreHtmlClass: "nostem|noasciimath"
+        },
+        // Tymczasowy fix dla wersji v3.0.1 (https://github.com/mathjax/MathJax/issues/2327)
+        startup: {
+            pageReady() {
+                const options = MathJax.startup.document.options;
+                const BaseMathItem = options.MathItem;
+                options.MathItem = class FixedMathItem extends BaseMathItem {
+                    assistiveMml(document) {
+                        if (this.display !== null) super.assistiveMml(document);
+                    }
+                };
+                return MathJax.startup.defaultPageReady();
+            }
+        }
+    };
+</script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
 
 </body>
 </html>
