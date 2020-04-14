@@ -91,11 +91,11 @@ a > .category-card:hover {
 
 /* NAWIGACJA */
 #navigation {
-  font-size: 40px;
+  font-size: 36px;
   top: 0;
   z-index: 99;
   transition: top 0.3s;
-  overflow: visible !important;
+  overflow-y: scroll;
 }
 
 #mobile-navbar {
@@ -123,11 +123,24 @@ a > .category-card:hover {
   text-align: center;
 }
 
+.w3-dropdown-content {
+  z-index: 10;
+}
+
 #navigation .w3-dropdown-content .w3-bar-item {
   display: block;
   clear: both;
   width: 100%;
   /* width: auto !important; */
+}
+
+#dropdown-search {
+  z-index: 4;
+}
+
+#dropdown-search-info {
+  font-size: 0.8em;
+  border-top: 1px solid gray;
 }
 
 /* Ekran większy niż 600px */
@@ -166,6 +179,7 @@ a > .category-card:hover {
   }
   /* Nawigacja staje się desktopowa */
   #navigation {
+    overflow: visible !important;
     display: block !important;
     font-size: inherit;
     height: inherit;

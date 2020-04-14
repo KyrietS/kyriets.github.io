@@ -23,7 +23,7 @@
     <meta name="theme-color" content="#ffffff">
 
 
-    <title>Wpisy z kategorii: offtop</title>
+    <title>Wyszukiwarka</title>
 </head>
 <body>
 
@@ -104,53 +104,63 @@
 </nav>
 <div class="nav-gap"></div>
 
-<!-- Kategoria wpisów -->
+<style>
+    .section-header {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .section-header h2 {
+        margin-right: 10px;
+    }
+    .section-header input#search-input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid grey;
+        line-height: 1em;
+    }
+    .section-header input#search-input:focus {
+        outline: none;
+    }
+    /* Ekran większy niż 600px */
+    @media (min-width:600px) {
+        .section-header {
+            flex-wrap: nowrap;
+        }
+    }
+</style>
+
+<!-- Strona z rezultatami wyszukania -->
 <div class="w3-padding-large w3-content">
 
-    <div class="w3-center section-header">
-        <h2 class="w3-xxxlarge">Kategoria: Offtop</h2>
-        <p class="w3-large">Cała ta reszta związana z czymkolwiek innym, czyli typowy offtop. 90% czytelników trafiająca na wpisy z tej kategorii, to zasługa Google.</p>
-
+    <div class="w3-left-align section-header">
+        <h2 class="w3-xxxlarge" style="display: inline-block;">Wyszukaj:</h2>
+        <input type="text" name="search" id="search-input" class="w3-xxxlarge w3-animate-input">
     </div>
+    <hr>
 
-    
-
-    <a href="/wpis/pierwszy-dawny-wpis/">
-        <div class="w3-card w3-row w3-margin-top post-card">
-            <h3 class="w3-padding-small w3-center">Tytuł pierwszego dawnego wpisu</h3>
-            <div class="w3-row">
-                <div class="w3-col m3 l2">
-                    <img src="/assets/posts/thumbnails/placeholder.png" alt="Miniaturka do wpisu">
-                </div>
-                <div class="w3-rest w3-padding-small">
-                    <div class="paragraph">
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p>
-</div>
-                    <div class="w3-right-align w3-small w3-text-gray">
-                        <span>Pogaduchy | Offtop | 01.01.2020 </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-
-    
+    <p class="w3-large">
+        Ups! Wygląda na to, że nic nie znaleziono ._.
+    </p>
 
 </div>
 
+<script>
+const updateUrlParameter = (value) => window.history.pushState('', '', `?s=${encodeURIComponent(value)}`);
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', () => updateUrlParameter(searchInput.value));
 
 
-<hr>
+// Jeśli w adresie znajduje się jakieś zapytanie ?s=query, to umieść je w labelu i wyszukaj
+const parser = document.createElement('a');
+parser.href = window.location.href;
 
+if(parser.href.includes('?s=')) {
+    const searchquery = decodeURIComponent(parser.href.substring(parser.href.indexOf('=') + 1).replace(/\+/g, '%20'));
+    searchInput.value = searchquery;
+    //doSearch(searchquery);
+}
 
-<!-- Kontakt -->
-<div class="w3-padding-large w3-content w3-center" style="margin-bottom: 30px;">
-    <h2 class="w3-xxxlarge">Kontakt z autorem</h2>
-    <p class="w3-largee">Jeśli masz jakiesz pytania lub chcesz się podzielić swoją opinią lub zgłosić błąd na stronie, to zachęcam do kontaktu ze mną. Ze względu na ograniczony czas, nie na wszystie wiadomości będę w stanie odpowiedzieć.</p>
-
-    <button class="w3-button w3-green w3-round w3-large w3-margin-top">Wyślij wiadomość</button>
-</div>
-
+</script>
 
 <!-- Stopka -->
 <div class="w3-light-gray">

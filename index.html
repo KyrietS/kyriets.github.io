@@ -27,7 +27,7 @@
 </head>
 <body>
 
-<div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-lime w3-center">
+<div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-center w3-green">
     <i onclick="nav_open()" class="fa fa-bars w3-xlarge w3-button w3-theme w3-left"></i> 
     <span style="line-height: 40px; margin-left: -56px;">Kyriet's Stuff</span>
 </div>
@@ -45,9 +45,12 @@
 </header>
 
 <!-- Nawigacja -->
-<nav class="w3-sidebar w3-bar w3-bar-block w3-card-2 w3-animate-left w3-center w3-light-gray" style="display:none" id="navigation">
+<nav id="navigation" class="w3-sidebar w3-bar w3-bar-block w3-card-2 w3-animate-left w3-center w3-light-gray" style="display:none">
     <div class="w3-content">
-        <a href="/" class="w3-bar-item w3-button w3-mobile">Home</a>
+
+        <button class="w3-bar-item w3-button w3-hide-medium w3-hide-large" style="border-bottom: 1px solid lightgray;" onclick="nav_close()">Zamknij <i class="fa fa-remove"></i></button>
+
+        <a href="/" class="w3-bar-item w3-button w3-mobile">Start</a>
 
         <div class="w3-dropdown-click w3-center">
             <button id="dropdown-categories-button" class="w3-button">
@@ -83,12 +86,19 @@
         <a href="#" class="w3-bar-item w3-button w3-mobile">Kontakt</a>
 
         <!-- Wyszukaj -->
-        <div class="w3-right">
-            <input type="text" class="w3-bar-item w3-input w3-white w3-mobile w3-left w3-border-left w3-left-align" placeholder="Wyszukaj...">
-            <button class="w3-bar-item w3-button w3-green w3-mobile w3-left"><i class="fa fa-search"></i></button>
-        </div>
+        <form action="/wyszukaj/" method="get" class="w3-right" autocomplete="off">
+            <button class="w3-bar-item w3-right w3-button w3-green w3-mobile"><i class="fa fa-search"></i></button>
+            <input type="text" id="dropdown-search-input" class="w3-bar-item w3-input w3-white w3-mobile w3-border-left w3-left-align" 
+                style="display: inline-block; float: none;" placeholder="Wyszukaj..." name="s">
+            <div id="dropdown-search" class="w3-dropdown-content w3-card w3-bar-block">
+                <!-- Tymczasowo zahardkodowane wpisy -->
+                <a href="#" class="w3-bar-item w3-button">Tytuł trzeciego wpisu o programowaniu</a>
+                <a href="#" class="w3-bar-item w3-button">Tytuł drugiego wpisu</a>
+                <a href="#" class="w3-bar-item w3-button">Dlaczego to</a>
 
-        <button class="w3-bar-item w3-button w3-hide-medium w3-hide-large" onclick="nav_close()">Zamknij <i class="fa fa-remove"></i></button>
+                <span id="dropdown-search-info" class="w3-bar-item">Kilka znalezionych wpisów.<br>Wciśniej enter, aby wyszukać dokładniej.</span>
+            </div>
+        </form>
 
     </div>
 </nav>
