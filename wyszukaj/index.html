@@ -147,6 +147,15 @@ const sjs = SimpleJekyllSearch({
   success: () => {},
   json: [
      {
+        "title": "Test kolorowania składni",
+        "url": "/wpis/syntax-highlight-demo/",
+        "image": "/assets/posts/thumbnails/placeholder.png",
+        "date": "22.04.2020",
+        "excerpt": "<div class=\"paragraph\"><p>Praesent ligula ante, condimentum ac viverra eu, posuere eget massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis vehicula sit amet sem sit amet congue. Nunc varius, dolor et fringilla ultrices, enim neque tincidunt mauris, non molestie nibh augue porta diam. Mauris fermentum at nibh sed ultricies.</p></div>",
+        "categories": "Programowanie"
+    }
+    , 
+     {
         "title": "Tytuł trzeciego wpisu",
         "url": "/wpis/trzeci-wpis/",
         "image": "/assets/posts/thumbnails/placeholder.png",
@@ -307,7 +316,7 @@ SimpleJekyllSearch({
   resultsContainer: document.getElementById('dropdown-search-results'),
   limit: 4,
   success: () => {},
-  json: [{"title":"Tytuł trzeciego wpisu","url":"/wpis/trzeci-wpis/"},{"title":"Tytuł drugiego wpisu","url":"/wpis/drugi-wpis/"},{"title":"Tytuł pierwszego wpisu","url":"/wpis/pierwszy-wpis/"},{"title":"Tytuł drugiego dawnego wpisu","url":"/wpis/drugi-dawny-wpis/"},{"title":"Tytuł pierwszego dawnego wpisu","url":"/wpis/pierwszy-dawny-wpis/"}],
+  json: [{"title":"Test kolorowania składni","url":"/wpis/syntax-highlight-demo/"},{"title":"Tytuł trzeciego wpisu","url":"/wpis/trzeci-wpis/"},{"title":"Tytuł drugiego wpisu","url":"/wpis/drugi-wpis/"},{"title":"Tytuł pierwszego wpisu","url":"/wpis/pierwszy-wpis/"},{"title":"Tytuł drugiego dawnego wpisu","url":"/wpis/drugi-dawny-wpis/"},{"title":"Tytuł pierwszego dawnego wpisu","url":"/wpis/pierwszy-dawny-wpis/"}],
   noResultsText: '',
   searchResultTemplate: `<a href="{url}" class="w3-bar-item w3-button">{title}</a>`
 });

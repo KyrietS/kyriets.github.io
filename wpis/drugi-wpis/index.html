@@ -762,19 +762,31 @@ DEPENDENCIES
 <div class="sect2">
 <h3 id="code_block_with_title_and_syntax_highlighting"><a class="anchor" href="#code_block_with_title_and_syntax_highlighting"></a>Code block with title and syntax highlighting</h3>
 <div class="listingblock">
-<div class="title">app.rb</div>
+<div class="title">main.cpp</div>
 <div class="content">
-<pre class="rouge highlight nowrap"><code data-lang="c++"><span class="cp">#include &lt;iostream&gt;
-</span>
+<pre class="rouge highlight nowrap"><code data-lang="c++"><table class="linenotable"><tbody><tr><td class="linenos gl"><pre class="lineno"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+</pre></td><td class="code"><pre><span class="cp">#include &lt;iostream&gt;</span>
+
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> <span class="c1">// opcjonalne</span>
 
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-    <span class="n">Klasa</span> <span class="n">k</span><span class="p">();</span>
-    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello world! "</span> <span class="o">&lt;&lt;</span> <span class="n">n</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre>
+<span class="hll">    <span class="n">Klasa</span> <span class="n">k</span><span class="p">();</span>
+</span><span class="hll">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello world! "</span> <span class="o">&lt;&lt;</span> <span class="n">n</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre>
 </div>
 </div>
 </div>
@@ -1192,6 +1204,10 @@ r.
         <li><a href="/wpis/pierwszy-dawny-wpis/">Tytuł pierwszego dawnego wpisu</a></li>
         
         
+        
+        <li><a href="/wpis/syntax-highlight-demo/">Test kolorowania składni</a></li>
+        
+        
     </ul>
 
 </main>
@@ -1271,7 +1287,7 @@ SimpleJekyllSearch({
   resultsContainer: document.getElementById('dropdown-search-results'),
   limit: 4,
   success: () => {},
-  json: [{"title":"Tytuł trzeciego wpisu","url":"/wpis/trzeci-wpis/"},{"title":"Tytuł drugiego wpisu","url":"/wpis/drugi-wpis/"},{"title":"Tytuł pierwszego wpisu","url":"/wpis/pierwszy-wpis/"},{"title":"Tytuł drugiego dawnego wpisu","url":"/wpis/drugi-dawny-wpis/"},{"title":"Tytuł pierwszego dawnego wpisu","url":"/wpis/pierwszy-dawny-wpis/"}],
+  json: [{"title":"Test kolorowania składni","url":"/wpis/syntax-highlight-demo/"},{"title":"Tytuł trzeciego wpisu","url":"/wpis/trzeci-wpis/"},{"title":"Tytuł drugiego wpisu","url":"/wpis/drugi-wpis/"},{"title":"Tytuł pierwszego wpisu","url":"/wpis/pierwszy-wpis/"},{"title":"Tytuł drugiego dawnego wpisu","url":"/wpis/drugi-dawny-wpis/"},{"title":"Tytuł pierwszego dawnego wpisu","url":"/wpis/pierwszy-dawny-wpis/"}],
   noResultsText: '',
   searchResultTemplate: `<a href="{url}" class="w3-bar-item w3-button">{title}</a>`
 });
