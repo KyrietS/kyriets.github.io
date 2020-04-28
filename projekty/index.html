@@ -23,13 +23,13 @@
     <meta name="theme-color" content="#ffffff">
 
 
-    <title>Kontakt</title>
+    <title>Moje projekty</title>
 </head>
 <body>
 
 <div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-center w3-green">
     <i onclick="nav_open()" class="fa fa-bars w3-xlarge w3-button w3-theme w3-left"></i> 
-    <span style="line-height: 40px; margin-left: -56px;">Kyriet's Stuff</span>
+    <span style="line-height: 40px; margin-left: -56px;">Kyriet'Stuff</span>
 </div>
 
   <!-- Header -->
@@ -39,7 +39,7 @@
             onerror="this.src='/assets/img/logo.png'">
     </div>
     <div id="page-title">
-        <h1 class="w3-xxxlarge w3-animate-top"> KYRIET'S STUFF</h1>
+        <h1 class="w3-xxxlarge w3-animate-top"> KYRIET'STUFF</h1>
         <h4 class="w3-animate-bottom">KTO PYTA, NIE BŁĄDZI. KTO SZUKA, TEN WIE.</h4>
     </div>
 </header>
@@ -101,6 +101,10 @@
 <div class="nav-gap"></div>
 
 <style>
+.projects-container {
+    margin: 0 auto;
+    max-width: 1200px;
+}
 .projects {
     display: flex;
     flex-wrap: wrap;
@@ -109,17 +113,18 @@
 }
 .project {
     margin: 15px;
-    width: 270px;
+    width: 350px;
 }
 .project img {
     width: 100%;
     border: 1px solid #333;
 }
 .project-title {
+    font-size: 20px;
     margin-bottom: 0;
 }
 .project-description {
-    font-size: 15px;
+    font-size: 16px;
 }
 .github-link {
     margin-top: 0;
@@ -138,13 +143,16 @@
 
     /* Ekran mniejszy niż 600px */
 @media (max-width: 600px) {
+    .projects-container {
+        margin: 0 0;
+    }
     .project {
         width: 100%;
     }
 }
 </style>
 
-<div class="w3-padding-large w3-content">
+<div class="w3-padding-large projects-container">
 
     <div class="w3-center section-header">
         <h2 class="w3-xxxlarge">Kilka moich projektów</h2>
@@ -173,12 +181,12 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/turtle3d" target="_blank">
+            <a href="https://github.com/KyrietS/turtle3d" target="_blank">
                 <img src="/assets/img/projects/turtle3d.jpg" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>Żółw 3D</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/turtle3d" target="_blank">github.com/kyriets/turtle3d</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/turtle3d" target="_blank">github.com/KyrietS/turtle3d</a></p>
                 <p class="project-description">Żółw znany z programu Logo, lecz tym razem w 3D. Wykorzystano czysty JavaScript i Canvas.</p>
                 
                 
@@ -190,17 +198,17 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets.github.io/www" target="_blank">
+            <a href="https://github.com/KyrietS/puzzle" target="_blank">
                 <img src="/assets/img/projects/puzzle.jpg" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>Puzzle</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets.github.io/www" target="_blank">github.com/kyriets.github.io/www</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/puzzle" target="_blank">github.com/KyrietS/puzzle</a></p>
                 <p class="project-description">Układanka, w której obrazek jest podzielony na części. Mamy ułożyć go z powrotem.</p>
                 
                 
                 <div class="w3-center">
-                    <a href="https://kyriets.github.io/www/puzzle/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
+                    <a href="https://kyriets.github.io/puzzle/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
                 </div>
                 
             </div>
@@ -220,12 +228,12 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/ZrozumiecWektory" target="_blank">
+            <a href="https://github.com/KyrietS/ZrozumiecWektory" target="_blank">
                 <img src="/assets/img/projects/zrozumiec-wektory.jpg" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>Zrozumieć Wektory*</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/ZrozumiecWektory" target="_blank">github.com/kyriets/ZrozumiecWektory</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/ZrozumiecWektory" target="_blank">github.com/KyrietS/ZrozumiecWektory</a></p>
                 <p class="project-description">Gra logiczno-zręcznościowa, w której gracz bawi się wektorami i obserwuje, jak wpływają one na zachowanie piłeczki.</p>
                 
                 
@@ -233,12 +241,12 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/Trylma" target="_blank">
+            <a href="https://github.com/KyrietS/Trylma" target="_blank">
                 <img src="/assets/img/projects/trylma.jpg" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>Trylma*</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/Trylma" target="_blank">github.com/kyriets/Trylma</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/Trylma" target="_blank">github.com/KyrietS/Trylma</a></p>
                 <p class="project-description">Sieciowa gra planszowa, w której może jednocześnie brać udział do 6 graczy z botami.</p>
                 
                 
@@ -246,12 +254,12 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/arithmetic-coding" target="_blank">
+            <a href="https://github.com/KyrietS/arithmetic-coding" target="_blank">
                 <img src="/assets/img/projects/arithmetic-coder.png" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>Arithmetic Coder</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/arithmetic-coding" target="_blank">github.com/kyriets/arithmetic-coding</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/arithmetic-coding" target="_blank">github.com/KyrietS/arithmetic-coding</a></p>
                 <p class="project-description">Wydajna implementacja algorytmu kompresjii kodowania arytmetycznego w C++.</p>
                 
                 
@@ -259,12 +267,12 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/pngsafe" target="_blank">
+            <a href="https://github.com/KyrietS/pngsafe" target="_blank">
                 <img src="/assets/img/projects/pngsafe.png" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>pngsafe</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/pngsafe" target="_blank">github.com/kyriets/pngsafe</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/pngsafe" target="_blank">github.com/KyrietS/pngsafe</a></p>
                 <p class="project-description">Aplikacja ukrywająca plik w obrazie steganograficzną metodą modyfikacji najmniej znaczącego bitu.</p>
                 
                 
@@ -272,12 +280,12 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/EtherSim" target="_blank">
+            <a href="https://github.com/KyrietS/EtherSim" target="_blank">
                 <img src="/assets/img/projects/ethersim.png" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>EtherSim</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/EtherSim" target="_blank">github.com/kyriets/EtherSim</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/EtherSim" target="_blank">github.com/KyrietS/EtherSim</a></p>
                 <p class="project-description">Sandboxowy edytor topologii sieci komputerowej, w którym można symulować kolizje na łączu</p>
                 
                 
@@ -285,12 +293,12 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/crypter" target="_blank">
+            <a href="https://github.com/KyrietS/crypter" target="_blank">
                 <img src="/assets/img/projects/crypter.jpg" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>Crypter</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/crypter" target="_blank">github.com/kyriets/crypter</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/crypter" target="_blank">github.com/KyrietS/crypter</a></p>
                 <p class="project-description">Konsolowa aplikacja do szyfrowania plików podanym przez użytkownika hasłem.</p>
                 
                 
@@ -298,17 +306,17 @@
         </div>
         
         <div class="w3-card project">
-            <a href="https://github.com/kyriets/plotter3d" target="_blank">
+            <a href="https://github.com/KyrietS/plotter3d" target="_blank">
                 <img src="/assets/img/projects/plotter3d.png" alt="Project thumbnail" class="w3-hover-opacity">
             </a>
             <div class="w3-container w3-white">
                 <p class="project-title"><b>Plotter3D</b></p>
-                <p class="github-link"><a href="https://github.com/kyriets/plotter3d" target="_blank">github.com/kyriets/plotter3d</a></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/plotter3d" target="_blank">github.com/KyrietS/plotter3d</a></p>
                 <p class="project-description">Aplikacja webowa do rysowania wykresów 3D funkcji dwóch zmiennych.</p>
                 
                 
                 <div class="w3-center">
-                    <a href="https://kyriets.github.io/grafika/lista3/zad3/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
+                    <a href="https://kyriets.github.io/plotter3d/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
                 </div>
                 
             </div>
@@ -336,24 +344,22 @@
 
         <div class="w3-third w3-padding-large">
             <h3 class="w3-center">O Autorze</h3>
-            <p class="w3-justify">Sebastian Fojcik - jest istotą człekokształtną, która wykazuje wzmożone zainteresowanie technologiami informatycznymi. Ma w zwyczaju narzekać siarczyście przy pracy ze źle skonstruowaną dokumentacją, którą czyta wybiórczo, a później płacze, że nic nie działa, projekt się nie kompiluje, sypie błędami, testy nie przechodzą i wszystko to jak KREW W PIACH!</p>
+            <p class="w3-justify">Jestm studentem informatyki z Wrocławia. Interesuję się tworzeniem użytecznych aplikacji. Jestem fanem komputerowych gier strategicznych i symulacyjnych. W wolnym czasie dzielę się swoimi przemyśleniami na tym blogu.</p>
         </div>
     
         <div class="w3-third w3-padding-large">
-            <h3 class="w3-center">Cytat na dziś</h3>
+            <h3 class="w3-center">Nieśmiertelny cytat</h3>
             <p class="w3-center">„Największą przeszkodą, która w znaczący sposób spowalnia sprawdzanie pisanych przez państwa egzaminów jest śmiech.”</p>
             <p class="w3-right">~ M.G.</p>
         </div>
     
         <div class="w3-third w3-padding-large w3-center">
-            <h3 class="w3-center">Polecane linki</h3>
+            <h3 class="w3-center">Szybka nawigacja</h3>
             <ul class="w3-left-align" style="display: inline-block">
-                <li>Ten blog :-)</li>
-                <li>Mój kanał YouTube - pewnie xD</li>
-                <li>TheCherno - YouTube C++</li>
-                <li>Computerphile - YouTube</li>
-                <li>StackOverflow - generator inż.</li>
-                <li>Wikipedia - wszyscy narzekają, każdy korzysta</li>
+                <li><a href="https://github.com/KyrietS" class="w3-hover-opacity">Znajdź mnie na GitHub</a></li>
+                <li><a href="/projekty/" class="w3-hover-opacity">Zobacz moje projekty</a></li>
+                <li><a href="/kontakt/" class="w3-hover-opacity">Formularz kontaktowy</a></li>
+                <li><a href="/sitemap.xml" class="w3-hover-opacity">Mapa strony</a></li>
             </ul>
         </div>
     </div>
