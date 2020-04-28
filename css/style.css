@@ -224,6 +224,7 @@ a > .category-card:hover {
   }
 }
 
+/* Ekran mniejszy niż 600px */
 @media (max-width: 600px) {
   img {
     width: 100%;

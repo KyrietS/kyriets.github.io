@@ -23,7 +23,7 @@
     <meta name="theme-color" content="#ffffff">
 
 
-    <title>Wyszukiwarka</title>
+    <title>Kontakt</title>
 </head>
 <body>
 
@@ -101,145 +101,37 @@
 <div class="nav-gap"></div>
 
 <style>
-    .section-header {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .section-header h2 {
-        margin-right: 10px;
-    }
-    .section-header input#search-input {
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid grey;
-        line-height: 1em;
-    }
-    .section-header input#search-input:focus {
-        outline: none;
-    }
-    /* Ekran większy niż 600px */
-    @media (min-width:600px) {
-        .section-header {
-            flex-wrap: nowrap;
-        }
-    }
+.contact-form-container {
+    position: relative;
+    overflow: hidden;
+    /* padding-top: 100%; */
+    padding-top: 800px;
+}
+.contact-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
 </style>
 
 <!-- Strona z rezultatami wyszukania -->
 <div class="w3-padding-large w3-content">
-
-    <div class="w3-left-align section-header">
-        <h2 class="w3-xxxlarge" style="display: inline-block;">Wyszukaj:</h2>
-        <input type="text" name="search" id="search-input" class="w3-xxxlarge w3-animate-input" autocomplete="off">
+    <div class="w3-center section-header">
+        <h2 class="w3-xxxlarge">Kontakt</h2>
+        <p class="w3-large">Strona jest w budowie i nie posiada jeszcze systemu komentarzy. Jeśli chcesz się ze mną skontaktować w jakiejś sprawie, możesz to zrobić przez poniższy formularz kontaktowy.</p>
     </div>
-    <hr>
 
-    <div id="search-results"></div>
+    <h3 id="email-here"></h3>
 
+    <div class="contact-form-container">
+        <iframe class="contact-form" src="https://docs.google.com/forms/d/e/1FAIpQLSfmlVqjpkxg_H6FKD3pYO-vdPvlk4izDxrJ92Q3Rp273MC7uw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Ładuję…</iframe>
+    </div>
 </div>
 
-<script src="/js/search.js"></script>
-<script>
-const sjs = SimpleJekyllSearch({
-  searchInput: document.getElementById('search-input'),
-  resultsContainer: document.getElementById('search-results'),
-  limit: 7,
-  success: () => {},
-  json: [
-     {
-        "title": "Test kolorowania składni",
-        "url": "/wpis/syntax-highlight-demo/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "22.04.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Praesent ligula ante, condimentum ac viverra eu, posuere eget massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis vehicula sit amet sem sit amet congue. Nunc varius, dolor et fringilla ultrices, enim neque tincidunt mauris, non molestie nibh augue porta diam. Mauris fermentum at nibh sed ultricies.</p></div>",
-        "categories": "Programowanie"
-    }
-    , 
-     {
-        "title": "Tytuł trzeciego wpisu",
-        "url": "/wpis/trzeci-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "03.04.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Programowanie"
-    }
-    , 
-     {
-        "title": "Tytuł drugiego wpisu",
-        "url": "/wpis/drugi-wpis/",
-        "image": "/assets/posts/thumbnails/student.png",
-        "date": "02.04.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum <mark>dolor sit amet</mark>, consectetur adipiscing elit. \\$sqrt(4) = 2\\$ Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, &#8220;double curved quotes&#8221; justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus.</p></div>",
-        "categories": "Programowanie | Życie na studiach"
-    }
-    , 
-     {
-        "title": "Tytuł pierwszego wpisu",
-        "url": "/wpis/pierwszy-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "01.04.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Programowanie"
-    }
-    , 
-     {
-        "title": "Tytuł drugiego dawnego wpisu",
-        "url": "/wpis/drugi-dawny-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "02.01.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Programowanie"
-    }
-    , 
-     {
-        "title": "Tytuł pierwszego dawnego wpisu",
-        "url": "/wpis/pierwszy-dawny-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "01.01.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Pogaduchy | Offtop"
-    }
-    
-    
-  ],
-  noResultsText: `
-    <p class="w3-large">
-        Ups! Wygląda na to, że nic nie znaleziono ._.
-    </p>
-  `,
-  searchResultTemplate: `
-    <a href="{url}">
-        <div class="w3-card w3-row w3-margin-top post-card">
-            <h3 class="w3-padding-small w3-center">{title}</h3>
-            <div class="w3-row">
-                <div class="w3-col m3 l2">
-                    <img src="{image}" alt="Miniaturka do wpisu">
-                </div>
-                <div class="w3-rest w3-padding-small">
-                    {excerpt}
-                    <div class="w3-right-align w3-small w3-text-gray">
-                        <span>{categories} | {date}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>`
-});
-
-const updateUrlParameter = (value) => window.history.pushState('', '', `?s=${encodeURIComponent(value)}`);
-const searchInput = document.getElementById('search-input');
-searchInput.addEventListener('input', () => updateUrlParameter(searchInput.value));
-
-// Jeśli w adresie znajduje się jakieś zapytanie ?s=query, to umieść je w labelu i wyszukaj
-const parser = document.createElement('a');
-parser.href = window.location.href;
-
-if(parser.href.includes('?s=')) {
-    const searchquery = decodeURIComponent(parser.href.substring(parser.href.indexOf('=') + 1).replace(/\+/g, '%20'));
-    searchInput.value = searchquery;
-    sjs.search(searchquery);
-}
-</script>
 
 <!-- Stopka -->
 <div class="w3-light-gray">

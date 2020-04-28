@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sebastian Fojcik">
+    <meta name="description" content="Opis strony, który może mieć kilka linii.">
+    <meta name="keywords" content="blog, programowanie, studia, informatyka">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Zestaw ikon wygenerowano przy użyciu: https://realfavicongenerator.net/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/icons/site.webmanifest">
+    <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <title>Kontakt</title>
+</head>
+<body>
+
+<div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-center w3-green">
+    <i onclick="nav_open()" class="fa fa-bars w3-xlarge w3-button w3-theme w3-left"></i> 
+    <span style="line-height: 40px; margin-left: -56px;">Kyriet's Stuff</span>
+</div>
+
+  <!-- Header -->
+<header class="w3-container w3-center w3-padding-32" id="page-header">
+    <div id="page-logo">
+        <img src="/assets/img/logo.svg" alt="Logo" class="logo w3-animate-left" style="width: 100px;" 
+            onerror="this.src='/assets/img/logo.png'">
+    </div>
+    <div id="page-title">
+        <h1 class="w3-xxxlarge w3-animate-top"> KYRIET'S STUFF</h1>
+        <h4 class="w3-animate-bottom">KTO PYTA, NIE BŁĄDZI. KTO SZUKA, TEN WIE.</h4>
+    </div>
+</header>
+
+<!-- Nawigacja -->
+<nav id="navigation" class="w3-sidebar w3-bar w3-bar-block w3-card-2 w3-animate-left w3-center w3-light-gray" style="display:none">
+    <div class="w3-content">
+
+        <button class="w3-bar-item w3-button w3-hide-medium w3-hide-large" style="border-bottom: 1px solid lightgray;" onclick="nav_close()">Zamknij <i class="fa fa-remove"></i></button>
+
+        <a href="/" class="w3-bar-item w3-button w3-mobile">Start</a>
+
+        <div class="w3-dropdown-click w3-center">
+            <button id="dropdown-categories-button" class="w3-button">
+                Kategorie <i class="fa fa-caret-down"></i>
+            </button>
+            <div id="dropdown-categories" class="w3-dropdown-content w3-bar-block w3-card">
+
+                
+                
+                
+                    <a href="/kategoria/zycie-na-studiach" class="w3-bar-item w3-button">Życie na studiach</a>
+                
+                
+                
+                    <a href="/kategoria/programowanie" class="w3-bar-item w3-button">Programowanie</a>
+                
+                
+                
+                    <a href="/kategoria/offtop" class="w3-bar-item w3-button">Offtop</a>
+                
+                
+                
+                    <a href="/kategoria/pogaduchy" class="w3-bar-item w3-button">Pogaduchy</a>
+                
+
+                <!-- <a href="category.html" class="w3-bar-item w3-button">Programowanie</a>
+                <a href="#" class="w3-bar-item w3-button">Informatyka</a>
+                <a href="#" class="w3-bar-item w3-button">Warsztat</a> -->
+            </div>
+        </div>
+
+        <a href="/projekty/" class="w3-bar-item w3-button w3-mobile">Moje projekty</a>
+        <a href="/kontakt/" class="w3-bar-item w3-button w3-mobile">Kontakt</a>
+
+        <!-- Wyszukaj -->
+        <form action="/wyszukaj/" method="get" class="w3-right" autocomplete="off">
+            <button class="w3-bar-item w3-right w3-button w3-green w3-mobile"><i class="fa fa-search"></i></button>
+            <input type="text" id="dropdown-search-input" class="w3-bar-item w3-input w3-white w3-mobile w3-border-left w3-left-align" 
+                style="display: inline-block; float: none;" placeholder="Wyszukaj..." name="s">
+            <div id="dropdown-search" class="w3-dropdown-content w3-card w3-bar-block">
+                <div id="dropdown-search-results"></div>
+                <span id="dropdown-search-info" class="w3-bar-item">Kilka niedawnych wpisów.<br>Wciśniej enter, aby wyszukać dokładniej.</span>
+            </div>
+        </form>
+
+    </div>
+</nav>
+<div class="nav-gap"></div>
+
+<style>
+.projects {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 -10px;
+}
+.project {
+    margin: 15px;
+    width: 270px;
+}
+.project img {
+    width: 100%;
+    border: 1px solid #333;
+}
+.project-title {
+    margin-bottom: 0;
+}
+.project-description {
+    font-size: 15px;
+}
+.github-link {
+    margin-top: 0;
+    font-size: 12px;
+    color: #2156a5;
+}
+.github-link:hover {
+    text-decoration: underline;
+}
+.run-link {
+    color: #2156a5;
+}
+.run-link:hover {
+    text-decoration: underline;
+}
+
+    /* Ekran mniejszy niż 600px */
+@media (max-width: 600px) {
+    .project {
+        width: 100%;
+    }
+}
+</style>
+
+<div class="w3-padding-large w3-content">
+
+    <div class="w3-center section-header">
+        <h2 class="w3-xxxlarge">Kilka moich projektów</h2>
+        <hr>
+    </div>
+
+
+    <div class="projects">
+
+        
+        <div class="w3-card project">
+            <a href="https://github.com/KyrietS/space-invaders" target="_blank">
+                <img src="/assets/img/projects/space-invaders.jpg" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Space Invaders</b></p>
+                <p class="github-link"><a href="https://github.com/KyrietS/space-invaders" target="_blank">github.com/KyrietS/space-invaders</a></p>
+                <p class="project-description">Gra przeglądarkowa napisana w czystym JavaScript z wykorzystaniem WebGL.</p>
+                
+                
+                <div class="w3-center">
+                    <a href="https://kyriets.github.io/space-invaders/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/turtle3d" target="_blank">
+                <img src="/assets/img/projects/turtle3d.jpg" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Żółw 3D</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/turtle3d" target="_blank">github.com/kyriets/turtle3d</a></p>
+                <p class="project-description">Żółw znany z programu Logo, lecz tym razem w 3D. Wykorzystano czysty JavaScript i Canvas.</p>
+                
+                
+                <div class="w3-center">
+                    <a href="https://kyriets.github.io/turtle3d/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets.github.io/www" target="_blank">
+                <img src="/assets/img/projects/puzzle.jpg" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Puzzle</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets.github.io/www" target="_blank">github.com/kyriets.github.io/www</a></p>
+                <p class="project-description">Układanka, w której obrazek jest podzielony na części. Mamy ułożyć go z powrotem.</p>
+                
+                
+                <div class="w3-center">
+                    <a href="https://kyriets.github.io/www/puzzle/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/the-damn-compiler" target="_blank">
+                <img src="/assets/img/projects/compiler.png" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>The Damn Compiler</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/the-damn-compiler" target="_blank">github.com/kyriets/the-damn-compiler</a></p>
+                <p class="project-description">Kompilator języka imperatywnego, który kompiluje kod do abstrakcyjnego assemblera.</p>
+                
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/ZrozumiecWektory" target="_blank">
+                <img src="/assets/img/projects/zrozumiec-wektory.jpg" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Zrozumieć Wektory*</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/ZrozumiecWektory" target="_blank">github.com/kyriets/ZrozumiecWektory</a></p>
+                <p class="project-description">Gra logiczno-zręcznościowa, w której gracz bawi się wektorami i obserwuje, jak wpływają one na zachowanie piłeczki.</p>
+                
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/Trylma" target="_blank">
+                <img src="/assets/img/projects/trylma.jpg" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Trylma*</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/Trylma" target="_blank">github.com/kyriets/Trylma</a></p>
+                <p class="project-description">Sieciowa gra planszowa, w której może jednocześnie brać udział do 6 graczy z botami.</p>
+                
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/arithmetic-coding" target="_blank">
+                <img src="/assets/img/projects/arithmetic-coder.png" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Arithmetic Coder</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/arithmetic-coding" target="_blank">github.com/kyriets/arithmetic-coding</a></p>
+                <p class="project-description">Wydajna implementacja algorytmu kompresjii kodowania arytmetycznego w C++.</p>
+                
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/pngsafe" target="_blank">
+                <img src="/assets/img/projects/pngsafe.png" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>pngsafe</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/pngsafe" target="_blank">github.com/kyriets/pngsafe</a></p>
+                <p class="project-description">Aplikacja ukrywająca plik w obrazie steganograficzną metodą modyfikacji najmniej znaczącego bitu.</p>
+                
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/EtherSim" target="_blank">
+                <img src="/assets/img/projects/ethersim.png" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>EtherSim</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/EtherSim" target="_blank">github.com/kyriets/EtherSim</a></p>
+                <p class="project-description">Sandboxowy edytor topologii sieci komputerowej, w którym można symulować kolizje na łączu</p>
+                
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/crypter" target="_blank">
+                <img src="/assets/img/projects/crypter.jpg" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Crypter</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/crypter" target="_blank">github.com/kyriets/crypter</a></p>
+                <p class="project-description">Konsolowa aplikacja do szyfrowania plików podanym przez użytkownika hasłem.</p>
+                
+                
+            </div>
+        </div>
+        
+        <div class="w3-card project">
+            <a href="https://github.com/kyriets/plotter3d" target="_blank">
+                <img src="/assets/img/projects/plotter3d.png" alt="Project thumbnail" class="w3-hover-opacity">
+            </a>
+            <div class="w3-container w3-white">
+                <p class="project-title"><b>Plotter3D</b></p>
+                <p class="github-link"><a href="https://github.com/kyriets/plotter3d" target="_blank">github.com/kyriets/plotter3d</a></p>
+                <p class="project-description">Aplikacja webowa do rysowania wykresów 3D funkcji dwóch zmiennych.</p>
+                
+                
+                <div class="w3-center">
+                    <a href="https://kyriets.github.io/grafika/lista3/zad3/" target="_blank"><p class="run-link">Uruchom w przeglądarce</p></a>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    <p class="w3-small">* projekty realizowane w zespole</p>
+
+    <hr>
+
+    
+<!-- Kontakt -->
+<div class="w3-padding-large w3-content w3-center" style="margin-bottom: 30px;">
+    <h2 class="w3-xxxlarge">Kontakt z autorem</h2>
+    <p class="w3-largee">Jeśli masz jakiesz pytania lub chcesz się podzielić swoją opinią lub zgłosić błąd na stronie, to zachęcam do kontaktu ze mną. Ze względu na ograniczony czas, nie na wszystie wiadomości będę w stanie odpowiedzieć.</p>
+
+    <a href="/kontakt/"><button class="w3-button w3-green w3-round w3-large w3-margin-top">Formularz kontaktowy</button></a>
+</div>
+
+</div>
+
+<!-- Stopka -->
+<div class="w3-light-gray">
+    <div class="w3-row-padding w3-auto w3-margin-top w3-stretch">
+
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">O Autorze</h3>
+            <p class="w3-justify">Sebastian Fojcik - jest istotą człekokształtną, która wykazuje wzmożone zainteresowanie technologiami informatycznymi. Ma w zwyczaju narzekać siarczyście przy pracy ze źle skonstruowaną dokumentacją, którą czyta wybiórczo, a później płacze, że nic nie działa, projekt się nie kompiluje, sypie błędami, testy nie przechodzą i wszystko to jak KREW W PIACH!</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">Cytat na dziś</h3>
+            <p class="w3-center">„Największą przeszkodą, która w znaczący sposób spowalnia sprawdzanie pisanych przez państwa egzaminów jest śmiech.”</p>
+            <p class="w3-right">~ M.G.</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large w3-center">
+            <h3 class="w3-center">Polecane linki</h3>
+            <ul class="w3-left-align" style="display: inline-block">
+                <li>Ten blog :-)</li>
+                <li>Mój kanał YouTube - pewnie xD</li>
+                <li>TheCherno - YouTube C++</li>
+                <li>Computerphile - YouTube</li>
+                <li>StackOverflow - generator inż.</li>
+                <li>Wikipedia - wszyscy narzekają, każdy korzysta</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+
+<!-- Mathjax w wersji 3.x.x -->
+<script>
+    MathJax = {
+        loader: {load: ['input/asciimath']},
+        tex: {
+            inlineMath: [["\\(", "\\)"]],
+            displayMath: [["\\[", "\\]"]],
+            processEscapes: false,      // use \$ to produce a literal dollar sign
+        },
+        asciimath: {
+            delimiters: [["\\$", "\\$"]]
+        },
+        chtml: {
+            scale: 1,
+            matchFontHeight: true
+        },
+        options: {
+            ignoreHtmlClass: "nostem|noasciimath"
+        },
+        // Tymczasowy fix dla wersji v3.0.1 (https://github.com/mathjax/MathJax/issues/2327)
+        startup: {
+            pageReady() {
+                const options = MathJax.startup.document.options;
+                const BaseMathItem = options.MathItem;
+                options.MathItem = class FixedMathItem extends BaseMathItem {
+                    assistiveMml(document) {
+                        if (this.display !== null) super.assistiveMml(document);
+                    }
+                };
+                return MathJax.startup.defaultPageReady();
+            }
+        }
+    };
+</script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+
+<script src="/js/search.js"></script>
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('dropdown-search-input'),
+  resultsContainer: document.getElementById('dropdown-search-results'),
+  limit: 4,
+  success: () => {},
+  json: [{"title":"Test kolorowania składni","url":"/wpis/syntax-highlight-demo/"},{"title":"Tytuł trzeciego wpisu","url":"/wpis/trzeci-wpis/"},{"title":"Tytuł drugiego wpisu","url":"/wpis/drugi-wpis/"},{"title":"Tytuł pierwszego wpisu","url":"/wpis/pierwszy-wpis/"},{"title":"Tytuł drugiego dawnego wpisu","url":"/wpis/drugi-dawny-wpis/"},{"title":"Tytuł pierwszego dawnego wpisu","url":"/wpis/pierwszy-dawny-wpis/"}],
+  noResultsText: '',
+  searchResultTemplate: `<a href="{url}" class="w3-bar-item w3-button">{title}</a>`
+});
+</script>
+
+</body>
+</html>
