@@ -61,19 +61,23 @@
                 
                 
                 
+                    <a href="/kategoria/processing" class="w3-bar-item w3-button">Processing</a>
+                
+                
+                
+                    <a href="/kategoria/systemy-operacyjne" class="w3-bar-item w3-button">Systemy operacyjne</a>
+                
+                
+                
+                    <a href="/kategoria/webowka" class="w3-bar-item w3-button">Webówka</a>
+                
+                
+                
                     <a href="/kategoria/zycie-na-studiach" class="w3-bar-item w3-button">Życie na studiach</a>
                 
                 
                 
                     <a href="/kategoria/programowanie" class="w3-bar-item w3-button">Programowanie</a>
-                
-                
-                
-                    <a href="/kategoria/offtop" class="w3-bar-item w3-button">Offtop</a>
-                
-                
-                
-                    <a href="/kategoria/pogaduchy" class="w3-bar-item w3-button">Pogaduchy</a>
                 
 
                 <!-- <a href="category.html" class="w3-bar-item w3-button">Programowanie</a>
@@ -147,8 +151,35 @@ const sjs = SimpleJekyllSearch({
   success: () => {},
   json: [
      {
+        "title": "Processing do nauki programowania",
+        "url": "/wpis/processing-do-nauki-programowania/",
+        "image": "/assets/posts/thumbnails/processing-logo.png",
+        "date": "02.05.2020",
+        "excerpt": "<div class=\"paragraph\"><p>Zapraszam do serii wpisów poświęconych Processingowi. Jeśli chcesz zacząć tworzyć aplikacje wyświetlające grafikę w oknie, to świetnie trafiłeś. Processing został stworzony właśnie po to, aby maksymalnie ułatwić to zadanie.</p></div>",
+        "categories": "Programowanie | Processing"
+    }
+    , 
+     {
+        "title": "Jak jest zbudowany system plików FAT",
+        "url": "/wpis/jak-jest-zbudowany-fat/",
+        "image": "/assets/posts/thumbnails/system-plikow.png",
+        "date": "02.05.2020",
+        "excerpt": "<div class=\"paragraph\"><p>W tym wpisie podstawowe zasady działania systemu plików z rodziny FAT. Jeśli jesteś ciekawy co się dzieje \"pod maską\", gdy dodajesz lub usuwasz plik na nośniku danych z systemem plików FAT, to zachęcam do lektury tego wpisu. Na przykładach i w praktyce pokażę jakie zmiany zachodzą na dysku podczas manipulacji plikami.</p></div>",
+        "categories": "Systemy operacyjne"
+    }
+    , 
+     {
+        "title": "Jak powstał ten blog",
+        "url": "/wpis/jak-powstal-ten-blog/",
+        "image": "/assets/posts/thumbnails/blog-logo.png",
+        "date": "01.05.2020",
+        "excerpt": "<div class=\"paragraph\"><p>W tym wpisie opowiem o powstaniu tej strony. Postaram się tutaj zawrzeć wszystkie technologie, które zostały użyte, aby osiągnąć obecny stan tego bloga. Blog jest zbiorem statycznych plików HTML tworzonych przez bardzo popularny generator Jekyll. Dodawanie wpisów i odświeżanie samej strony jest w pełni zautomatyzowane i zintegrowane z repozytorium na Githubie.</p></div>",
+        "categories": "Webówka"
+    }
+    , 
+     {
         "title": "Test kolorowania składni",
-        "url": "/wpis/syntax-highlight-demo/",
+        "url": "/wpis/test-kolorowania-skladni/",
         "image": "/assets/posts/thumbnails/placeholder.png",
         "date": "22.04.2020",
         "excerpt": "<div class=\"paragraph\"><p>Praesent ligula ante, condimentum ac viverra eu, posuere eget massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis vehicula sit amet sem sit amet congue. Nunc varius, dolor et fringilla ultrices, enim neque tincidunt mauris, non molestie nibh augue porta diam. Mauris fermentum at nibh sed ultricies.</p></div>",
@@ -156,48 +187,12 @@ const sjs = SimpleJekyllSearch({
     }
     , 
      {
-        "title": "Tytuł trzeciego wpisu",
-        "url": "/wpis/trzeci-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "03.04.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Programowanie"
-    }
-    , 
-     {
-        "title": "Tytuł drugiego wpisu",
-        "url": "/wpis/drugi-wpis/",
+        "title": "Pokaz możliwości Asciidoc&#8217;a na tej stronie",
+        "url": "/wpis/asciidoc-demo/",
         "image": "/assets/posts/thumbnails/student.png",
         "date": "02.04.2020",
         "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum <mark>dolor sit amet</mark>, consectetur adipiscing elit. \\$sqrt(4) = 2\\$ Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, &#8220;double curved quotes&#8221; justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus.</p></div>",
         "categories": "Programowanie | Życie na studiach"
-    }
-    , 
-     {
-        "title": "Tytuł pierwszego wpisu",
-        "url": "/wpis/pierwszy-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "01.04.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Programowanie"
-    }
-    , 
-     {
-        "title": "Tytuł drugiego dawnego wpisu",
-        "url": "/wpis/drugi-dawny-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "02.01.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Programowanie"
-    }
-    , 
-     {
-        "title": "Tytuł pierwszego dawnego wpisu",
-        "url": "/wpis/pierwszy-dawny-wpis/",
-        "image": "/assets/posts/thumbnails/placeholder.png",
-        "date": "01.01.2020",
-        "excerpt": "<div class=\"paragraph\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt accumsan dui at fermentum. Praesent ac lorem id ex rhoncus varius. Donec fringilla arcu quis mi dictum congue. Aliquam eleifend, justo in scelerisque sodales, turpis tellus tempus felis, eget accumsan odio justo eget massa. Nulla sed dapibus purus. Quisque rutrum tincidunt ipsum vulputate tincidunt. Nulla posuere porttitor ligula, vitae vehicula felis condimentum vel. Mauris eu pellentesque eros. Nullam fermentum fermentum pellentesque. Maecenas in felis tortor.</p></div>",
-        "categories": "Pogaduchy | Offtop"
     }
     
     
@@ -247,7 +242,7 @@ if(parser.href.includes('?s=')) {
 
         <div class="w3-third w3-padding-large">
             <h3 class="w3-center">O Autorze</h3>
-            <p class="w3-justify">Jestm studentem informatyki z Wrocławia. Interesuję się tworzeniem użytecznych aplikacji. Jestem fanem komputerowych gier strategicznych i symulacyjnych. W wolnym czasie dzielę się swoimi przemyśleniami na tym blogu.</p>
+            <p class="w3-justify">Jestm studentem informatyki z Wrocławia. Brak czasu to moje drugie imię. Jeszcze będąc małym glutem wiedziałem, że będę żył ze stukania w przyciski klawiatury. W wolnej chwili uzupełniam tę stronę o nowe wpisy.</p>
         </div>
     
         <div class="w3-third w3-padding-large">
@@ -314,7 +309,7 @@ SimpleJekyllSearch({
   resultsContainer: document.getElementById('dropdown-search-results'),
   limit: 4,
   success: () => {},
-  json: [{"title":"Test kolorowania składni","url":"/wpis/syntax-highlight-demo/"},{"title":"Tytuł trzeciego wpisu","url":"/wpis/trzeci-wpis/"},{"title":"Tytuł drugiego wpisu","url":"/wpis/drugi-wpis/"},{"title":"Tytuł pierwszego wpisu","url":"/wpis/pierwszy-wpis/"},{"title":"Tytuł drugiego dawnego wpisu","url":"/wpis/drugi-dawny-wpis/"},{"title":"Tytuł pierwszego dawnego wpisu","url":"/wpis/pierwszy-dawny-wpis/"}],
+  json: [{"title":"Processing do nauki programowania","url":"/wpis/processing-do-nauki-programowania/"},{"title":"Jak jest zbudowany system plików FAT","url":"/wpis/jak-jest-zbudowany-fat/"},{"title":"Jak powstał ten blog","url":"/wpis/jak-powstal-ten-blog/"},{"title":"Test kolorowania składni","url":"/wpis/test-kolorowania-skladni/"},{"title":"Pokaz możliwości Asciidoc&#8217;a na tej stronie","url":"/wpis/asciidoc-demo/"}],
   noResultsText: '',
   searchResultTemplate: `<a href="{url}" class="w3-bar-item w3-button">{title}</a>`
 });

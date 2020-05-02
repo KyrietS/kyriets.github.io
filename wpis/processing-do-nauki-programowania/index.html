@@ -23,7 +23,7 @@
     <meta name="theme-color" content="#ffffff">
 
 
-    <title>Wpisy z kategorii: programowanie</title>
+    <title>Processing do nauki programowania</title>
 </head>
 <body>
 
@@ -104,53 +104,166 @@
 </nav>
 <div class="nav-gap"></div>
 
-<!-- Kategoria wpisów -->
-<div class="w3-padding-large w3-content">
+<main class="w3-content w3-padding-small">
+    <article>
+        <header>
+            <h1>Processing do nauki programowania</h1>
+            <p>02.05.2020
 
-    <div class="w3-center section-header">
-        <h2 class="w3-xxxlarge">Kategoria: Programowanie</h2>
-        <p class="w3-large">Wszystko co związane z programowaniem. Nauka przez praktyczne przykłady potrafi być bardzo przyjemna. Na pewno znajdziesz tutaj coś dla siebie.</p>
+                
+                
+                    | <a href="/kategoria/programowanie">Programowanie</a>
+                
+                
+                    | <a href="/kategoria/processing">Processing</a>
+                
 
-    </div>
+                | <i>Sebastian Fojcik</i></p>
+        </header>
 
-    
+        <img src="/assets/posts/thumbnails/processing-logo.png" alt="Miniaturka do wpisu" class="w3-left" id="thumbnail">
 
-    <a href="/wpis/processing-do-nauki-programowania/">
-        <div class="post-card w3-card w3-row w3-margin-top">
-            <h3 class="w3-padding-small w3-center">Processing do nauki programowania</h3>
-            <div class="w3-row">
-                <div class="w3-col m3 l2">
-                    <img src="/assets/posts/thumbnails/processing-logo.png" alt="Miniaturka do wpisu">
-                </div>
-                <div class="w3-rest w3-padding-small">
-                    <div class="paragraph">
+        <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
 <p>Zapraszam do serii wpisów poświęconych Processingowi. Jeśli chcesz zacząć tworzyć aplikacje wyświetlające grafikę w oknie, to świetnie trafiłeś. Processing został stworzony właśnie po to, aby maksymalnie ułatwić to zadanie.</p>
 </div>
-                    <div class="w3-right-align w3-small w3-text-gray">
-                        <span>Programowanie | Processing | 02.05.2020 </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
+</div>
+</div>
+<div class="sect1">
+<h2 id="co-to-jest-processing"><a class="anchor" href="#co-to-jest-processing"></a>Co to jest Processing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Processing jest to język programowania, zbiór <a href="https://pl.wikipedia.org/wiki/Biblioteka_programistyczna">bibliotek</a> Javy oraz środowisko programistyczne (<a href="https://pl.wikipedia.org/wiki/Zintegrowane_%C5%9Brodowisko_programistyczne">IDE</a>). Pod tą jedną nazwą kryją się wszystkie te pojęcia, dlatego czasami trzeba zwracać uwagę na to, w jakim kontekście zostało użyte słowo Processing.</p>
+</div>
+<div class="paragraph">
+<p>Język programowania Processing jest nadzbiorem Javy (z kilkoma modyfikacjami). Oznacza to, że składnia składnia tych dwóch języków jest niemal identyczna oraz możemy wykorzystywać wszystkie biblioteki Javy w naszych aplikacjach. Processing przy budowaniu aplikacji kompilowany jest do Javy, następnie wygenerowany kod źródłowy jest kompilowany kompilatorem Javy do postaci binarnej, która jest uruchamiana na maszynie wirtualnej Javy (<a href="https://pl.wikipedia.org/wiki/Wirtualna_maszyna_Javy">JVM</a>). Oznacza to, że do uruchomienia naszej aplikacji wymagane jest posiadanie Javy na komputerze.</p>
+</div>
+<div class="paragraph">
+<p>Środowisko Processing pozwala na wyeksportowanie aplikacji wraz ze wszystkimi niezbędnymi bibliotekami z dołączeniem pliku wykonywalnego *.exe.</p>
+</div>
+<div class="paragraph">
+<p>Dopóki nie zobaczysz Processinga w akcji, nie zrozumiesz całkowicie powyższej definicji. Kilka akapitów niżej znajdziesz wybrane przeze mnie przykłady zastosowania Processinga.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="odmiana-słowa-processing"><a class="anchor" href="#odmiana-słowa-processing"></a>Odmiana słowa "Processing"</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Słowo Processing będzie się często pojawiać we wpisach z tej kategorii. Zadecydowałem, że będę odmieniał "Processing" w sposób naturalny. Dokładnie tak, jakbym to słowo wypowiadał w rozmowie z kimś.</p>
+</div>
+<div class="paragraph">
+<p>Wszystkie wpisy będę chciał utrzymać w polskim tonie. Chyba, że polskie słowo utrudni zrozumienie jakiegoś pojęcia.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="zastosowania-processing"><a class="anchor" href="#zastosowania-processing"></a>Zastosowania Processing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Zanim porozmawiamy głębiej o Processingu, wymienię kilka zastosowań tej technologii.</p>
+</div>
+<div class="sect2">
+<h3 id="generowanie-figur-grafów-fraktali-z-matematycznych-formuł"><a class="anchor" href="#generowanie-figur-grafów-fraktali-z-matematycznych-formuł"></a>Generowanie figur, grafów, fraktali z matematycznych formuł</h3>
+<div class="paragraph">
+<p>Jeśli masz ciekawy problem matematyczny, który chciałbyś zwizualizować, możesz to bezproblemowo zaprogramować w Processingu. O stworzenie okna, w którym zostanie wyświetlona twoja aplikacja zadba biblioteka. Możesz skupić się na programowaniu grafiki.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-fractal.jpg" alt="Fraktal">
+</div>
+<div class="title">Obrazek  1. Fraktal</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-spirala.jpg" alt="Spirala">
+</div>
+<div class="title">Obrazek  2. Spirala</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="proste-gry-komputerowe"><a class="anchor" href="#proste-gry-komputerowe"></a>Proste gry komputerowe</h3>
+<div class="paragraph">
+<p>Może masz ochotę napisać jakąś prostą grę komputerową? Processing posiada niezbędne funkcje do obsługi klawiatury, myszy, a nawet sieci. Po zapoznaniu się z tą biblioteką będzie cię ograniczać jedynie twoja wyobraźnia… No i wydajność. Ponieważ Processing jest kompilowany do Javy, gry w nim napisane nie mogą się równać takim napisanym w niskopoziomowych bibliotekach typu OpenGL z akceleracją karty graficznej.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-game-of-life.jpg" alt="Gra w życie">
+</div>
+<div class="title">Obrazek  3. Gra w życie</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-rzeki.jpg" alt="Rzeki" width="400" height="400">
+</div>
+<div class="title">Obrazek  4. Zrozumieć Wektory</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="proste-symulacje-fizyczne"><a class="anchor" href="#proste-symulacje-fizyczne"></a>Proste symulacje fizyczne</h3>
+<div class="paragraph">
+<p>Jeśli chcesz, możesz zaprogramować fizykę na swój sposób. Możesz również użyć gotowych bibliotek do symulacji fizyki, np. <a href="https://box2d.org/">Box2D</a>.</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-fizyka.jpg" alt="Processing fizyka">
+</div>
+<div class="title">Obrazek  5. Tomek i kulki</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="inne-środowiska"><a class="anchor" href="#inne-środowiska"></a>Inne środowiska</h3>
+<div class="paragraph">
+<p>Processing posiada porty do języków Python oraz JavaScript. Ten drugi pozwala na uruchamianie aplikacji w przeglądarce. Możliwe jest również stworzenie aplikacji, która zostanie uruchomiona na telefonie z Androidem albo RaspberryPi.</p>
+</div>
+<div class="paragraph">
+<p>Na pewno pojawią się wpisy poświęcone tym wersjom Processinga.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="processing-dla-początkujących"><a class="anchor" href="#processing-dla-początkujących"></a>Processing dla początkujących</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Czy Processing wymaga dobrej znajomości programowania? Nie. Próg wejścia jest bardzo łagodny. Prawdę mówiąc, jest to świetny język do rozpoczęcia nauki programowania w ogóle! Gdy uczniom po raz pierwszy pokazuje się czym jest programowanie, to najczęściej widzą to w formie smutnej, czarnej konsoli, która wyświetla rezultat ich pracy na ekranie. Przy pracy z grafiką satysfakcja jest wielokrotnie wyższa, bo widzimy w kolorach to, co tworzymy. <strong>Rozwiązujemy praktyczne problemy</strong>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="podsumowanie"><a class="anchor" href="#podsumowanie"></a>Podsumowanie</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To było bardzo pobieżne omówienie możliwości Processinga. W następnych wpisach zajmiemy się tworzeniem prostych aplikacji. Małymi krokami, na przykładach będziemy zapoznawać się z kolejnymi funkcjami tej potężnej biblioteki.</p>
+</div>
+</div>
+</div>
+
+    </article>
 
     
+    
+    
 
-</div>
+    <h2>Zobacz jeszcze </h2>
+    <ul>
+        
+        
+        <li><a href="/wpis/jak-jest-zbudowany-fat/">Jak jest zbudowany system plików FAT</a></li>
+        
+        
+        
+        <li><a href="/wpis/jak-powstal-ten-blog/">Jak powstał ten blog</a></li>
+        
+        
+        
+        
+        
+        
+    </ul>
 
-
-
-<hr>
-
-
-<!-- Kontakt -->
-<div class="w3-padding-large w3-content w3-center" style="margin-bottom: 30px;">
-    <h2 class="w3-xxxlarge">Kontakt z autorem</h2>
-    <p class="w3-largee">Jeśli masz jakiesz pytania lub chcesz się podzielić swoją opinią lub zgłosić błąd na stronie, to zachęcam do kontaktu ze mną. Ze względu na ograniczony czas, nie na wszystie wiadomości będę w stanie odpowiedzieć.</p>
-
-    <a href="/kontakt/"><button class="w3-button w3-green w3-round w3-large w3-margin-top">Formularz kontaktowy</button></a>
-</div>
-
+</main>
 
 <!-- Stopka -->
 <div class="w3-light-gray">
