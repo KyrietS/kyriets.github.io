@@ -199,6 +199,7 @@ a > .category-card:hover {
   .post-card img {
     padding-right: 15px;
     padding-top: 8px;
+    padding-bottom: 8px;
   }
   /* Nawigacja staje się desktopowa */
   #navigation {
