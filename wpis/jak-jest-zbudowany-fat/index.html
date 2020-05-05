@@ -167,11 +167,11 @@
 <p>Będziemy potrzebowali urządzenia do testów. Takiego, na którym będziemy mogli wykonywać normalne operacje na plikach (utwórz, kopiuj, usuń). Niezbędna jest również możliwość niskopoziomowego podglądu jak dane są zapisane na nośniku (bajt po bajcie).</p>
 </div>
 <div class="paragraph">
-<p>Na szczęście nie będziemy używać fizycznego urządzenia. Stworzymy plik, który następnie zamontujemy w systemie jako wirtualny "nośnik danych". Można sobie to zestawić z analogią do fizycznego pendrive&#8217;a. Plik to nasz pendrive, a montowanie pliku w systemie, to po prostu wpięcie pendriva do komputera (coś jak plik z formatem <em>*.iso</em>).</p>
+<p>Na szczęście nie będziemy używać fizycznego urządzenia. Stworzymy plik, który następnie zamontujemy w systemie jako wirtualny "nośnik danych". Można sobie to zestawić z analogią do fizycznego pendrive&#8217;a. Plik to nasz pendrive, a montowanie pliku w systemie, to po prostu wpięcie pendriva do komputera (coś jak plik z formatem <em>.iso</em>).</p>
 </div>
 <div class="paragraph">
 <p>Najpierw utwórzmy pusty plik o rozmiarze, powiedzmy 100kB. Rozmiar pliku w tym przypadku będzie oznaczał pojemność naszego wirtualnego urządzenia.<br>
-<strong>Uwaga</strong>: plikowi nie można tak po prostu nadać rozmiaru. Trzeba go czymś wypełnić. Tworzę więc plik o nazwie <code>{fat.img}</code> i wypełniam go bajtami o wartości zero (nie mylić z wypełnianiem pliku znakami cyfry '0').</p>
+<strong>Uwaga</strong>: plikowi nie można tak po prostu nadać rozmiaru. Trzeba go czymś wypełnić. Tworzę więc plik o nazwie <code>fat.img</code> i wypełniam go bajtami o wartości zero (nie mylić z wypełnianiem pliku znakami cyfry '0').</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -246,7 +246,7 @@ mkfs.fat 4.1 (2017-01-24)</pre>
 <div class="sect2">
 <h3 id="budowa-boot-sectora-w-fat12"><a class="anchor" href="#budowa-boot-sectora-w-fat12"></a>Budowa Boot Sectora w FAT12</h3>
 <div class="paragraph">
-<p>Pierwsze 512 bajtów, a więc do offsetu <code>000001f0</code> zajmuje tzw. <em>Boot sector</em>*_ naszego urządzenia. Znajdują się tam szczegółowe informacje o używanym systemie plików na urządzeniu. Boot sector w FAT zawsze kończy się sekwencją <code>55 aa</code>.</p>
+<p>Pierwsze 512 bajtów, a więc do offsetu <code>000001f0</code> zajmuje tzw. <em>Boot sector</em> naszego urządzenia. Znajdują się tam szczegółowe informacje o używanym systemie plików na urządzeniu. Boot sector w FAT zawsze kończy się sekwencją <code>55 aa</code>.</p>
 </div>
 <div class="paragraph">
 <p>Po pełny opis co oznacza który bajt w tym sektorze możesz odwiedzić <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.2">tę stronę</a>.</p>
@@ -319,7 +319,7 @@ mkfs.fat 4.1 (2017-01-24)</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Bajty liczymy od zera, więc bajt numer 1 ma wartość <code>3c</code>, bajt numer <code>16 02</code> itd.</p>
+<p>Bajty liczymy od zera, więc bajt numer 1 ma wartość <code>3c</code>, a bajt numer 16 to <code>02</code> itd.</p>
 </div>
 <div class="paragraph">
 <p>Spróbuj samodzielnie odczytać wartości z Boot Sectora. Odpowiedzi zamieszczam w tabeli poniżej.</p>
@@ -370,7 +370,7 @@ mkfs.fat 4.1 (2017-01-24)</pre>
 <p>Mimo tego, że Boot Sector mamy przedstawiony w postaci ciągu bajtów zapisanych szesnastkowo, muszę rozróżniać tutaj wartość odczytaną (raw) od wartości liczbowej, którą reprezentuje ten zapis (hex). Wartość uzyskamy czytając bajty w odwrotnej kolejności. Jeśli nie rozumiesz dlaczego, przeczytaj o formie zapisu <a href="https://pl.wikipedia.org/wiki/Kolejno%C5%9B%C4%87_bajt%C3%B3w">Little Endian</a>.</p>
 </div>
 <div class="paragraph">
-<p>Z opisów z tabel już się pewnie domyślasz jaki stosunek do siebie mają <em>bajty</em>, <em>sektory</em> i |<em>klastry</em>.</p>
+<p>Z opisów z tabel już się pewnie domyślasz jaki stosunek do siebie mają <em>bajty</em>, <em>sektory</em> i <em>klastry</em>.</p>
 </div>
 <div class="paragraph">
 <p><strong>Sektor</strong> to zbiór <strong>bajtów</strong> o stałym rozmiarze.
@@ -389,7 +389,7 @@ mkfs.fat 4.1 (2017-01-24)</pre>
 <p>Tablica alokacji jest taką mapą po pamięci. Jeśli mamy jakiś duży plik, który zajmuje kilka sektorów, tablica alokacji powie nam które kolejne sektory powinniśmy odczytywać, aby otrzymać cały plik.</p>
 </div>
 <div class="paragraph">
-<p>W FAT12 jeden klaster jest kodowany na 12 bitach, a więc 3 bajtach. Powoduje to trochę komplikacji przy próbie ręcznego odczytywania wartości z postaci szesnastkowej, którą my mamy. Dla FAT16 i FAT32 jest to dużo prostsze.</p>
+<p>W FAT12 jeden klaster jest kodowany na 12 bitach, a więc jest to 1,5 bajta. Powoduje to trochę komplikacji przy próbie ręcznego odczytywania wartości z postaci szesnastkowej, którą my mamy. Dla FAT16 i FAT32 jest to dużo prostsze.</p>
 </div>
 <div class="paragraph">
 <p>Odczytajmy zawartość tablicy alokacji, bo widać, że już coś się tam w niej znajduje. Zaczynamy od offsetu 512. Algorytm jest następujący:</p>
@@ -784,14 +784,26 @@ ff8 fff 000 fff 005 fff- wynik końcowy
 </div>
 </div>
 <div class="paragraph">
-<p>Odczytujemy
-- Plik <code>duzy</code> zaczyna się od klastra [4].
-- Patrzymy, a klaster o tym numerze jest kodowany jako <code>005</code>.
-- Oznacza to, że dalsza część pliku znajduje się w klastrze [5].
-- Patrzymy do klastra [5] i odczytujemy <code>fff</code>. Zatem jest to <strong>ostatni klaster</strong>.</p>
+<p>Odczytujemy:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Plik <code>duzy</code> zaczyna się od klastra [4].</p>
+</li>
+<li>
+<p>Patrzymy, a klaster o tym numerze jest kodowany jako <code>005</code>.</p>
+</li>
+<li>
+<p>Oznacza to, że dalsza część pliku znajduje się w klastrze [5].</p>
+</li>
+<li>
+<p>Patrzymy do klastra [5] i odczytujemy <code>fff</code>. Zatem jest to <strong>ostatni klaster</strong>.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>Teraz wystarczy przeczytać klastry w kolejności <code>[4][5]</code>. Klaster [4] zaczyna się od offsetu <code>005600</code> i rzeczywiście 2048 bajtów dalej, tam gdzie spodziewamy się klastra [5] odnajdujemy dalszą część pliku <code>bcdef</code>.</p>
+<p>Teraz wystarczy przeczytać klastry w kolejności <code>[4][5]</code>. Klaster <code>[4]</code> zaczyna się od offsetu <code>005600</code> i rzeczywiście 2048 bajtów dalej, tam gdzie spodziewamy się klastra <code>[5]</code> odnajdujemy dalszą część pliku <code>bcdef</code>.</p>
 </div>
 <div class="paragraph">
 <p>Myślę, że już <em>czujesz</em> jak ten system działa. Oczywiście są to tylko proste operacje. Zachęcam do samodzielnego eksperymentowania. Jak system plików będzie zaśmiecony, to zawsze możesz utworzyć nowy. Spróbuj np. dopisać coś do któregoś z plików i sprawdź co się stanie
@@ -895,13 +907,29 @@ $ sync</pre>
 <div class="sect2">
 <h3 id="odzyskiwanie-krótkiego-pliku"><a class="anchor" href="#odzyskiwanie-krótkiego-pliku"></a>Odzyskiwanie krótkiego pliku</h3>
 <div class="paragraph">
-<p>Co należy zrobić, aby odzyskać ten plik? W przypadku pliku, który zajmuje tylko jeden klaster jest to proste.
-* Odnajdujemy plik w <em>Root Directory Table</em> (lub w folderze gdzie się znajdował)
-* Odczytujemy klaster od którego się rozpoczyna ten plik.
-* Jeśli klaster jest oznaczony jako zajęty, to już jest za późno. Dane zostały nadpisane przez inny plik.
-* Jeśli klaster jest wolny <code>000</code>, to jest szansa, że dane z tego pliku nadal się w nim znajdują.
-* Ręcznie oznaczamy klaster jako zajęty <code>fff</code>
-* Zmieniamy bajt w nazwie pliku <code>e5</code> na inny znak, np. literę.</p>
+<p>Co należy zrobić, aby odzyskać ten plik? W przypadku pliku, który zajmuje tylko jeden klaster jest to proste.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Odnajdujemy plik w <em>Root Directory Table</em> (lub w folderze gdzie się znajdował)</p>
+</li>
+<li>
+<p>Odczytujemy klaster od którego się rozpoczyna ten plik.</p>
+</li>
+<li>
+<p>Jeśli klaster jest oznaczony jako zajęty, to już jest za późno. Dane zostały nadpisane przez inny plik.</p>
+</li>
+<li>
+<p>Jeśli klaster jest wolny <code>000</code>, to jest szansa, że dane z tego pliku nadal się w nim znajdują.</p>
+</li>
+<li>
+<p>Ręcznie oznaczamy klaster jako zajęty <code>fff</code></p>
+</li>
+<li>
+<p>Zmieniamy bajt w nazwie pliku <code>e5</code> na inny znak, np. literę.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Aby to wykonać można posłużyć się jakimś Hexedytorem. Jest to oczywiste, gdy dane mamy zapisane w pliku.</p>
@@ -1013,6 +1041,13 @@ $ sync</pre>
 
     
     
+    
+    <p class="last-modified-at">Ostatnia modyfikacja: 5
+maja
+
+2020
+r.
+</p>
     
 
     <h2>Zobacz jeszcze </h2>
