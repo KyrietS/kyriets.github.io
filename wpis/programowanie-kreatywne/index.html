@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sebastian Fojcik">
+    <meta name="description" content="Opis strony, który może mieć kilka linii.">
+    <meta name="keywords" content="blog, programowanie, studia, informatyka">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Zestaw ikon wygenerowano przy użyciu: https://realfavicongenerator.net/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/icons/site.webmanifest">
+    <link rel="mask-icon" href="/assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="/assets/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <title>Programowanie kreatywne</title>
+</head>
+<body>
+
+<div id="mobile-navbar" class="w3-row w3-hide-medium w3-hide-large w3-card w3-center w3-green">
+    <i onclick="nav_open()" class="fa fa-bars w3-xlarge w3-button w3-theme w3-left"></i> 
+    <span style="line-height: 40px; margin-left: -56px;">Kyriet'Stuff</span>
+</div>
+
+  <!-- Header -->
+<header class="w3-container w3-center w3-padding-32" id="page-header">
+    <div id="page-logo">
+        <img src="/assets/img/logo.svg" alt="Logo" class="logo w3-animate-left" style="width: 100px;" 
+            onerror="this.src='/assets/img/logo.png'">
+    </div>
+    <div id="page-title">
+        <h1 class="w3-xxxlarge w3-animate-top"> KYRIET'STUFF</h1>
+        <h4 class="w3-animate-bottom">KTO PYTA, NIE BŁĄDZI. KTO SZUKA, TEN WIE.</h4>
+    </div>
+</header>
+
+<!-- Nawigacja -->
+<nav id="navigation" class="w3-sidebar w3-bar w3-bar-block w3-card-2 w3-animate-left w3-center w3-light-gray" style="display:none">
+    <div class="w3-content">
+
+        <button class="w3-bar-item w3-button w3-hide-medium w3-hide-large" style="border-bottom: 1px solid lightgray;" onclick="nav_close()">Zamknij <i class="fa fa-remove"></i></button>
+
+        <a href="/" class="w3-bar-item w3-button w3-mobile">Start</a>
+
+        <div class="w3-dropdown-click w3-center">
+            <button id="dropdown-categories-button" class="w3-button">
+                Kategorie <i class="fa fa-caret-down"></i>
+            </button>
+            <div id="dropdown-categories" class="w3-dropdown-content w3-bar-block w3-card">
+
+                
+                
+                
+                    <a href="/kategoria/processing" class="w3-bar-item w3-button">Processing</a>
+                
+                
+                
+                    <a href="/kategoria/programowanie" class="w3-bar-item w3-button">Programowanie</a>
+                
+                
+                
+                    <a href="/kategoria/systemy-operacyjne" class="w3-bar-item w3-button">Systemy operacyjne</a>
+                
+                
+                
+                    <a href="/kategoria/webowka" class="w3-bar-item w3-button">Webówka</a>
+                
+
+                <!-- <a href="category.html" class="w3-bar-item w3-button">Programowanie</a>
+                <a href="#" class="w3-bar-item w3-button">Informatyka</a>
+                <a href="#" class="w3-bar-item w3-button">Warsztat</a> -->
+            </div>
+        </div>
+
+        <a href="/projekty/" class="w3-bar-item w3-button w3-mobile">Moje projekty</a>
+        <a href="/kontakt/" class="w3-bar-item w3-button w3-mobile">Kontakt</a>
+
+        <!-- Wyszukaj -->
+        <form action="/wyszukaj/" method="get" class="w3-right" autocomplete="off">
+            <button class="w3-bar-item w3-right w3-button w3-green w3-mobile"><i class="fa fa-search"></i></button>
+            <input type="text" id="dropdown-search-input" class="w3-bar-item w3-input w3-white w3-mobile w3-border-left w3-left-align" 
+                style="display: inline-block; float: none;" placeholder="Wyszukaj..." name="s">
+            <div id="dropdown-search" class="w3-dropdown-content w3-card w3-bar-block">
+                <div id="dropdown-search-results"></div>
+                <span id="dropdown-search-info" class="w3-bar-item">Kilka niedawnych wpisów.<br>Wciśniej enter, aby wyszukać dokładniej.</span>
+            </div>
+        </form>
+
+    </div>
+</nav>
+<div class="nav-gap"></div>
+
+<main class="w3-content w3-padding-small">
+    <article>
+        <header>
+            <h1>Programowanie kreatywne</h1>
+            <p>01.06.2020
+
+                
+                
+                    | <a href="/kategoria/programowanie">Programowanie</a>
+                
+                
+                    | <a href="/kategoria/processing">Processing</a>
+                
+
+                | <i>Sebastian Fojcik</i></p>
+        </header>
+
+        <img src="/assets/posts/thumbnails/abstraction.png" alt="Miniaturka do wpisu" class="w3-left" id="thumbnail">
+
+        <div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Programowanie kreatywne, to pisanie takich aplikacji, aby ich rezultatem był obraz lub dźwięk. W odróżnieniu od typowych programów, w których rezultat obliczeń najcześciej wypisuje się do konsoli. Co więcej, tworzenie obrazu i dźwięku powinno być maksymalnie uproszczone. Żadnej konfiguracji. Wszystko po prostu działa.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="czym-jest-programowanie-kreatywne"><a class="anchor" href="#czym-jest-programowanie-kreatywne"></a>Czym jest programowanie kreatywne</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Programowanie kreatywne jest podkradzionym pojęciem z angielskiego <em>Creative Coding</em>. Oznacza ono pewne oryginalne podejście do programowania i/lub nauki programowania. <strong>W programowaniu kreatywnym skupiamy się na tworzeniu wizualnych rezultatów naszego programu</strong>, podczas gdy w tradycyjnej nauce programowania nacisk jest kładziony głównie na algorytmy, a rezultat działania programu wypisujemy najczęściej na konsolę lub do pliku tekstowego.</p>
+</div>
+<div class="paragraph">
+<p>Narysowanie czegoś na ekranie komputera może się wydawać bardzo złożonym procesem i dlatego jeszcze jakiś czas temu początkujący programiści nie mieli wyjścia. Każdy musiał przez długie godziny pisać wspaniałe aplikacje, których jedynym rezultatem był napis w konsoli. Bardzo szybko jednak zaczęto dostrzegać potęgę w wizualizacji rezultatów. Powstało wiele narzędzi, które w dosłownie kilku linijkach narysują cokolwiek zaprogramujemy.</p>
+</div>
+<div class="paragraph">
+<p>Jeśli ktoś w obecnych czasach chce przekonać do programowania kogoś, kto nigdy wcześniej nie programował i robi to pokazując tej osobie konsolę, to wyrządza krzywdę jej oraz sobie. Każda osoba ucząca się programowania powinna widzieć cel swojej nauki. Ze szkoły jesteśmy przyzwyczajeni, że rozwiązujemy abstrakcyjne zadania z ciągiem geometrycznym nie widząc w tym sensu. To nie jest dobre podejście do nauki czegokolwiek, a w szczególności programowania.</p>
+</div>
+<div class="paragraph">
+<p>Teraz wyobraźmy sobie, że pokazujemy komuś "o co chodzi w tym programowaniu", ale nie zaczynamy nauki od typów zmiennych <code>int</code>, <code>float</code>, ani warunków czy pętli. To wszystko będzie zbyt abstrakcyjne i odrealnione. Zamiast tego polećmy zapisać taki kod:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="processing">size(500, 500);
+circle(250, 250, 100);</code></pre>
+</div>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-kolko.png" alt="Processing" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>To wszystko co musimy napisać, aby narysować na ekranie komputera koło o promieniu 100 ze środkiem w punkcie (250, 250). Jeśli czyimś pierwszym w życiu programem będzie coś, co można <em>zobaczyć</em>, a nie tylko <em>przeczytać</em>, to będziemy mieli do czynienia z zupełnie innym poziomem zaciekawienia, a w niedalekiej przyszłości być może przerodzi się to w pasję do przelewania swojej kreatywności w kody programów.</p>
+</div>
+<div class="paragraph">
+<p>Programowanie kreatywne, to właśnie maksymalne uproszczenie programowania multimedialnych elementów komputera. To pojęcie jest bardzo ogólne i odnosi się właśnie do tworzenia małych multimedialnych programów.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="co-jest-złego-w-konsoli"><a class="anchor" href="#co-jest-złego-w-konsoli"></a>Co jest złego w konsoli</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nie twierdzę, że pisanie programów, których rezultat oglądamy w postaci tekstu wypisywanego do konsoli jest <em>bardzo złe</em>. Są po prostu lepsze metody nauki programowania od podstaw. Ja sam zaczynałem od konsoli i bardzo żałuję, że tak późno odkryłem narzędzia, które tutaj przedstawię.</p>
+</div>
+<div class="paragraph">
+<p>Definicja <em>programu</em> jako maszynki, do której wkładamy dane i wyciągamy dane już od dawna jest przestarzała i zbyt niedokładna. Aplikacje multimedialne, np. gry komputerowe przetwarzają duże ilości danych, ale rezultat ich działania obserwujemy w formie obrazu i dźwięku. Ludzie chcą i potrzebują bodźców. Czegoś co rozpali ich kreatywność. Używajmy konsoli, ale nie ograniczajmy się do niej, bo <strong>można lepiej</strong>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="programowanie-kreatywne-przykłady"><a class="anchor" href="#programowanie-kreatywne-przykłady"></a>Programowanie kreatywne - przykłady</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Aby zacząć programować, wystarczy edytor tekstu oraz kompilator. Jeśli chcemy pobawić się programowaniem kreatywnym, to będziemy potrzebować dodatkowego narzędzia, biblioteki, środowiska, które maksymalnie uprości nam rysowanie po ekranie komputera, odtwarzanie dźwięku, filmu itd. z poziomu kodu programu. Bez tych narzędzi musielibyśmy spędzić mnóstwo czasu oraz napisać setki linii kodu, w celu wyświetlenia najprostszej figury na ekranie. Oczywiście, że jest to możliwe, ale jeśli chcemy po prostu coś wyświetlić, to byłaby to strata czasu.</p>
+</div>
+<div class="paragraph">
+<p>Oba przedstawione poniżej narzędzia do programowania kreatywnego udostępniają bardzo łatwy w obsłudze interfejs do m.in.:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Rysowania figur 2D</p>
+</li>
+<li>
+<p>Rysowania w przestrzeni 3D z akceleracją GPU</p>
+</li>
+<li>
+<p>Przetwarzania i wyświetlania obrazów</p>
+</li>
+<li>
+<p>Przetwarzania i odtwarzania dźwięku</p>
+</li>
+<li>
+<p>Komunikacji przez port szeregowy (USB)</p>
+</li>
+<li>
+<p>Komunikacji sieciowej</p>
+</li>
+<li>
+<p>Zbiór funkcji matematycznych do mnożenia wektorów, macierzy itd.</p>
+</li>
+<li>
+<p>Wiele, wiele więcej&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Chcesz kogoś nauczyć pętli? Możesz po prostu pokazać jak wypisać liczby na ekranie:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="cpp"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">i</span><span class="p">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Czy coś takiego jest ciekawe i czy zainspiruje kogoś do eksperymentowania?</p>
+</div>
+<div class="paragraph">
+<p>A teraz spróbujmy wyjaśnić komuś działanie pętli w inny sposób. Niech narysuje serię kółek na ekranie.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight nowrap"><code data-lang="java"><span class="n">size</span><span class="o">(</span><span class="mi">500</span><span class="o">,</span> <span class="mi">500</span><span class="o">);</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+    <span class="n">circle</span><span class="o">(</span><span class="n">i</span><span class="o">*</span><span class="mi">50</span><span class="o">,</span> <span class="n">i</span><span class="o">*</span><span class="mi">50</span><span class="o">,</span> <span class="mi">50</span><span class="o">);</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Rezultat działania powyższego programu jest następujący:</p>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-petla.png" alt="Pętla" height="300">
+</div>
+</div>
+<div class="paragraph">
+<p>Teraz "pętla" służy tylko za narzędzie do zrobienia czegoś ciekawego. Nie jest celem nauki samym w sobie. Celem nauki jest rysowanie figur na ekranie i <strong>przy okazji</strong> używanie pętli. Taka nauka zachęca do eksperymentowania!</p>
+</div>
+<div class="sect2">
+<h3 id="processing"><a class="anchor" href="#processing"></a>Processing</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/processing-logo.png" alt="Processing" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>Jednym z najpopularniejszych narzędzi do programowania kreatywnego jest Processing. Użyłem słowa "narzędzie", bo pod tą nazwą kryje się wiele elementów. Processing jest biblioteką, a więc zbiorem funkcji, które możemy uruchamiać. Wraz z tą biblioteką Processing zapewnia swój własny edytor kodu, z poziomu którego możemy jednym przyciskiem skompilować i uruchomić kod.</p>
+</div>
+<div class="paragraph">
+<p>Przykład z kołem, który wyżej pokazałem jest właśnie kodem Processinga, a mówiąc ściślej, funkcje których użyłem pochodzą z tej biblioteki.</p>
+</div>
+<div class="paragraph">
+<p>Języki programowania, dla których dostępny jest Processing:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java</p>
+</li>
+<li>
+<p>JavaScript</p>
+</li>
+<li>
+<p>Python</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dodatkowo aplikacje można również uruchamiać na RaspberryPi oraz systemie Android.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="openframeworks"><a class="anchor" href="#openframeworks"></a>openFrameworks</h3>
+<div class="imageblock text-center">
+<div class="content">
+<img src="/assets/posts/media/of-logo.png" alt="openFrameworks" height="200">
+</div>
+</div>
+<div class="paragraph">
+<p>Podobny zestaw narzędzi do Processing. Zasadniczą różnicą pomiędzy tymi dwoma narzędziami jest to, że openFramework jest napisany w języku C&#43;&#43; i tego właśnie języka można używać do tworzenia swoich aplikacji multimedialnych.</p>
+</div>
+<div class="paragraph">
+<p>Na pewno w przyszłości poświęcę osobny wpis do omówienia możliwości tej biblioteki. Programy napisane w C&#43;&#43; będą prawdopodobnie dużo szybsze niż te zaprogramowane w Javie, JavaScript&#8217;ie czy Pythonie. Sporo jednak zależy od samego programisty. Instalacja openFramework jest nieco trudniejsza, bo nie udostępniają oni swojego IDE tak, tak robi ro Processing, a sam język C&#43;&#43; jest mniej wybaczalny.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="co-potrafi-processing"><a class="anchor" href="#co-potrafi-processing"></a>Co potrafi Processing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Poniżej umieszczam kilka źródeł, w których można obejrzeć co ludzie wyczyniają z technologią rysowania po ekranie. Wszystkie przykłady można uruchomić w przeglądarce.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://mariuswatz.com/works/abstract01js" class="bare">http://mariuswatz.com/works/abstract01js</a></p>
+</li>
+<li>
+<p><a href="http://haptic-data.com/toxiclibsjs/examples/soft-body-square" class="bare">http://haptic-data.com/toxiclibsjs/examples/soft-body-square</a></p>
+</li>
+<li>
+<p><a href="https://happycoding.io/examples/p5js/fireworks" class="bare">https://happycoding.io/examples/p5js/fireworks</a></p>
+</li>
+<li>
+<p><a href="http://mg8.org/processing/bt.html" class="bare">http://mg8.org/processing/bt.html</a></p>
+</li>
+<li>
+<p><a href="http://haptic-data.com/toxiclibsjs/examples/force-directed-graph-p5" class="bare">http://haptic-data.com/toxiclibsjs/examples/force-directed-graph-p5</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+    </article>
+
+    
+    
+    
+
+    <h2>Zobacz jeszcze </h2>
+    <ul>
+        
+        
+        <li><a href="/wpis/jak-jest-zbudowany-fat/">Jak jest zbudowany system plików FAT</a></li>
+        
+        
+        
+        <li><a href="/wpis/processing-do-nauki-programowania/">Processing do nauki programowania</a></li>
+        
+        
+        
+        <li><a href="/wpis/jak-powstal-ten-blog/">Jak powstał ten blog</a></li>
+        
+        
+        
+        
+        
+        
+    </ul>
+
+</main>
+
+<!-- Stopka -->
+<div class="w3-light-gray">
+    <div class="w3-row-padding w3-auto w3-margin-top w3-stretch">
+
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">O Autorze</h3>
+            <p class="w3-justify">Jestm studentem informatyki z Wrocławia. Brak czasu to moje drugie imię. Jeszcze będąc małym glutem wiedziałem, że będę żył ze stukania w przyciski klawiatury. W wolnej chwili uzupełniam tę stronę o nowe wpisy.</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large">
+            <h3 class="w3-center">Nieśmiertelny cytat</h3>
+            <p class="w3-center">„Największą przeszkodą, która w znaczący sposób spowalnia sprawdzanie pisanych przez państwa egzaminów jest śmiech.”</p>
+            <p class="w3-right">~ M.G.</p>
+        </div>
+    
+        <div class="w3-third w3-padding-large w3-center">
+            <h3 class="w3-center">Szybka nawigacja</h3>
+            <ul class="w3-left-align" style="display: inline-block">
+                <li><a href="https://github.com/KyrietS" class="w3-hover-opacity">Znajdź mnie na GitHub</a></li>
+                <li><a href="/projekty/" class="w3-hover-opacity">Zobacz moje projekty</a></li>
+                <li><a href="/kontakt/" class="w3-hover-opacity">Formularz kontaktowy</a></li>
+                <li><a href="/sitemap.xml" class="w3-hover-opacity">Mapa strony</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+
+<!-- Mathjax w wersji 3.x.x -->
+<script>
+    MathJax = {
+        loader: {load: ['input/asciimath']},
+        tex: {
+            inlineMath: [["\\(", "\\)"]],
+            displayMath: [["\\[", "\\]"]],
+            processEscapes: false,      // use \$ to produce a literal dollar sign
+        },
+        asciimath: {
+            delimiters: [["\\$", "\\$"]]
+        },
+        chtml: {
+            scale: 1,
+            matchFontHeight: true
+        },
+        options: {
+            ignoreHtmlClass: "nostem|noasciimath"
+        },
+        // Tymczasowy fix dla wersji v3.0.1 (https://github.com/mathjax/MathJax/issues/2327)
+        startup: {
+            pageReady() {
+                const options = MathJax.startup.document.options;
+                const BaseMathItem = options.MathItem;
+                options.MathItem = class FixedMathItem extends BaseMathItem {
+                    assistiveMml(document) {
+                        if (this.display !== null) super.assistiveMml(document);
+                    }
+                };
+                return MathJax.startup.defaultPageReady();
+            }
+        }
+    };
+</script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+
+<script src="/js/search.js"></script>
+<script>
+SimpleJekyllSearch({
+  searchInput: document.getElementById('dropdown-search-input'),
+  resultsContainer: document.getElementById('dropdown-search-results'),
+  limit: 4,
+  success: () => {},
+  json: [{"title":"Programowanie kreatywne","url":"/wpis/programowanie-kreatywne/"},{"title":"Processing do nauki programowania","url":"/wpis/processing-do-nauki-programowania/"},{"title":"Jak jest zbudowany system plików FAT","url":"/wpis/jak-jest-zbudowany-fat/"},{"title":"Jak powstał ten blog","url":"/wpis/jak-powstal-ten-blog/"},{"title":"Test kolorowania składni","url":"/wpis/test-kolorowania-skladni/"},{"title":"Pokaz możliwości Asciidoc&#8217;a na tej stronie","url":"/wpis/asciidoc-demo/"}],
+  noResultsText: '',
+  searchResultTemplate: `<a href="{url}" class="w3-bar-item w3-button">{title}</a>`
+});
+</script>
+
+</body>
+</html>
