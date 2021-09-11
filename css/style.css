@@ -222,7 +222,7 @@ a > .category-card:hover {
     text-align: left !important;
   }
   #navigation .w3-dropdown-content,
-  #navigation .w3-dropdown-click {
+#navigation .w3-dropdown-click {
     min-width: auto;
     width: auto;
     float: left !important;
