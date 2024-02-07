@@ -2,12 +2,29 @@ var button = document.getElementById("toggle-theme-button");
 button.addEventListener("click", toggleTheme);
 
 // When page is loaded restore the theme from local storage
-let darkTheme = localStorage.getItem('darkTheme') === 'true';
-if (darkTheme) {
+if (localStorage.getItem('darkTheme') === 'true') {
     enableDarkTheme();
+} else {
+    enableLightTheme();
+}
+
+function enableDarkTheme() {
+    console.log("Dark theme enabled");
+
+    loadDarkStylesheet();
+    setIconToMoon();
+    localStorage.setItem('darkTheme', 'true');
+}
+function enableLightTheme() {
+    console.log("Light theme enabled");
+
+    unloadDarkStylesheet();
+    setIconToSun();
+    localStorage.setItem('darkTheme', 'false');
 }
 
 function toggleTheme() {
+    let darkTheme = localStorage.getItem('darkTheme') === 'true';
     if (darkTheme) {
         enableLightTheme();
     } else {
@@ -15,40 +32,15 @@ function toggleTheme() {
     }
 }
 
-function enableDarkTheme() {
-    addDarkStylesheet();
-    setHighlightStylesheetToDark();
-    setIconToMoon();
-    darkTheme = true;
-    localStorage.setItem('darkTheme', 'true');
+function loadDarkStylesheet() {
+    document.getElementById('dark-stylesheet').rel = 'stylesheet';
+    document.getElementById('highlight-dark-stylesheet').rel = 'stylesheet';
+    document.getElementById('highlight-light-stylesheet').rel = 'prefetch';
 }
-function enableLightTheme() {
-    removeDarkStylesheet();
-    setHighlightStylesheetToLight();
-    setIconToSun();
-    darkTheme = false;
-    localStorage.setItem('darkTheme', 'false')
-}
-
-function addDarkStylesheet() {
-    var darkStylesheet = document.createElement('link');
-    darkStylesheet.id = 'dark-stylesheet';
-    darkStylesheet.rel = 'stylesheet';
-    darkStylesheet.href = '/css/dark.css';
-    document.head.appendChild(darkStylesheet);
-}
-function removeDarkStylesheet() {
-    var darkStylesheet = document.getElementById('dark-stylesheet');
-    darkStylesheet.remove();
-}
-
-function setHighlightStylesheetToDark() {
-    var highlightStylesheet = document.getElementById('highlight-stylesheet');
-    highlightStylesheet.href = '/css/highlight-dark.css';
-}
-function setHighlightStylesheetToLight() {
-    var highlightStylesheet = document.getElementById('highlight-stylesheet');
-    highlightStylesheet.href = '/css/highlight-light.css';
+function unloadDarkStylesheet() {
+    document.getElementById('dark-stylesheet').rel = 'prefetch';
+    document.getElementById('highlight-light-stylesheet').rel = 'stylesheet';
+    document.getElementById('highlight-dark-stylesheet').rel = 'prefetch';
 }
 
 function setIconToMoon() {
