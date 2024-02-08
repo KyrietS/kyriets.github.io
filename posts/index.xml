@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Kyriet&#39;S Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl</language>
-    <lastBuildDate>Thu, 08 Feb 2024 08:35:39 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 08 Feb 2024 09:07:53 +0100</lastBuildDate>
     <atom:link href="https://example.org/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jak powstał ten blog</title>
@@ -14,6 +14,13 @@
       <pubDate>Thu, 08 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://example.org/posts/jak-powstal-ten-blog/</guid>
       <description>&lt;p&gt;Standardowo już każdy mój nowy blog otwieram wpisem o tym, jak powstał. Mam już za sobą conajmniej 5 blogów, każdy zbudowany na innej technologii. Tym razem postanowiłem wykorzystać &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jak jest zbudowany system plików FAT</title>
+      <link>https://example.org/posts/jak-jest-zbudowany-fat/</link>
+      <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
+      <guid>https://example.org/posts/jak-jest-zbudowany-fat/</guid>
+      <description>&lt;p&gt;W tym wpisie opiszę podstawowe zasady działania systemu plików z rodziny FAT. Jeśli jesteś ciekawy co się dzieje &amp;ldquo;pod maską&amp;rdquo;, gdy dodajesz lub usuwasz plik na nośniku danych z systemem plików FAT, to zachęcam do lektury tego wpisu. Na przykładach i w praktyce pokażę jakie zmiany zachodzą na dysku podczas manipulacji plikami.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

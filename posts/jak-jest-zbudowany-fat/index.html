@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Jak jest zbudowany system plików FAT | Kyriet&#39;S Blog 🦔</title>
+
+<link rel="stylesheet" href="/css/main.css?v1" id="main-stylesheet">
+<link rel="prefetch" href="/css/highlight-light.css?v1" id="highlight-light-stylesheet">
+
+
+<link rel="stylesheet" href="/css/dark.css?v1" id="dark-stylesheet">
+<link rel="stylesheet" href="/css/highlight-dark.css?v1" id="highlight-dark-stylesheet">
+
+
+
+</head>
+<body>
+  <header>
+    
+
+  <nav>
+    <div id="navigation">
+      <a href="/">Home</a>
+      <a href="/projects/">Projekty</a>
+  
+  <span id="toggle-theme-button" title="Toggle light/dark theme">🌞</span>
+    </div>
+    <span id="site-title">Kyriet&#39;S Blog 🦔</span>
+  </nav>
+
+
+  </header>
+  <main>
+    
+  <h1>Jak jest zbudowany system plików FAT</h1>
+
+   
+  <time datetime="2020-05-02" style="display: none">2020-05-02</time>
+
+  <p>W tym wpisie opiszę podstawowe zasady działania systemu plików z rodziny FAT. Jeśli jesteś ciekawy co się dzieje &ldquo;pod maską&rdquo;, gdy dodajesz lub usuwasz plik na nośniku danych z systemem plików FAT, to zachęcam do lektury tego wpisu. Na przykładach i w praktyce pokażę jakie zmiany zachodzą na dysku podczas manipulacji plikami.</p>
+<h2 id="z-tego-wpisu-dowiesz-się">Z tego wpisu dowiesz się</h2>
+<ul>
+<li>Jakie informacje można znaleźć w <em>Boot Sector</em></li>
+<li>Czym jest tablica alokacji (FAT)</li>
+<li>Jak reprezentowany jest plik na dysku z systemem FAT</li>
+<li>Jak przywrócić plik po usunięciu go z dysku z systemem FAT</li>
+</ul>
+<h2 id="czym-jest-system-plików">Czym jest system plików</h2>
+<p><em>System plików</em> jest to metoda przechowywania i zarządzania danymi na nośniku pamięci. Najmniejszą porcję danych użytkownika w systemie plików najczęściej stanowi plik. Do opisania budowy FAT potrzebne nam będą bardziej szczegółowe pojęcia: <em>bajt</em>, <em>sektor</em> i <em>klaster</em>. Definicja ta nie jest szczególnie istotna i przydatna w życiu. Jeśli potrzebujesz to wiedzieć do kolokwium, to zajrzyj do <a href="https://pl.wikipedia.org/wiki/System_plik%C3%B3w">Wikipedii</a>.</p>
+<p>Po przeczytaniu tego wpisu <em>wyczujesz</em> czym jest system plików i będziesz się czuł pewnie, aby opowiedzieć co taki system robi.</p>
+<h2 id="budowa-fat">Budowa FAT</h2>
+<p>Zacznijmy od pokazania jak taki system plików wygląda. Wszystkie czynności tutaj przedstawione wykonuję na komputerze z systemem Linux Mint.</p>
+<h3 id="utworzenie-czystego-systemu-plików-fat">Utworzenie czystego systemu plików FAT</h3>
+<p>Będziemy potrzebowali urządzenia do testów. Takiego, na którym będziemy mogli wykonywać normalne operacje na plikach (utwórz, kopiuj, usuń). Niezbędna jest również możliwość niskopoziomowego podglądu jak dane są zapisane na nośniku (bajt po bajcie).</p>
+<p>Na szczęście nie będziemy używać fizycznego urządzenia. Stworzymy plik, który następnie zamontujemy w systemie jako wirtualny &ldquo;nośnik danych&rdquo;. Można sobie to zestawić z analogią do fizycznego pendrive&rsquo;a. Plik to nasz pendrive, a montowanie pliku w systemie, to po prostu wpięcie pendriva do komputera (coś jak plik z formatem <em>.iso</em>).</p>
+<p>Najpierw utwórzmy pusty plik o rozmiarze, powiedzmy 100kB. Rozmiar pliku w tym przypadku będzie oznaczał pojemność naszego wirtualnego urządzenia. +
+<em>Uwaga</em>: plikowi nie można tak po prostu nadać rozmiaru. Trzeba go czymś wypełnić. Tworzę więc plik o nazwie <code>fat.img</code> i wypełniam go bajtami o wartości zero (nie mylić z wypełnianiem pliku znakami cyfry &lsquo;0&rsquo;).</p>
+<pre tabindex="0"><code>dd if=/dev/zero of=fat.img bs=1024 count=100
+</code></pre><p>Utworzyliśmy w ten sposób plik o rozmiarze 100kB. Dane tego pliku składają się z samych zer. Jest to plik binarny, więc wyświetlanie jego zawartości programami typu <code>less</code> czy <code>cat</code> nie jest dobrym pomysłem.</p>
+<p>Zobaczmy jak wygląda:</p>
+<pre tabindex="0"><code>$ hexdump -C fat.img
+
+00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+00019000
+</code></pre><p>Widać, że plik jest wypełniony zerami. Program hexdump inteligentnie pokazuje tylko pierwsze 16 bajtów, po których wstawia znak <code>*</code> oznaczający, że ta sekwencja się powtarza aż do offsetu <code>00019000</code>, czyli do samego końca pliku (19000~16~ = 102400~10~).</p>
+<p>Stwórzmy w końcu system plików w naszym pliku.</p>
+<pre tabindex="0"><code>$ mkfs.msods fat.img
+
+mkfs.fat 4.1 (2017-01-24)
+</code></pre><p>Dlaczego używam tutaj prehistorycznego FAT12? Ponieważ jest najprostszy w budowie i pozwoli w prosty sposób pokazać omawiane zagadnienia. Późniejsza analiza, np. FAT32 będzie o wiele łatwiejsza znając już podstawy.</p>
+<p>Zerknijmy teraz jak wygląda nasz plik w środku.</p>
+<pre tabindex="0"><code>$ hexdump -C fat.img
+00000000  eb 3c 90 6d 6b 66 73 2e  66 61 74 00 02 04 01 00  |.&lt;.mkfs.fat.....|
+00000010  02 00 02 c8 00 f8 01 00  20 00 40 00 00 00 00 00  |........ .@.....|
+00000020  00 00 00 00 80 00 29 9c  38 71 69 4e 4f 20 4e 41  |......).8qiNO NA|
+00000030  4d 45 20 20 20 20 46 41  54 31 32 20 20 20 0e 1f  |ME    FAT12   ..|
+00000040  be 5b 7c ac 22 c0 74 0b  56 b4 0e bb 07 00 cd 10  |.[|.&#34;.t.V.......|
+00000050  5e eb f0 32 e4 cd 16 cd  19 eb fe 54 68 69 73 20  |^..2.......This |
+00000060  69 73 20 6e 6f 74 20 61  20 62 6f 6f 74 61 62 6c  |is not a bootabl|
+00000070  65 20 64 69 73 6b 2e 20  20 50 6c 65 61 73 65 20  |e disk.  Please |
+00000080  69 6e 73 65 72 74 20 61  20 62 6f 6f 74 61 62 6c  |insert a bootabl|
+00000090  65 20 66 6c 6f 70 70 79  20 61 6e 64 0d 0a 70 72  |e floppy and..pr|
+000000a0  65 73 73 20 61 6e 79 20  6b 65 79 20 74 6f 20 74  |ess any key to t|
+000000b0  72 79 20 61 67 61 69 6e  20 2e 2e 2e 20 0d 0a 00  |ry again ... ...|
+000000c0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+000001f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 55 aa  |..............U.|
+00000200  f8 ff ff 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000210  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+00000400  f8 ff ff 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+00000410  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+00019000
+</code></pre><p>Otrzymaliśmy pusty system plików na naszym urządzeniu. Gdybyśmy przy tworzeniu systemu plików zamiast pliku <code>fat.img</code> podali ścieżkę do zamontowanego pendrive&rsquo;a, to byśmy go w ten sposób sformatowali i ustawili na nim system plików FAT12.</p>
+<h3 id="budowa-boot-sectora-w-fat12">Budowa Boot Sectora w FAT12</h3>
+<p>Pierwsze 512 bajtów, a więc do offsetu <code>000001f0</code> zajmuje tzw. <em>Boot sector</em> naszego urządzenia. Znajdują się tam szczegółowe informacje o używanym systemie plików na urządzeniu. Boot sector w FAT zawsze kończy się sekwencją <code>55 aa</code>.</p>
+<p>Po pełny opis co oznacza który bajt w tym sektorze możesz odwiedzić <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.2">tę stronę</a>.</p>
+<p>Ja wypiszę kilka ciekawych i najważniejszych wartości.</p>
+<table>
+<thead>
+<tr>
+<th>Nr bajtu</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11-12</td>
+<td>Liczba <em>bajtów</em> na jeden <em>sektor</em>. Dozwolone wartości: 512, 1024, 2048, 3096.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Liczba <em>sektorów</em> na jeden <em>klaster</em>. Dozwolone wartości: 1, 2, 4, 8, 16, 32, 64, 128</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Liczba kopii <em>FAT (tablicy alokacji)</em></td>
+</tr>
+<tr>
+<td>22-23</td>
+<td>Liczba sektorów na jedną tablicę alokacji</td>
+</tr>
+<tr>
+<td>510-511</td>
+<td>Sygnatura <code>55 aa</code></td>
+</tr>
+</tbody>
+</table>
+<p>Zerknijmy jeszcze raz na <em>Boot Sector</em>, tym razem dla ułatwienia z offsetem dziesiętnym i spróbujmy odczytać z niego wartości posługując się tabelą powyżej.</p>
+<pre tabindex="0"><code>$ od -Ad -tx1z fat.img
+0000000 eb 3c 90 6d 6b 66 73 2e 66 61 74 00 02 04 01 00  &gt;.&lt;.mkfs.fat.....&lt;
+0000016 02 00 02 c8 00 f8 01 00 20 00 40 00 00 00 00 00  &gt;........ .@.....&lt;
+0000032 00 00 00 00 80 00 29 9c 38 71 69 4e 4f 20 4e 41  &gt;......).8qiNO NA&lt;
+0000048 4d 45 20 20 20 20 46 41 54 31 32 20 20 20 0e 1f  &gt;ME    FAT12   ..&lt;
+0000064 be 5b 7c ac 22 c0 74 0b 56 b4 0e bb 07 00 cd 10  &gt;.[|.&#34;.t.V.......&lt;
+0000080 5e eb f0 32 e4 cd 16 cd 19 eb fe 54 68 69 73 20  &gt;^..2.......This &lt;
+0000096 69 73 20 6e 6f 74 20 61 20 62 6f 6f 74 61 62 6c  &gt;is not a bootabl&lt;
+0000112 65 20 64 69 73 6b 2e 20 20 50 6c 65 61 73 65 20  &gt;e disk.  Please &lt;
+0000128 69 6e 73 65 72 74 20 61 20 62 6f 6f 74 61 62 6c  &gt;insert a bootabl&lt;
+0000144 65 20 66 6c 6f 70 70 79 20 61 6e 64 0d 0a 70 72  &gt;e floppy and..pr&lt;
+0000160 65 73 73 20 61 6e 79 20 6b 65 79 20 74 6f 20 74  &gt;ess any key to t&lt;
+0000176 72 79 20 61 67 61 69 6e 20 2e 2e 2e 20 0d 0a 00  &gt;ry again ... ...&lt;
+0000192 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+0000496 00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 aa  &gt;..............U.&lt;
+0000512 f8 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+0000528 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+0001024 f8 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+0001040 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+0102400
+</code></pre><p>Bajty liczymy od zera, więc bajt numer 1 ma wartość <code>3c</code>, a bajt numer 16 to <code>02</code> itd.</p>
+<p>Spróbuj samodzielnie odczytać wartości z Boot Sectora. Odpowiedzi zamieszczam w tabeli poniżej.</p>
+<table>
+<thead>
+<tr>
+<th>Pole</th>
+<th>raw</th>
+<th>hex</th>
+<th>dec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Liczba bajtów na sektor</td>
+<td><code>00 02</code></td>
+<td><code>0200</code></td>
+<td>512</td>
+</tr>
+<tr>
+<td>Liczba sektorów na klaster</td>
+<td><code>04</code></td>
+<td><code>04</code></td>
+<td>4</td>
+</tr>
+<tr>
+<td>Liczba kopii FAT</td>
+<td><code>02</code></td>
+<td><code>02</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>Liczba sektorów na FAT</td>
+<td><code>01 00</code></td>
+<td><code>0001</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Mimo tego, że Boot Sector mamy przedstawiony w postaci ciągu bajtów zapisanych szesnastkowo, muszę rozróżniać tutaj wartość odczytaną (raw) od wartości liczbowej, którą reprezentuje ten zapis (hex). Wartość uzyskamy czytając bajty w odwrotnej kolejności. Jeśli nie rozumiesz dlaczego, przeczytaj o formie zapisu <a href="https://pl.wikipedia.org/wiki/Kolejno%C5%9B%C4%87_bajt%C3%B3w">Little Endian</a>.</p>
+<p>Z opisów z tabel już się pewnie domyślasz jaki stosunek do siebie mają <em>bajty</em>, <em>sektory</em> i <em>klastry</em>.</p>
+<p><em>Sektor</em> to zbiór <em>bajtów</em> o stałym rozmiarze.
+<em>Klaster</em> to zbiór <em>sektorów</em> o stałym rozmiarze.</p>
+<p>Mamy informację, że tablica alokacji FAT <em>(File Allocation Table)</em> składa się z jednego sektora, a więc z 512 bajtów. Wiemy również, że nasz system plików przechowuje 2 kopie tablicy alokacji (jest to pewna forma zabezpieczenia). Sprawdźmy, czy to co odczytaliśmy z <em>Boot Sectora</em> się zgadza.</p>
+<p>Dokładnie od offsetu 512 zaczyna się pierwsza tablica alokacji FAT, która kończy się 512 bajtów dalej. Następnie zaczyna się identyczna kopia FAT. Są tam już wpisane jakieś wartości. Omówimy je za moment.</p>
+<h3 id="budowa-tablicy-alokacji-fat">Budowa tablicy alokacji FAT</h3>
+<p>Tablica alokacji jest taką mapą po pamięci. Jeśli mamy jakiś duży plik, który zajmuje kilka sektorów, tablica alokacji powie nam które kolejne sektory powinniśmy odczytywać, aby otrzymać cały plik.</p>
+<p>W FAT12 jeden klaster jest kodowany na 12 bitach, a więc jest to 1,5 bajta. Powoduje to trochę komplikacji przy próbie ręcznego odczytywania wartości z postaci szesnastkowej, którą my mamy. Dla FAT16 i FAT32 jest to dużo prostsze.</p>
+<p>Odczytajmy zawartość tablicy alokacji, bo widać, że już coś się tam w niej znajduje. Zaczynamy od offsetu 512. Algorytm jest następujący:</p>
+<ul>
+<li>Wypisz bajty z tablicy alokacji. Zera z końca możemy pominąć.</li>
+</ul>
+<pre tabindex="0"><code>f8 ff ff
+</code></pre><ul>
+<li>Łączymy bajty w trójki od lewej do prawej (w naszym przypadku mamy już trójkę, więc nic nie robimy).</li>
+</ul>
+<pre tabindex="0"><code>ff ff f8
+</code></pre><ul>
+<li>Przepisujemy wszystkie <em>bajty</em> w trójkach, w odwrotnej kolejności
+(Taki zapis: <code>ff ff 8f</code> <em>nie</em> jest poprawnym odwróceniem bajtów).</li>
+</ul>
+<pre tabindex="0"><code>ff ff f8
+</code></pre><ul>
+<li>Wybrane trójki dzielimy na dwie równe części.</li>
+</ul>
+<pre tabindex="0"><code>fff ff8
+</code></pre><ul>
+<li>Każdą z par odczytujemy w odwróconej kolejności. Otrzymaliśmy tablicę alokacji w postaci szesnastkowej.</li>
+</ul>
+<pre tabindex="0"><code>ff8 fff
+[0] [1] - numery klastrów
+</code></pre><p>Później będziemy odczytywać bardziej skomplikowane tablice alokacji, więc powrócimy do tego algorytmu.</p>
+<p>Wiemy zatem, że klaster o numerze 0 jest zakodowany jako <code>ff8</code>, a klaster 1 jako <code>fff</code>. Wszystkie pozostałe klastry w urządzeniu są oznaczone jako <code>000</code>. Co te liczby oznaczają?</p>
+<table>
+<thead>
+<tr>
+<th>Wartość</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>000</code></td>
+<td>Klaster wolny</td>
+</tr>
+<tr>
+<td><code>002-fef</code></td>
+<td>Klaster zajęty</td>
+</tr>
+<tr>
+<td><code>ff0-ff6</code></td>
+<td>Klaster zarezerwowany</td>
+</tr>
+<tr>
+<td><code>ff7</code></td>
+<td>Zły sektor</td>
+</tr>
+<tr>
+<td><code>ff8-fff</code></td>
+<td>Ostatni klaster</td>
+</tr>
+</tbody>
+</table>
+<p>Wiemy zatem, że klastry 0 i 1 są ostatnimi klastrami. Nasze urządzenie nie ma jeszcze żadnego pliku, więc klastry te nie reprezentują żadnego pliku.</p>
+<p>Co to znaczy, że klaster jest ostatni? Pokażemy to dokładnie później, przy omawianiu plików, które zajmują więcej niż jeden klaster.</p>
+<h3 id="root-directory-table">Root Directory Table</h3>
+<p>Dodajmy w końcu jakiś plik do naszego urządzenia i zobaczmy co się zmieni. Najpierw będziemy musieli zamontować nasze urządzenie <code>fat.img</code> w systemie.</p>
+<pre tabindex="0"><code>$ mkdir fs
+$ sudo mount -t msdos fat.img fs -o umask=000,loop
+</code></pre><p>Po utworzeniu katalogu montujemy do niego nasze urządzenie. Dodatkowe opcje, których używamy rozwiązują problem uprawnień (umask) i pozwalają zamontować plik jako urządzenie <a href="https://en.wikipedia.org/wiki/Loop_device">Loop Device</a>.</p>
+<p>Możemy teraz przejść do folderu <code>fs</code>. Będzie pusty. Utwórzmy tam plik.</p>
+<pre tabindex="0"><code>$ cd fs
+$ echo &#34;Witaj&#34; &gt; hello
+</code></pre><p>Powróćmy do naszego <code>fat.img</code> i sprawdźmy jego zawartość. Zanim to jednak zrobimy zapiszmy wszystkie oczekujące zmiany do pamięci trwałej poprzez wykonanie <code>sync</code>.</p>
+<pre tabindex="0"><code>$ sync
+$ od -Ax -tx1z fat.img
+[...]
+000200 f8 ff ff 00 f0 ff 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+000210 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000400 f8 ff ff 00 f0 ff 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+000410 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000600 48 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;HELLO       ....&lt;
+000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
+000620 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+004e00 57 69 74 61 6a 0a 00 00 00 00 00 00 00 00 00 00  &gt;Witaj...........&lt;
+004e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+019000
+</code></pre><p>Pomijam już wypisywanie Boot Sectora, bo nie ulega on zmianom. Widzimy nazwę naszego pliku oraz jego zawartość. Offset <code>600</code> (hex) jest to początek tzw. Root Directory Table. Jest to, jak sama nazwa wskazuje, nasz folder główny, które może przechowywać pliki i foldery. Ilość plików i folderów w nim jest ograniczona. Obecne systemy plików nie posiadają już takich ograniczeń.</p>
+<p>Dane pliku &ldquo;hello&rdquo; są zapisane na 32 bajtach (2 wiersze). Każdy bajt koduje pewną informację o pliku.</p>
+<table>
+<thead>
+<tr>
+<th>Nr bajtu</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-10</td>
+<td>Nazwa pliku (8), rozszerzenie (3)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Atrybuty pliku</td>
+</tr>
+<tr>
+<td>12-21</td>
+<td><em>Reserved</em></td>
+</tr>
+<tr>
+<td>22-23</td>
+<td>Czas</td>
+</tr>
+<tr>
+<td>24-25</td>
+<td>Data</td>
+</tr>
+<tr>
+<td>26-27</td>
+<td>Początkowy klaster (0 - pusty plik)</td>
+</tr>
+<tr>
+<td>28-31</td>
+<td>Rozmiar pliku w bajtach</td>
+</tr>
+</tbody>
+</table>
+<p>Po więcej informacji zajrzyj <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.4">tutaj</a>.</p>
+<h2 id="odczytywanie-krótkiego-pliku">Odczytywanie krótkiego pliku</h2>
+<p>Spróbujmy odczytać plik <code>hello</code> z naszego urządzenia w podobny sposób jak robi to komputer.</p>
+<p>W <em>Root Directory Table</em> po nazwie odnajdujemy nasz plik <code>hello</code>.</p>
+<pre tabindex="0"><code>000600 48 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;HELLO       ....&lt;
+000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
+</code></pre><p>Odnajduję rozmiar pliku na bajtach 28-31. Jest to więc liczba 4-bajtowa zapisana w <a href="https://pl.wikipedia.org/wiki/Kolejno%C5%9B%C4%87_bajt%C3%B3w">Little Endian</a>. <em>Rozmiar pliku to 6 bajtów</em></p>
+<table>
+<thead>
+<tr>
+<th>bajty</th>
+<th>raw</th>
+<th>hex</th>
+<th>dec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>28-31</td>
+<td><code>06 00 00 00</code></td>
+<td><code>00000006</code></td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>Odczytuję również na bajtach 26 i 27 początkowy klaster, gdzie znajduje się zawartość tego pliku.</p>
+<table>
+<thead>
+<tr>
+<th>bajty</th>
+<th>raw</th>
+<th>hex</th>
+<th>dec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26-27</td>
+<td><code>03 00</code></td>
+<td><code>0003</code></td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Wiemy, zatem, że <em>trzeci sektor jest sektorem, w którym zaczyna się nasz plik</em>. Udajemy się do tablicy alokacji i patrzymy jak jest zakodowany trzeci sektor.</p>
+<p>Tablica alokacji wygląda tak:</p>
+<pre tabindex="0"><code>000200 f8 ff ff 00 f0 ff 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+000210 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;.
+*
+</code></pre><p>Posłużymy się algorytmem opisanym wcześniej, aby odczytać kodowania dla poszczególnych klastrów. Jak nabierzesz wprawy, to będziesz to odczytywać zwykłym spojrzeniem na powyższy ciąg bajtów (choć nie wiem po co ktokolwiek miałby nabierać wprawy w ręcznym odczytywaniu tablicy alokacji).</p>
+<pre tabindex="0"><code>f8 ff ff 00 f0 ff     - (1) wypisujemy tablicę (bez zer na końcu)
+f8 ff ff   00 f0 ff   - (2) łączymy bajty w trójki
+ff ff f8   ff f0 00   - (3) odwracamy kolejność
+fff ff8    fff 000    - (4) sklejamy trójki
+ff8 fff    000 fff    - (5) odwracamy
+
+ff8 fff 000 fff - wynik końcowy
+[0] [1] [2] [3] - numery klastrów
+</code></pre><p>Nasz plik zaczyna się od klastra nr 3. Według tablicy alokacji, klaster [3] (<code>fff</code>) jest <em>klastrem ostatnim</em> (patrz: &laquo;tabela-alokacji-fat, Tabela z oznaczeniami w tablicy alokacji&raquo;).</p>
+<p>Nasz plik zatem składa się tylko z klastra nr 3. Znamy długość każdego klastra oraz miejsce, gdzie zaczyna się klaster <code>[0]</code>. Przeskakujemy więc zadaną liczbę klastrów i zaczynamy czytać klaster <code>[3]</code> od bajtu 004e00~16~.</p>
+<pre tabindex="0"><code>004e00 57 69 74 61 6a 0a 00 00 00 00 00 00 00 00 00 00  &gt;Witaj...........&lt;
+004e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+</code></pre><p>Plik w systemie FAT nie może zajmować zajmować na dysku mniej niż jeden klaster. Nawet jeśli zawiera kilka liter jak w naszym przypadku. Musimy zatem wiedzieć gdzie w klastrze kończą się dane pliku. Odczytaliśmy wcześniej rozmiar pliku, który wynosi <em>6 bajtów</em>.</p>
+<p>6 pierwszych bajtów trzeciego klastra to: <code>Witaj\n</code>. Koniec.</p>
+<h2 id="odczytywanie-długiego-pliku">Odczytywanie długiego pliku</h2>
+<p>Przyjżyjmy się teraz co się stanie, gdy plik będzie dłuższy niż jeden klaster. Najpierw musimy taki plik utworzyć. Zróbmy to inteligentnie. Odczytaliśmy wcześniej, że klaster składa się z 4 sektorów. Jeden sektor ma 512 bajtów, zatem klaster pomieści 2048 bajtów.</p>
+<p>Plik, który dodamy będzie się składał z 2048 literek <code>a</code>, a na koniec dokleimy <code>bcdef</code>. Jeśli nasze obliczenia są poprawne, to literki <code>a</code> zostaną zapisane do jednego sektora, a dalsza część pliku <code>bcdef</code> do innego.</p>
+<p>Przechodzimy do katalogu <code>fs</code> i generujemy plik.</p>
+<pre tabindex="0"><code>$ python -c &#34;print(&#39;a&#39;*2048 + &#39;bcdef&#39;)&#34; &gt; duzy
+$ sync
+</code></pre><p>Zobaczmy teraz co nam powstało w pliku <code>fat.img</code>.</p>
+<pre tabindex="0"><code>000200 f8 ff ff 00 f0 ff 05 f0 ff 00 00 00 00 00 00 00  &gt;................&lt;
+000210 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000400 f8 ff ff 00 f0 ff 05 f0 ff 00 00 00 00 00 00 00  &gt;................&lt;
+000410 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000600 48 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;HELLO       ....&lt;
+000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
+000620 44 55 5a 59 20 20 20 20 20 20 20 20 00 00 00 00  &gt;DUZY        ....&lt;
+000630 00 00 00 00 00 00 dc 84 07 4f 04 00 06 08 00 00  &gt;.........O......&lt;
+000640 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+004e00 57 69 74 61 6a 0a 00 00 00 00 00 00 00 00 00 00  &gt;Witaj...........&lt;
+004e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+005600 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61  &gt;aaaaaaaaaaaaaaaa&lt;
+*
+005e00 62 63 64 65 66 0a 00 00 00 00 00 00 00 00 00 00  &gt;bcdef...........&lt;
+005e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+019000
+</code></pre><p>Jak ostatnio obciąłem <em>Boot Sector</em>.</p>
+<p>Tym razem z <em>Root Directory Table</em> odczytujemy, że <em>pierwszym sektorem jest sektor [4]</em>. Nie będę tu powtarzał procedury odczytywania tego. Postępowanie jest analogiczne co z krótkim plikiem.</p>
+<p>Odczytajmy tablicę alokacji, która zdecydowanie uległa zmianie. Wygląda ona tak:</p>
+<pre tabindex="0"><code>000200 f8 ff ff 00 f0 ff 05 f0 ff 00 00 00 00 00 00 00  &gt;................&lt;
+000210 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+</code></pre><p>Zasady odczytu takie same jak ostatnio.</p>
+<pre tabindex="0"><code>f8 ff ff 00 f0 ff 05 f0 ff       - (1) wypisujemy tablicę
+f8 ff ff   00 f0 ff   05 f0 ff   - (2) łączymy w trójki
+ff ff f8   ff f0 00   ff f0 05   - (3) odwracamy kolejność
+fff ff8    fff 000    fff 005    - (4) sklejamy trójki
+ff8 fff    000 fff    005 fff    - (5) odwracamy
+
+ff8 fff 000 fff 005 fff- wynik końcowy
+[0] [1] [2] [3] [4] [5]- numery klastrów
+</code></pre><p>Odczytujemy:</p>
+<ul>
+<li>Plik <code>duzy</code> zaczyna się od klastra [4].</li>
+<li>Patrzymy, a klaster o tym numerze jest kodowany jako <code>005</code>.</li>
+<li>Oznacza to, że dalsza część pliku znajduje się w klastrze [5].</li>
+<li>Patrzymy do klastra [5] i odczytujemy <code>fff</code>. Zatem jest to <em>ostatni klaster</em>.</li>
+</ul>
+<p>Teraz wystarczy przeczytać klastry w kolejności <code>[4][5]</code>. Klaster <code>[4]</code> zaczyna się od offsetu <code>005600</code> i rzeczywiście 2048 bajtów dalej, tam gdzie spodziewamy się klastra <code>[5]</code> odnajdujemy dalszą część pliku <code>bcdef</code>.</p>
+<p>Myślę, że już <em>czujesz</em> jak ten system działa. Oczywiście są to tylko proste operacje. Zachęcam do samodzielnego eksperymentowania. Jak system plików będzie zaśmiecony, to zawsze możesz utworzyć nowy. Spróbuj np. dopisać coś do któregoś z plików i sprawdź co się stanie
+<em>(spoiler: stara wersja pliku sprzed zmiany zostanie zachowana w pamięci)</em>.</p>
+<h2 id="usuwanie-i-odzyskiwanie-pliku">Usuwanie i odzyskiwanie pliku</h2>
+<p>Przechodzimy do jednej z najciekawszych rzeczy, czyli co się dzieje gdy usuwamy plik i czy można go odzyskać. Jeśli tak, to jak to zrobić. Tym się teraz zajmiemy.</p>
+<p>Nadal będziemy pracować na pliku <code>fat.img</code>, który mamy z poprzednich paragrafów. Jeśli Twój obecny po zabawach uległ uszkodzeniu lub zaśmieceniu, to możesz go odtworzyć w ten sposób:</p>
+<pre tabindex="0"><code>dd if=/dev/zero of=fat.img bs=1024 count=100
+mkfs.msdos fat.img
+mkdir fs
+sudo mount -t msdos fat.img fs -o umask=000,loop
+cd fs
+echo &#34;Witaj&#34; &gt; hello
+python -c &#34;print(&#39;a&#39;*2048 + &#39;bcdef)&#34; &gt; duzy
+sync
+</code></pre><p>Plik z którym zaczynamy wygląda następująco.</p>
+<pre tabindex="0"><code>$ od -Ax -tx1z fat.img
+[...]
+000200 f8 ff ff 00 f0 ff 05 f0 ff 00 00 00 00 00 00 00  &gt;................&lt;
+000210 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000400 f8 ff ff 00 f0 ff 05 f0 ff 00 00 00 00 00 00 00  &gt;................&lt;
+000410 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000600 48 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;HELLO       ....&lt;
+000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
+000620 44 55 5a 59 20 20 20 20 20 20 20 20 00 00 00 00  &gt;DUZY        ....&lt;
+000630 00 00 00 00 00 00 dc 84 07 4f 04 00 06 08 00 00  &gt;.........O......&lt;
+000640 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+004e00 57 69 74 61 6a 0a 00 00 00 00 00 00 00 00 00 00  &gt;Witaj...........&lt;
+004e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+005600 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61  &gt;aaaaaaaaaaaaaaaa&lt;
+*
+005e00 62 63 64 65 66 0a 00 00 00 00 00 00 00 00 00 00  &gt;bcdef...........&lt;
+005e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+019000
+</code></pre><p>Mamy zatem dwa pliki. Jeden mały i duży. Każdy z nich usuniemy i spróbujemy odzyskać.</p>
+<h3 id="usuwanie-krótkiego-pliku">Usuwanie krótkiego pliku</h3>
+<p>Sama procedura jest dość prosta. Po prostu wchodzimy do kadalogu <code>fs</code> i usuwamy plik <code>hello</code>.</p>
+<pre tabindex="0"><code>$ rm hello
+$ sync
+</code></pre><p>No i poszło. Pliku nie ma, ale pytanie co się w praktyce stało? Okazuje się, że w całym pliku <code>fat.img</code> zmieniło się tylko <em>kilka bajtów</em>. To wyjaśnia dlaczego usuwanie pliku jest dużo szybsze niż jego kopiowanie. Dane cały czas siedzą na dysku. Poniżej wycinek zrzutu pamięci po usunięciu pliku <code>hello</code>.</p>
+<pre tabindex="0"><code>000400 f8 ff ff 00 00 00 05 f0 ff 00 00 00 00 00 00 00  &gt;................&lt;
+000410 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000600 e5 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;.ELLO       ....&lt;
+000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
+000620 44 55 5a 59 20 20 20 20 20 20 20 20 00 00 00 00  &gt;DUZY        ....&lt;
+000630 00 00 00 00 00 00 dc 84 07 4f 04 00 06 08 00 00  &gt;.........O......&lt;
+000640 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+004e00 57 69 74 61 6a 0a 00 00 00 00 00 00 00 00 00 00  &gt;Witaj...........&lt;
+004e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+</code></pre><p>Co dokładnie zaszło to:</p>
+<ul>
+<li>W tablicy alokacji (offset <code>000400</code> i <code>000200</code>) zwolnił się klaster [3] zajmowany przez plik <code>hello</code></li>
+<li>Bajt z pierwszą literą w nazwie pliku zmienił wartość na <code>e5</code>.</li>
+</ul>
+<p>Plik i jego dane nadal znajdują się na dysku. Oczywiście może zostać w każdej chwili nadpisany jeśli zaczniemy tworzyć nowe pliki.</p>
+<h3 id="odzyskiwanie-krótkiego-pliku">Odzyskiwanie krótkiego pliku</h3>
+<p>Co należy zrobić, aby odzyskać ten plik? W przypadku pliku, który zajmuje tylko jeden klaster jest to proste.</p>
+<ul>
+<li>Odnajdujemy plik w <em>Root Directory Table</em> (lub w folderze gdzie się znajdował)</li>
+<li>Odczytujemy klaster od którego się rozpoczyna ten plik.</li>
+<li>Jeśli klaster jest oznaczony jako zajęty, to już jest za późno. Dane zostały nadpisane przez inny plik.</li>
+<li>Jeśli klaster jest wolny <code>000</code>, to jest szansa, że dane z tego pliku nadal się w nim znajdują.</li>
+<li>Ręcznie oznaczamy klaster jako zajęty <code>fff</code></li>
+<li>Zmieniamy bajt w nazwie pliku <code>e5</code> na inny znak, np. literę.</li>
+</ul>
+<p>Aby to wykonać można posłużyć się jakimś Hexedytorem. Jest to oczywiste, gdy dane mamy zapisane w pliku.</p>
+<p>Co jeśli chcemy to wykonać na urządzeniu typu pendrive? Jest to trochę trudniejsze, ale nadal wykonalne. Wystarczy zrzucić z pendrive&rsquo;a pamięć do pliku, podobnie jak robiliśmy tworząc plik <code>fat.img</code> programem <code>dd</code>. Nie musimy nawet zrzucać całości, wystarczy fragment. Po dokonaniu zmian wgrywamy zmodyfikowaną pamięć do urządzenia (w to samo miejsce, z którego ją pobraliśmy).</p>
+<p>Problemy się zaczynają, gdy chcemy odzyskać duży plik. Taki, który zajmował kilka klastrów.</p>
+<h3 id="usuwanie-długiego-pliku">Usuwanie długiego pliku</h3>
+<p>Usuńmy <code>duzy</code> plik i popatrzmy co się stało.</p>
+<pre tabindex="0"><code>$ rm duzy
+$ sync
+</code></pre><p>A oto efekt naszych zmian.</p>
+<pre tabindex="0"><code>000200 f8 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+000210 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000400 f8 ff ff 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+000410 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+000600 e5 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;.ELLO       ....&lt;
+000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
+000620 e5 55 5a 59 20 20 20 20 20 20 20 20 00 00 00 00  &gt;.UZY        ....&lt;
+000630 00 00 00 00 00 00 dc 84 07 4f 04 00 06 08 00 00  &gt;.........O......&lt;
+000640 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+004e00 57 69 74 61 6a 0a 00 00 00 00 00 00 00 00 00 00  &gt;Witaj...........&lt;
+004e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+005600 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61 61  &gt;aaaaaaaaaaaaaaaa&lt;
+*
+005e00 62 63 64 65 66 0a 00 00 00 00 00 00 00 00 00 00  &gt;bcdef...........&lt;
+005e10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  &gt;................&lt;
+*
+019000
+</code></pre><p>Tablica alokacji jest pusta. Wszystkie klastry zajmowane przez plik zostały zwolnione, a pierwszy bajt w nazwie pliku <code>duzy</code> ma wartość <code>e5</code>. Żadnych zaskoczeń.</p>
+<h3 id="odzyskiwanie-długiego-pliku">Odzyskiwanie długiego pliku</h3>
+<p>Teraz mamy problem i to poważny. Co prawda z <em>Root Directory Table</em> nadal możemy odczytać pierwszy sektor zajmowany przez plik, ale gdy udamy się do tablicy alokacji pod wskazany sektor, to okaże się, że jest on wolny <code>000</code>. To świetne wieści, ale pozostaje pytanie, <em>który klaster jest tym następny</em>?</p>
+<p>Po rozmiarze pliku możemy obliczyć ile klastrów będzie on zajmować. Musimy je &ldquo;tylko&rdquo; odnaleźć i to jeszcze <em>w dobrej kolejności</em>.</p>
+<p>Niestety nie ma tutaj błyskotliwego rozwiązania tego problemu. Zgadywanie zwykle nie wchodzi w grę. Jest jednak wiele metod, które pozwolą zwiększyć szansę na odzyskanie takiego pliku. Poniżej kilka z nich:</p>
+<ul>
+<li>Defragmentacja dysku często sprawia, że wszystkie klastry pliku znajdują się obok siebie jeden za drugim. Z drugiej strony wykonanie defragmentacji <em>po</em> usunięciu pliku może &ldquo;zapchać dziury po usuniętych plikach&rdquo;, a więc nadpisać ich dane.</li>
+<li>Stosowanie różnego rodzaju heurystyk.</li>
+<li>Rozpoznawanie formatu pliku po pierwszym klastrze. Wiemy wtedy jakiej następnej części się spodziewać, np. gdy odzyskujemy plik wideo, to czasami wraz z zakodowanym obrazem znajdują się timestamp&rsquo;y określające moment w filmie.</li>
+</ul>
+<p>Jest zapewne dużo więcej sposobów. Wiele z nich to tajemnice firm produkujących oprogramowanie do odzyskiwania danych z dysków. Jeśli próbowałeś kiedyś któregoś z tych &ldquo;darmowych&rdquo; narzędzi do odzyskiwania plików po ich usunięciu, to wiesz już teraz dlaczego one z taką łatwością wypisywały usunięte pliki z nazwami, a za ich odzyskanie trzeba było już zapłacić. Odnalezienie usuniętych plików jest po prostu banalnie proste.</p>
+<p>Mówię tutaj oczywiście o formacie FAT. Struktury plików zapisanych w NTFS czy ext są zupełnie inne i bardziej skomplikowane. Nawet w samym FAT32 jest już sporo zmian w stosunku do FAT12, który przedstawiałem.</p>
+<h2 id="podsumowanie">Podsumowanie</h2>
+<p>Jeśli nigdy wcześniej nie miałeś, czytelniku, okazji pobawić się z systemem plików, to mam nadzieję, że wykonane tutaj eksperymenty i zaprezentowane przykłady sporo nauczyły. To dopiero wierzchołek góry lodowej. O samym FAT12 możnaby zrobić jeszcze 10 podobnej długości artykułów. Zamiast to robić, lepszym pomysłem jest zapoznanie się z nowszymi systemami plików. Porównać omówiony tutaj FAT12 z używanym jeszcze powszechnie na pendrive&rsquo;ach FAT32.</p>
+<p>Do czego może się przydać taka wiedza? Mało kto ręcznie grzebie w bajtach, więc wiedza o działaniu systemu plików przyda się do napisania oprogramowania, który na takim systemie operuje. Poza tym daje ogólne <em>zrozumienie wielu procesów, które zachodzą w komputerze</em>. Mimo, że o tym nie wspomniałem, to po przeczytaniu tego artykułu powinieneś już rozumieć dlaczego w Windowsie każdy plik ma <em>rozmiar</em> i <em>rozmiar na dysku</em>. To tak jak nasz krótki plik, który miał rozmiar 6 bajtów, a na dysku zajmował jeden klaster, a więc 2 kB. To spore marnotrawstwo pamięci i współczesne systemy plików lepiej sobie z tym radzą.</p>
+<!-- | Dygresja o NTFS |
+| :-------------: |
+| W NTFS na Windowsie jest trochę inaczej. Zrób eksperyment. Utwórz w Windowsie pusty plik i sprawdź jego _rozmiar_ i _rozmiar na dysku_. Oba będą wynosić 0 B. Dodaj literkę `a` do pliku, zapisz i sprawdź. Ile wynosi rozmiar? 1 B. Rozmiar na dysku nadal 0 B. NTFS działa trochę inaczej i jest w stanie dane krótkich plików zmieścić wraz z nazwą w jednym rekordzie bez zajmowania całego klastra. Po zwiększeniu pliku do 1 kB, rozmiar na dysku wyniesie 4 kB (w moim przypadku). Po zmniejszeniu pliku do 1 B, rozmiar na dysku pozostaje 4 kB. Widać, że ten system plików jest inteligentniejszy. | -->
+<p><strong>Dygresja o NTFS</strong></p>
+<blockquote>
+<p>W NTFS na Windowsie jest trochę inaczej. Zrób eksperyment. Utwórz w Windowsie pusty plik i sprawdź jego <em>rozmiar</em> i <em>rozmiar na dysku</em>. Oba będą wynosić 0 B. Dodaj literkę <code>a</code> do pliku, zapisz i sprawdź. Ile wynosi rozmiar? 1 B. Rozmiar na dysku nadal 0 B. NTFS działa trochę inaczej i jest w stanie dane krótkich plików zmieścić wraz z nazwą w jednym rekordzie bez zajmowania całego klastra. Po zwiększeniu pliku do 1 kB, rozmiar na dysku wyniesie 4 kB (w moim przypadku). Po zmniejszeniu pliku do 1 B, rozmiar na dysku pozostaje 4 kB. Widać, że ten system plików jest inteligentniejszy.</p>
+</blockquote>
+
+  </main>
+  <footer>
+    
+<div class="footer-links">
+    <p><a href="https://github.com/KyrietS">github</a></p>
+    <p><a href="/projects">projekty</a></p>
+    <p><a href="/about">o mnie</a></p>
+    <p><a href="/contact">kontakt</a></p>
+</div>
+
+
+<div class="footer-last-edited">
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/f87fa0652472909b376d8c8468a1296361f6db37">Ostatnia modyfikacja: 2024-02-08</a>
+</div>
+
+  </footer>
+</body>
+
+
+<script src="/js/main.js"></script>
+
+<!--Szata graficzna tego bloga została "zainspirowana" 😏 z tego bloga: https://thomashope.xyz/ -->
+</html>

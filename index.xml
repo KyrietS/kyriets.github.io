@@ -15,6 +15,13 @@
       <description>&lt;p&gt;Standardowo już każdy mój nowy blog otwieram wpisem o tym, jak powstał. Mam już za sobą conajmniej 5 blogów, każdy zbudowany na innej technologii. Tym razem postanowiłem wykorzystać &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Jak jest zbudowany system plików FAT</title>
+      <link>https://example.org/posts/jak-jest-zbudowany-fat/</link>
+      <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
+      <guid>https://example.org/posts/jak-jest-zbudowany-fat/</guid>
+      <description>&lt;p&gt;W tym wpisie opiszę podstawowe zasady działania systemu plików z rodziny FAT. Jeśli jesteś ciekawy co się dzieje &amp;ldquo;pod maską&amp;rdquo;, gdy dodajesz lub usuwasz plik na nośniku danych z systemem plików FAT, to zachęcam do lektury tego wpisu. Na przykładach i w praktyce pokażę jakie zmiany zachodzą na dysku podczas manipulacji plikami.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Kilka moich projektów</title>
       <link>https://example.org/projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
