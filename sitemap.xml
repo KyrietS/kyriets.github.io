@@ -2,33 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://example.org/categories/inne/</loc>
+    <loc>https://kyriets.github.io/categories/inne/</loc>
     <lastmod>2024-02-08T08:35:39+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/posts/jak-powstal-ten-blog/</loc>
+    <loc>https://kyriets.github.io/posts/jak-powstal-ten-blog/</loc>
     <lastmod>2024-02-08T08:35:39+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/posts/</loc>
+    <loc>https://kyriets.github.io/posts/</loc>
     <lastmod>2024-02-12T21:54:50+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/posts/jak-jest-zbudowany-fat/</loc>
+    <loc>https://kyriets.github.io/posts/jak-jest-zbudowany-fat/</loc>
     <lastmod>2024-02-12T21:54:50+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/</loc>
-    <lastmod>2024-02-08T22:16:18+01:00</lastmod>
+    <loc>https://kyriets.github.io/</loc>
+    <lastmod>2024-02-12T23:25:46+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/projects/</loc>
+    <loc>https://kyriets.github.io/projects/</loc>
     <lastmod>2024-02-06T22:34:35+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/contact/</loc>
+    <loc>https://kyriets.github.io/contact/</loc>
     <lastmod>2024-02-06T21:21:38+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/markdown-demo/</loc>
+    <loc>https://kyriets.github.io/markdown-demo/</loc>
     <lastmod>2024-02-05T22:37:08+01:00</lastmod>
   </url><url>
-    <loc>https://example.org/tags/</loc>
+    <loc>https://kyriets.github.io/tags/</loc>
   </url><url>
-    <loc>https://example.org/categories/</loc>
+    <loc>https://kyriets.github.io/categories/</loc>
     <lastmod>2024-02-08T08:35:39+01:00</lastmod>
   </url>
 </urlset>

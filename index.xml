@@ -2,44 +2,44 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cześć, tu Kyriet! 👋 on Kyriet&#39;S Blog 🦔</title>
-    <link>https://example.org/</link>
+    <link>https://kyriets.github.io/</link>
     <description>Recent content in Cześć, tu Kyriet! 👋 on Kyriet&#39;S Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl</language>
-    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://kyriets.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jak powstał ten blog</title>
-      <link>https://example.org/posts/jak-powstal-ten-blog/</link>
+      <link>https://kyriets.github.io/posts/jak-powstal-ten-blog/</link>
       <pubDate>Thu, 08 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>https://example.org/posts/jak-powstal-ten-blog/</guid>
+      <guid>https://kyriets.github.io/posts/jak-powstal-ten-blog/</guid>
       <description>&lt;p&gt;Standardowo już każdy mój nowy blog otwieram wpisem o tym, jak powstał. Mam już za sobą conajmniej 5 blogów, każdy zbudowany na innej technologii. Tym razem postanowiłem wykorzystać &lt;a href=&#34;https://gohugo.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34; class=&#34;external-link&#34; &gt;Hugo&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Jak jest zbudowany system plików FAT</title>
-      <link>https://example.org/posts/jak-jest-zbudowany-fat/</link>
+      <link>https://kyriets.github.io/posts/jak-jest-zbudowany-fat/</link>
       <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
-      <guid>https://example.org/posts/jak-jest-zbudowany-fat/</guid>
+      <guid>https://kyriets.github.io/posts/jak-jest-zbudowany-fat/</guid>
       <description>&lt;p&gt;W tym wpisie opiszę podstawowe zasady działania systemu plików z rodziny FAT. Jeśli jesteś ciekawy co się dzieje &amp;ldquo;pod maską&amp;rdquo;, gdy dodajesz lub usuwasz plik na nośniku danych z systemem plików FAT, to zachęcam do lektury tego wpisu. Na przykładach i w praktyce pokażę jakie zmiany zachodzą na dysku podczas manipulacji plikami.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kilka moich projektów</title>
-      <link>https://example.org/projects/</link>
+      <link>https://kyriets.github.io/projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.org/projects/</guid>
+      <guid>https://kyriets.github.io/projects/</guid>
       <description></description>
     </item>
     <item>
       <title>Kontakt</title>
-      <link>https://example.org/contact/</link>
+      <link>https://kyriets.github.io/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.org/contact/</guid>
+      <guid>https://kyriets.github.io/contact/</guid>
       <description>Strona jest w budowie i nie posiada jeszcze systemu komentarzy. Jeśli chcesz się ze mną skontaktować w jakiejś sprawie, możesz to zrobić przez poniższy formularz kontaktowy.</description>
     </item>
     <item>
       <title>Markdown Demo Showcase</title>
-      <link>https://example.org/markdown-demo/</link>
+      <link>https://kyriets.github.io/markdown-demo/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.org/markdown-demo/</guid>
+      <guid>https://kyriets.github.io/markdown-demo/</guid>
       <description>This is a demo of the Markdown syntax.&#xA;Paragraphs Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.&#xA;Ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</description>
     </item>
   </channel>

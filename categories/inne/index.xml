@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Inne on Kyriet&#39;S Blog 🦔</title>
-    <link>https://example.org/categories/inne/</link>
+    <link>https://kyriets.github.io/categories/inne/</link>
     <description>Recent content in Inne on Kyriet&#39;S Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl</language>
     <lastBuildDate>Thu, 08 Feb 2024 08:35:39 +0100</lastBuildDate>
-    <atom:link href="https://example.org/categories/inne/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://kyriets.github.io/categories/inne/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jak powstał ten blog</title>
-      <link>https://example.org/posts/jak-powstal-ten-blog/</link>
+      <link>https://kyriets.github.io/posts/jak-powstal-ten-blog/</link>
       <pubDate>Thu, 08 Feb 2024 00:00:00 +0000</pubDate>
-      <guid>https://example.org/posts/jak-powstal-ten-blog/</guid>
+      <guid>https://kyriets.github.io/posts/jak-powstal-ten-blog/</guid>
       <description>&lt;p&gt;Standardowo już każdy mój nowy blog otwieram wpisem o tym, jak powstał. Mam już za sobą conajmniej 5 blogów, każdy zbudowany na innej technologii. Tym razem postanowiłem wykorzystać &lt;a href=&#34;https://gohugo.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34; class=&#34;external-link&#34; &gt;Hugo&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
   </channel>
