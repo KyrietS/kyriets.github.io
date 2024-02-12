@@ -27,7 +27,7 @@ pre {
     background-color: #222 !important;
 }
 
-p code {
+:not(pre) > code {
     background-color: #222;
     border-color: #4f4f4f;
 }
