@@ -39,20 +39,44 @@
   <time datetime="2020-05-02" style="display: none">2020-05-02</time>
 
   <p>W tym wpisie opiszę podstawowe zasady działania systemu plików z rodziny FAT. Jeśli jesteś ciekawy co się dzieje &ldquo;pod maską&rdquo;, gdy dodajesz lub usuwasz plik na nośniku danych z systemem plików FAT, to zachęcam do lektury tego wpisu. Na przykładach i w praktyce pokażę jakie zmiany zachodzą na dysku podczas manipulacji plikami.</p>
-<h2 id="z-tego-wpisu-dowiesz-się">Z tego wpisu dowiesz się</h2>
-<ul>
+<h2 id="z-tego-wpisu-dowiesz-się">Z tego wpisu dowiesz się 
+  <a href="#z-tego-wpisu-dowiesz-si%c4%99" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><ul>
 <li>Jakie informacje można znaleźć w <em>Boot Sector</em></li>
 <li>Czym jest tablica alokacji (FAT)</li>
 <li>Jak reprezentowany jest plik na dysku z systemem FAT</li>
 <li>Jak przywrócić plik po usunięciu go z dysku z systemem FAT</li>
 </ul>
-<h2 id="czym-jest-system-plików">Czym jest system plików</h2>
-<p><em>System plików</em> jest to metoda przechowywania i zarządzania danymi na nośniku pamięci. Najmniejszą porcję danych użytkownika w systemie plików najczęściej stanowi plik. Do opisania budowy FAT potrzebne nam będą bardziej szczegółowe pojęcia: <em>bajt</em>, <em>sektor</em> i <em>klaster</em>. Definicja ta nie jest szczególnie istotna i przydatna w życiu. Jeśli potrzebujesz to wiedzieć do kolokwium, to zajrzyj do <a href="https://pl.wikipedia.org/wiki/System_plik%C3%B3w">Wikipedii</a>.</p>
+<h2 id="czym-jest-system-plików">Czym jest system plików 
+  <a href="#czym-jest-system-plik%c3%b3w" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p><em>System plików</em> jest to metoda przechowywania i zarządzania danymi na nośniku pamięci. Najmniejszą porcję danych użytkownika w systemie plików najczęściej stanowi plik. Do opisania budowy FAT potrzebne nam będą bardziej szczegółowe pojęcia: <em>bajt</em>, <em>sektor</em> i <em>klaster</em>. Definicja ta nie jest szczególnie istotna i przydatna w życiu. Jeśli potrzebujesz to wiedzieć do kolokwium, to zajrzyj do <a href="https://pl.wikipedia.org/wiki/System_plik%C3%B3w">Wikipedii</a>.</p>
 <p>Po przeczytaniu tego wpisu <em>wyczujesz</em> czym jest system plików i będziesz się czuł pewnie, aby opowiedzieć co taki system robi.</p>
-<h2 id="budowa-fat">Budowa FAT</h2>
-<p>Zacznijmy od pokazania jak taki system plików wygląda. Wszystkie czynności tutaj przedstawione wykonuję na komputerze z systemem Linux Mint.</p>
-<h3 id="utworzenie-czystego-systemu-plików-fat">Utworzenie czystego systemu plików FAT</h3>
-<p>Będziemy potrzebowali urządzenia do testów. Takiego, na którym będziemy mogli wykonywać normalne operacje na plikach (utwórz, kopiuj, usuń). Niezbędna jest również możliwość niskopoziomowego podglądu jak dane są zapisane na nośniku (bajt po bajcie).</p>
+<h2 id="budowa-fat">Budowa FAT 
+  <a href="#budowa-fat" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Zacznijmy od pokazania jak taki system plików wygląda. Wszystkie czynności tutaj przedstawione wykonuję na komputerze z systemem Linux Mint.</p>
+<h3 id="utworzenie-czystego-systemu-plików-fat">Utworzenie czystego systemu plików FAT 
+  <a href="#utworzenie-czystego-systemu-plik%c3%b3w-fat" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Będziemy potrzebowali urządzenia do testów. Takiego, na którym będziemy mogli wykonywać normalne operacje na plikach (utwórz, kopiuj, usuń). Niezbędna jest również możliwość niskopoziomowego podglądu jak dane są zapisane na nośniku (bajt po bajcie).</p>
 <p>Na szczęście nie będziemy używać fizycznego urządzenia. Stworzymy plik, który następnie zamontujemy w systemie jako wirtualny &ldquo;nośnik danych&rdquo;. Można sobie to zestawić z analogią do fizycznego pendrive&rsquo;a. Plik to nasz pendrive, a montowanie pliku w systemie, to po prostu wpięcie pendriva do komputera (coś jak plik z formatem <em>.iso</em>).</p>
 <p>Najpierw utwórzmy pusty plik o rozmiarze, powiedzmy 100kB. Rozmiar pliku w tym przypadku będzie oznaczał pojemność naszego wirtualnego urządzenia. +
 <em>Uwaga</em>: plikowi nie można tak po prostu nadać rozmiaru. Trzeba go czymś wypełnić. Tworzę więc plik o nazwie <code>fat.img</code> i wypełniam go bajtami o wartości zero (nie mylić z wypełnianiem pliku znakami cyfry &lsquo;0&rsquo;).</p>
@@ -95,8 +119,14 @@ mkfs.fat 4.1 (2017-01-24)
 *
 00019000
 </code></pre><p>Otrzymaliśmy pusty system plików na naszym urządzeniu. Gdybyśmy przy tworzeniu systemu plików zamiast pliku <code>fat.img</code> podali ścieżkę do zamontowanego pendrive&rsquo;a, to byśmy go w ten sposób sformatowali i ustawili na nim system plików FAT12.</p>
-<h3 id="budowa-boot-sectora-w-fat12">Budowa Boot Sectora w FAT12</h3>
-<p>Pierwsze 512 bajtów, a więc do offsetu <code>000001f0</code> zajmuje tzw. <em>Boot sector</em> naszego urządzenia. Znajdują się tam szczegółowe informacje o używanym systemie plików na urządzeniu. Boot sector w FAT zawsze kończy się sekwencją <code>55 aa</code>.</p>
+<h3 id="budowa-boot-sectora-w-fat12">Budowa Boot Sectora w FAT12 
+  <a href="#budowa-boot-sectora-w-fat12" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Pierwsze 512 bajtów, a więc do offsetu <code>000001f0</code> zajmuje tzw. <em>Boot sector</em> naszego urządzenia. Znajdują się tam szczegółowe informacje o używanym systemie plików na urządzeniu. Boot sector w FAT zawsze kończy się sekwencją <code>55 aa</code>.</p>
 <p>Po pełny opis co oznacza który bajt w tym sektorze możesz odwiedzić <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.2">tę stronę</a>.</p>
 <p>Ja wypiszę kilka ciekawych i najważniejszych wartości.</p>
 <table>
@@ -197,8 +227,14 @@ mkfs.fat 4.1 (2017-01-24)
 <em>Klaster</em> to zbiór <em>sektorów</em> o stałym rozmiarze.</p>
 <p>Mamy informację, że tablica alokacji FAT <em>(File Allocation Table)</em> składa się z jednego sektora, a więc z 512 bajtów. Wiemy również, że nasz system plików przechowuje 2 kopie tablicy alokacji (jest to pewna forma zabezpieczenia). Sprawdźmy, czy to co odczytaliśmy z <em>Boot Sectora</em> się zgadza.</p>
 <p>Dokładnie od offsetu 512 zaczyna się pierwsza tablica alokacji FAT, która kończy się 512 bajtów dalej. Następnie zaczyna się identyczna kopia FAT. Są tam już wpisane jakieś wartości. Omówimy je za moment.</p>
-<h3 id="budowa-tablicy-alokacji-fat">Budowa tablicy alokacji FAT</h3>
-<p>Tablica alokacji jest taką mapą po pamięci. Jeśli mamy jakiś duży plik, który zajmuje kilka sektorów, tablica alokacji powie nam które kolejne sektory powinniśmy odczytywać, aby otrzymać cały plik.</p>
+<h3 id="budowa-tablicy-alokacji-fat">Budowa tablicy alokacji FAT 
+  <a href="#budowa-tablicy-alokacji-fat" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Tablica alokacji jest taką mapą po pamięci. Jeśli mamy jakiś duży plik, który zajmuje kilka sektorów, tablica alokacji powie nam które kolejne sektory powinniśmy odczytywać, aby otrzymać cały plik.</p>
 <p>W FAT12 jeden klaster jest kodowany na 12 bitach, a więc jest to 1,5 bajta. Powoduje to trochę komplikacji przy próbie ręcznego odczytywania wartości z postaci szesnastkowej, którą my mamy. Dla FAT16 i FAT32 jest to dużo prostsze.</p>
 <p>Odczytajmy zawartość tablicy alokacji, bo widać, że już coś się tam w niej znajduje. Zaczynamy od offsetu 512. Algorytm jest następujący:</p>
 <ul>
@@ -257,8 +293,14 @@ mkfs.fat 4.1 (2017-01-24)
 </table>
 <p>Wiemy zatem, że klastry 0 i 1 są ostatnimi klastrami. Nasze urządzenie nie ma jeszcze żadnego pliku, więc klastry te nie reprezentują żadnego pliku.</p>
 <p>Co to znaczy, że klaster jest ostatni? Pokażemy to dokładnie później, przy omawianiu plików, które zajmują więcej niż jeden klaster.</p>
-<h3 id="root-directory-table">Root Directory Table</h3>
-<p>Dodajmy w końcu jakiś plik do naszego urządzenia i zobaczmy co się zmieni. Najpierw będziemy musieli zamontować nasze urządzenie <code>fat.img</code> w systemie.</p>
+<h3 id="root-directory-table">Root Directory Table 
+  <a href="#root-directory-table" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Dodajmy w końcu jakiś plik do naszego urządzenia i zobaczmy co się zmieni. Najpierw będziemy musieli zamontować nasze urządzenie <code>fat.img</code> w systemie.</p>
 <pre tabindex="0"><code>$ mkdir fs
 $ sudo mount -t msdos fat.img fs -o umask=000,loop
 </code></pre><p>Po utworzeniu katalogu montujemy do niego nasze urządzenie. Dodatkowe opcje, których używamy rozwiązują problem uprawnień (umask) i pozwalają zamontować plik jako urządzenie <a href="https://en.wikipedia.org/wiki/Loop_device">Loop Device</a>.</p>
@@ -324,8 +366,14 @@ $ od -Ax -tx1z fat.img
 </tbody>
 </table>
 <p>Po więcej informacji zajrzyj <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.4">tutaj</a>.</p>
-<h2 id="odczytywanie-krótkiego-pliku">Odczytywanie krótkiego pliku</h2>
-<p>Spróbujmy odczytać plik <code>hello</code> z naszego urządzenia w podobny sposób jak robi to komputer.</p>
+<h2 id="odczytywanie-krótkiego-pliku">Odczytywanie krótkiego pliku 
+  <a href="#odczytywanie-kr%c3%b3tkiego-pliku" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Spróbujmy odczytać plik <code>hello</code> z naszego urządzenia w podobny sposób jak robi to komputer.</p>
 <p>W <em>Root Directory Table</em> po nazwie odnajdujemy nasz plik <code>hello</code>.</p>
 <pre tabindex="0"><code>000600 48 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;HELLO       ....&lt;
 000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
@@ -388,8 +436,14 @@ ff8 fff 000 fff - wynik końcowy
 *
 </code></pre><p>Plik w systemie FAT nie może zajmować zajmować na dysku mniej niż jeden klaster. Nawet jeśli zawiera kilka liter jak w naszym przypadku. Musimy zatem wiedzieć gdzie w klastrze kończą się dane pliku. Odczytaliśmy wcześniej rozmiar pliku, który wynosi <em>6 bajtów</em>.</p>
 <p>6 pierwszych bajtów trzeciego klastra to: <code>Witaj\n</code>. Koniec.</p>
-<h2 id="odczytywanie-długiego-pliku">Odczytywanie długiego pliku</h2>
-<p>Przyjżyjmy się teraz co się stanie, gdy plik będzie dłuższy niż jeden klaster. Najpierw musimy taki plik utworzyć. Zróbmy to inteligentnie. Odczytaliśmy wcześniej, że klaster składa się z 4 sektorów. Jeden sektor ma 512 bajtów, zatem klaster pomieści 2048 bajtów.</p>
+<h2 id="odczytywanie-długiego-pliku">Odczytywanie długiego pliku 
+  <a href="#odczytywanie-d%c5%82ugiego-pliku" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Przyjżyjmy się teraz co się stanie, gdy plik będzie dłuższy niż jeden klaster. Najpierw musimy taki plik utworzyć. Zróbmy to inteligentnie. Odczytaliśmy wcześniej, że klaster składa się z 4 sektorów. Jeden sektor ma 512 bajtów, zatem klaster pomieści 2048 bajtów.</p>
 <p>Plik, który dodamy będzie się składał z 2048 literek <code>a</code>, a na koniec dokleimy <code>bcdef</code>. Jeśli nasze obliczenia są poprawne, to literki <code>a</code> zostaną zapisane do jednego sektora, a dalsza część pliku <code>bcdef</code> do innego.</p>
 <p>Przechodzimy do katalogu <code>fs</code> i generujemy plik.</p>
 <pre tabindex="0"><code>$ python -c &#34;print(&#39;a&#39;*2048 + &#39;bcdef&#39;)&#34; &gt; duzy
@@ -441,8 +495,14 @@ ff8 fff 000 fff 005 fff- wynik końcowy
 <p>Teraz wystarczy przeczytać klastry w kolejności <code>[4][5]</code>. Klaster <code>[4]</code> zaczyna się od offsetu <code>005600</code> i rzeczywiście 2048 bajtów dalej, tam gdzie spodziewamy się klastra <code>[5]</code> odnajdujemy dalszą część pliku <code>bcdef</code>.</p>
 <p>Myślę, że już <em>czujesz</em> jak ten system działa. Oczywiście są to tylko proste operacje. Zachęcam do samodzielnego eksperymentowania. Jak system plików będzie zaśmiecony, to zawsze możesz utworzyć nowy. Spróbuj np. dopisać coś do któregoś z plików i sprawdź co się stanie
 <em>(spoiler: stara wersja pliku sprzed zmiany zostanie zachowana w pamięci)</em>.</p>
-<h2 id="usuwanie-i-odzyskiwanie-pliku">Usuwanie i odzyskiwanie pliku</h2>
-<p>Przechodzimy do jednej z najciekawszych rzeczy, czyli co się dzieje gdy usuwamy plik i czy można go odzyskać. Jeśli tak, to jak to zrobić. Tym się teraz zajmiemy.</p>
+<h2 id="usuwanie-i-odzyskiwanie-pliku">Usuwanie i odzyskiwanie pliku 
+  <a href="#usuwanie-i-odzyskiwanie-pliku" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Przechodzimy do jednej z najciekawszych rzeczy, czyli co się dzieje gdy usuwamy plik i czy można go odzyskać. Jeśli tak, to jak to zrobić. Tym się teraz zajmiemy.</p>
 <p>Nadal będziemy pracować na pliku <code>fat.img</code>, który mamy z poprzednich paragrafów. Jeśli Twój obecny po zabawach uległ uszkodzeniu lub zaśmieceniu, to możesz go odtworzyć w ten sposób:</p>
 <pre tabindex="0"><code>dd if=/dev/zero of=fat.img bs=1024 count=100
 mkfs.msdos fat.img
@@ -477,8 +537,14 @@ sync
 *
 019000
 </code></pre><p>Mamy zatem dwa pliki. Jeden mały i duży. Każdy z nich usuniemy i spróbujemy odzyskać.</p>
-<h3 id="usuwanie-krótkiego-pliku">Usuwanie krótkiego pliku</h3>
-<p>Sama procedura jest dość prosta. Po prostu wchodzimy do kadalogu <code>fs</code> i usuwamy plik <code>hello</code>.</p>
+<h3 id="usuwanie-krótkiego-pliku">Usuwanie krótkiego pliku 
+  <a href="#usuwanie-kr%c3%b3tkiego-pliku" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Sama procedura jest dość prosta. Po prostu wchodzimy do kadalogu <code>fs</code> i usuwamy plik <code>hello</code>.</p>
 <pre tabindex="0"><code>$ rm hello
 $ sync
 </code></pre><p>No i poszło. Pliku nie ma, ale pytanie co się w praktyce stało? Okazuje się, że w całym pliku <code>fat.img</code> zmieniło się tylko <em>kilka bajtów</em>. To wyjaśnia dlaczego usuwanie pliku jest dużo szybsze niż jego kopiowanie. Dane cały czas siedzą na dysku. Poniżej wycinek zrzutu pamięci po usunięciu pliku <code>hello</code>.</p>
@@ -500,8 +566,14 @@ $ sync
 <li>Bajt z pierwszą literą w nazwie pliku zmienił wartość na <code>e5</code>.</li>
 </ul>
 <p>Plik i jego dane nadal znajdują się na dysku. Oczywiście może zostać w każdej chwili nadpisany jeśli zaczniemy tworzyć nowe pliki.</p>
-<h3 id="odzyskiwanie-krótkiego-pliku">Odzyskiwanie krótkiego pliku</h3>
-<p>Co należy zrobić, aby odzyskać ten plik? W przypadku pliku, który zajmuje tylko jeden klaster jest to proste.</p>
+<h3 id="odzyskiwanie-krótkiego-pliku">Odzyskiwanie krótkiego pliku 
+  <a href="#odzyskiwanie-kr%c3%b3tkiego-pliku" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Co należy zrobić, aby odzyskać ten plik? W przypadku pliku, który zajmuje tylko jeden klaster jest to proste.</p>
 <ul>
 <li>Odnajdujemy plik w <em>Root Directory Table</em> (lub w folderze gdzie się znajdował)</li>
 <li>Odczytujemy klaster od którego się rozpoczyna ten plik.</li>
@@ -513,8 +585,14 @@ $ sync
 <p>Aby to wykonać można posłużyć się jakimś Hexedytorem. Jest to oczywiste, gdy dane mamy zapisane w pliku.</p>
 <p>Co jeśli chcemy to wykonać na urządzeniu typu pendrive? Jest to trochę trudniejsze, ale nadal wykonalne. Wystarczy zrzucić z pendrive&rsquo;a pamięć do pliku, podobnie jak robiliśmy tworząc plik <code>fat.img</code> programem <code>dd</code>. Nie musimy nawet zrzucać całości, wystarczy fragment. Po dokonaniu zmian wgrywamy zmodyfikowaną pamięć do urządzenia (w to samo miejsce, z którego ją pobraliśmy).</p>
 <p>Problemy się zaczynają, gdy chcemy odzyskać duży plik. Taki, który zajmował kilka klastrów.</p>
-<h3 id="usuwanie-długiego-pliku">Usuwanie długiego pliku</h3>
-<p>Usuńmy <code>duzy</code> plik i popatrzmy co się stało.</p>
+<h3 id="usuwanie-długiego-pliku">Usuwanie długiego pliku 
+  <a href="#usuwanie-d%c5%82ugiego-pliku" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Usuńmy <code>duzy</code> plik i popatrzmy co się stało.</p>
 <pre tabindex="0"><code>$ rm duzy
 $ sync
 </code></pre><p>A oto efekt naszych zmian.</p>
@@ -540,8 +618,14 @@ $ sync
 *
 019000
 </code></pre><p>Tablica alokacji jest pusta. Wszystkie klastry zajmowane przez plik zostały zwolnione, a pierwszy bajt w nazwie pliku <code>duzy</code> ma wartość <code>e5</code>. Żadnych zaskoczeń.</p>
-<h3 id="odzyskiwanie-długiego-pliku">Odzyskiwanie długiego pliku</h3>
-<p>Teraz mamy problem i to poważny. Co prawda z <em>Root Directory Table</em> nadal możemy odczytać pierwszy sektor zajmowany przez plik, ale gdy udamy się do tablicy alokacji pod wskazany sektor, to okaże się, że jest on wolny <code>000</code>. To świetne wieści, ale pozostaje pytanie, <em>który klaster jest tym następny</em>?</p>
+<h3 id="odzyskiwanie-długiego-pliku">Odzyskiwanie długiego pliku 
+  <a href="#odzyskiwanie-d%c5%82ugiego-pliku" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h3><p>Teraz mamy problem i to poważny. Co prawda z <em>Root Directory Table</em> nadal możemy odczytać pierwszy sektor zajmowany przez plik, ale gdy udamy się do tablicy alokacji pod wskazany sektor, to okaże się, że jest on wolny <code>000</code>. To świetne wieści, ale pozostaje pytanie, <em>który klaster jest tym następny</em>?</p>
 <p>Po rozmiarze pliku możemy obliczyć ile klastrów będzie on zajmować. Musimy je &ldquo;tylko&rdquo; odnaleźć i to jeszcze <em>w dobrej kolejności</em>.</p>
 <p>Niestety nie ma tutaj błyskotliwego rozwiązania tego problemu. Zgadywanie zwykle nie wchodzi w grę. Jest jednak wiele metod, które pozwolą zwiększyć szansę na odzyskanie takiego pliku. Poniżej kilka z nich:</p>
 <ul>
@@ -551,8 +635,14 @@ $ sync
 </ul>
 <p>Jest zapewne dużo więcej sposobów. Wiele z nich to tajemnice firm produkujących oprogramowanie do odzyskiwania danych z dysków. Jeśli próbowałeś kiedyś któregoś z tych &ldquo;darmowych&rdquo; narzędzi do odzyskiwania plików po ich usunięciu, to wiesz już teraz dlaczego one z taką łatwością wypisywały usunięte pliki z nazwami, a za ich odzyskanie trzeba było już zapłacić. Odnalezienie usuniętych plików jest po prostu banalnie proste.</p>
 <p>Mówię tutaj oczywiście o formacie FAT. Struktury plików zapisanych w NTFS czy ext są zupełnie inne i bardziej skomplikowane. Nawet w samym FAT32 jest już sporo zmian w stosunku do FAT12, który przedstawiałem.</p>
-<h2 id="podsumowanie">Podsumowanie</h2>
-<p>Jeśli nigdy wcześniej nie miałeś, czytelniku, okazji pobawić się z systemem plików, to mam nadzieję, że wykonane tutaj eksperymenty i zaprezentowane przykłady sporo nauczyły. To dopiero wierzchołek góry lodowej. O samym FAT12 możnaby zrobić jeszcze 10 podobnej długości artykułów. Zamiast to robić, lepszym pomysłem jest zapoznanie się z nowszymi systemami plików. Porównać omówiony tutaj FAT12 z używanym jeszcze powszechnie na pendrive&rsquo;ach FAT32.</p>
+<h2 id="podsumowanie">Podsumowanie 
+  <a href="#podsumowanie" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Jeśli nigdy wcześniej nie miałeś, czytelniku, okazji pobawić się z systemem plików, to mam nadzieję, że wykonane tutaj eksperymenty i zaprezentowane przykłady sporo nauczyły. To dopiero wierzchołek góry lodowej. O samym FAT12 możnaby zrobić jeszcze 10 podobnej długości artykułów. Zamiast to robić, lepszym pomysłem jest zapoznanie się z nowszymi systemami plików. Porównać omówiony tutaj FAT12 z używanym jeszcze powszechnie na pendrive&rsquo;ach FAT32.</p>
 <p>Do czego może się przydać taka wiedza? Mało kto ręcznie grzebie w bajtach, więc wiedza o działaniu systemu plików przyda się do napisania oprogramowania, który na takim systemie operuje. Poza tym daje ogólne <em>zrozumienie wielu procesów, które zachodzą w komputerze</em>. Mimo, że o tym nie wspomniałem, to po przeczytaniu tego artykułu powinieneś już rozumieć dlaczego w Windowsie każdy plik ma <em>rozmiar</em> i <em>rozmiar na dysku</em>. To tak jak nasz krótki plik, który miał rozmiar 6 bajtów, a na dysku zajmował jeden klaster, a więc 2 kB. To spore marnotrawstwo pamięci i współczesne systemy plików lepiej sobie z tym radzą.</p>
 <!-- | Dygresja o NTFS |
 | :-------------: |

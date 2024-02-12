@@ -78,6 +78,25 @@ a:hover {
   text-decoration: underline;
 }
 
+.anchor {
+  visibility: hidden;
+}
+.anchor > svg {
+  position: relative;
+  width: 1em;
+  height: 1em;
+  top: .12em;
+  left: .1em;
+}
+h1:hover > .anchor,
+h2:hover > .anchor,
+h3:hover > .anchor,
+h4:hover > .anchor,
+h5:hover > .anchor,
+h6:hover > .anchor {
+  visibility: visible;
+}
+
 pre, code {
   font-family: 'Roboto Mono', monospace;
   font-size: 0.9em;
