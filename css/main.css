@@ -77,9 +77,6 @@ a {
 a:hover {
   text-decoration: underline;
 }
-a.external-link::after {
-  content: " " url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAgklEQVQY042PsRXCMBBDZV5apvFOcksZSiZIfS6yhbe4m0kpgBDiPIJKvS/dKWEvSjhTNm80b/+FKWVz7b0B9I5mzo/SN2xASuaaAMBcZW2m9AGf0PyCJlACJZo3ULq8y4y4R8TVXHOpuAEB1JQCAGpKX6fNNa4Lu98Pxhz5w094owWyVlPPCYVxeQAAAABJRU5ErkJggg==);
-}
 
 .anchor {
   visibility: hidden;

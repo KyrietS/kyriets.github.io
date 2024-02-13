@@ -59,7 +59,7 @@
         <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
     </svg>
   </a>
-</h2><p><em>System plików</em> jest to metoda przechowywania i zarządzania danymi na nośniku pamięci. Najmniejszą porcję danych użytkownika w systemie plików najczęściej stanowi plik. Do opisania budowy FAT potrzebne nam będą bardziej szczegółowe pojęcia: <em>bajt</em>, <em>sektor</em> i <em>klaster</em>. Definicja ta nie jest szczególnie istotna i przydatna w życiu. Jeśli potrzebujesz to wiedzieć do kolokwium, to zajrzyj do <a href="https://pl.wikipedia.org/wiki/System_plik%C3%B3w" rel="noopener" class="external-link" >Wikipedii</a>.</p>
+</h2><p><em>System plików</em> jest to metoda przechowywania i zarządzania danymi na nośniku pamięci. Najmniejszą porcję danych użytkownika w systemie plików najczęściej stanowi plik. Do opisania budowy FAT potrzebne nam będą bardziej szczegółowe pojęcia: <em>bajt</em>, <em>sektor</em> i <em>klaster</em>. Definicja ta nie jest szczególnie istotna i przydatna w życiu. Jeśli potrzebujesz to wiedzieć do kolokwium, to zajrzyj do <a href="https://pl.wikipedia.org/wiki/System_plik%C3%B3w">Wikipedii</a>.</p>
 <p>Po przeczytaniu tego wpisu <em>wyczujesz</em> czym jest system plików i będziesz się czuł pewnie, aby opowiedzieć co taki system robi.</p>
 <h2 id="budowa-fat">Budowa FAT 
   <a href="#budowa-fat" class="anchor">
@@ -127,7 +127,7 @@ mkfs.fat 4.1 (2017-01-24)
     </svg>
   </a>
 </h3><p>Pierwsze 512 bajtów, a więc do offsetu <code>000001f0</code> zajmuje tzw. <em>Boot sector</em> naszego urządzenia. Znajdują się tam szczegółowe informacje o używanym systemie plików na urządzeniu. Boot sector w FAT zawsze kończy się sekwencją <code>55 aa</code>.</p>
-<p>Po pełny opis co oznacza który bajt w tym sektorze możesz odwiedzić <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.2" rel="noopener" class="external-link" >tę stronę</a>.</p>
+<p>Po pełny opis co oznacza który bajt w tym sektorze możesz odwiedzić <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.2">tę stronę</a>.</p>
 <p>Ja wypiszę kilka ciekawych i najważniejszych wartości.</p>
 <table>
 <thead>
@@ -221,7 +221,7 @@ mkfs.fat 4.1 (2017-01-24)
 </tr>
 </tbody>
 </table>
-<p>Mimo tego, że Boot Sector mamy przedstawiony w postaci ciągu bajtów zapisanych szesnastkowo, muszę rozróżniać tutaj wartość odczytaną (raw) od wartości liczbowej, którą reprezentuje ten zapis (hex). Wartość uzyskamy czytając bajty w odwrotnej kolejności. Jeśli nie rozumiesz dlaczego, przeczytaj o formie zapisu <a href="https://pl.wikipedia.org/wiki/Kolejno%C5%9B%C4%87_bajt%C3%B3w" rel="noopener" class="external-link" >Little Endian</a>.</p>
+<p>Mimo tego, że Boot Sector mamy przedstawiony w postaci ciągu bajtów zapisanych szesnastkowo, muszę rozróżniać tutaj wartość odczytaną (raw) od wartości liczbowej, którą reprezentuje ten zapis (hex). Wartość uzyskamy czytając bajty w odwrotnej kolejności. Jeśli nie rozumiesz dlaczego, przeczytaj o formie zapisu <a href="https://pl.wikipedia.org/wiki/Kolejno%C5%9B%C4%87_bajt%C3%B3w">Little Endian</a>.</p>
 <p>Z opisów z tabel już się pewnie domyślasz jaki stosunek do siebie mają <em>bajty</em>, <em>sektory</em> i <em>klastry</em>.</p>
 <p><em>Sektor</em> to zbiór <em>bajtów</em> o stałym rozmiarze.
 <em>Klaster</em> to zbiór <em>sektorów</em> o stałym rozmiarze.</p>
@@ -303,7 +303,7 @@ mkfs.fat 4.1 (2017-01-24)
 </h3><p>Dodajmy w końcu jakiś plik do naszego urządzenia i zobaczmy co się zmieni. Najpierw będziemy musieli zamontować nasze urządzenie <code>fat.img</code> w systemie.</p>
 <pre tabindex="0"><code>$ mkdir fs
 $ sudo mount -t msdos fat.img fs -o umask=000,loop
-</code></pre><p>Po utworzeniu katalogu montujemy do niego nasze urządzenie. Dodatkowe opcje, których używamy rozwiązują problem uprawnień (umask) i pozwalają zamontować plik jako urządzenie <a href="https://en.wikipedia.org/wiki/Loop_device" rel="noopener" class="external-link" >Loop Device</a>.</p>
+</code></pre><p>Po utworzeniu katalogu montujemy do niego nasze urządzenie. Dodatkowe opcje, których używamy rozwiązują problem uprawnień (umask) i pozwalają zamontować plik jako urządzenie <a href="https://en.wikipedia.org/wiki/Loop_device">Loop Device</a>.</p>
 <p>Możemy teraz przejść do folderu <code>fs</code>. Będzie pusty. Utwórzmy tam plik.</p>
 <pre tabindex="0"><code>$ cd fs
 $ echo &#34;Witaj&#34; &gt; hello
@@ -365,7 +365,7 @@ $ od -Ax -tx1z fat.img
 </tr>
 </tbody>
 </table>
-<p>Po więcej informacji zajrzyj <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.4" rel="noopener" class="external-link" >tutaj</a>.</p>
+<p>Po więcej informacji zajrzyj <a href="https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html#ss1.4">tutaj</a>.</p>
 <h2 id="odczytywanie-krótkiego-pliku">Odczytywanie krótkiego pliku 
   <a href="#odczytywanie-kr%c3%b3tkiego-pliku" class="anchor">
     <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -377,7 +377,7 @@ $ od -Ax -tx1z fat.img
 <p>W <em>Root Directory Table</em> po nazwie odnajdujemy nasz plik <code>hello</code>.</p>
 <pre tabindex="0"><code>000600 48 45 4c 4c 4f 20 20 20 20 20 20 20 00 00 00 00  &gt;HELLO       ....&lt;
 000610 00 00 00 00 00 00 fc 6d 07 4f 03 00 06 00 00 00  &gt;.......m.O......&lt;
-</code></pre><p>Odnajduję rozmiar pliku na bajtach 28-31. Jest to więc liczba 4-bajtowa zapisana w <a href="https://pl.wikipedia.org/wiki/Kolejno%C5%9B%C4%87_bajt%C3%B3w" rel="noopener" class="external-link" >Little Endian</a>. <em>Rozmiar pliku to 6 bajtów</em></p>
+</code></pre><p>Odnajduję rozmiar pliku na bajtach 28-31. Jest to więc liczba 4-bajtowa zapisana w <a href="https://pl.wikipedia.org/wiki/Kolejno%C5%9B%C4%87_bajt%C3%B3w">Little Endian</a>. <em>Rozmiar pliku to 6 bajtów</em></p>
 <table>
 <thead>
 <tr>
