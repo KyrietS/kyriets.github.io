@@ -8,6 +8,20 @@
     <language>pl</language>
     <atom:link href="https://kyriets.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Google Mock: Nadpisanie &lt;code&gt;EXPECT_CALL&lt;/code&gt;-a</title>
+      <link>https://kyriets.github.io/posts/google-mock-nadpisanie-expect-calla/</link>
+      <pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/google-mock-nadpisanie-expect-calla/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;EXPECT_CALL jest nienadpisywalny&lt;/strong&gt;. Nie oznacza to, że nie można mieć kilku &lt;code&gt;EXPECT_CALL&lt;/code&gt;-ów na tę samą funkcję.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Google Mock: &lt;code&gt;ON_CALL&lt;/code&gt; &#43; &lt;code&gt;EXPECT_CALL&lt;/code&gt;</title>
+      <link>https://kyriets.github.io/posts/google-mock-on-call-&#43;-expect-call/</link>
+      <pubDate>Sat, 04 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/google-mock-on-call-&#43;-expect-call/</guid>
+      <description>&lt;p&gt;Krótki wpis o tym jak &lt;code&gt;ON_CALL&lt;/code&gt; i &lt;code&gt;EXPECT_CALL&lt;/code&gt; mogą się uzupełniać. Warto pamiętać, że &lt;code&gt;EXPECT_CALL&lt;/code&gt; nie &amp;ldquo;nadpisuje&amp;rdquo; zachowań zdefiniowanych przez &lt;code&gt;ON_CALL&lt;/code&gt;. Oba te makra można stosować jednocześnie na tym samym mocku.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Refleksja nad sukcesem Steve&#39;a Jobsa na podstawie książki „Steve Jobs” Waltera Isaacsona</title>
       <link>https://kyriets.github.io/posts/refleksja-nad-sukcesem-stevea-jobsa/</link>
       <pubDate>Fri, 16 Feb 2024 00:00:00 +0000</pubDate>

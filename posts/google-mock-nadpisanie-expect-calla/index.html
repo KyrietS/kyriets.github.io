@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Google Mock: Nadpisanie &lt;code&gt;EXPECT_CALL&lt;/code&gt;-a | Kyriet&#39;s Blog 🦔</title>
+
+<link rel="stylesheet" href="/css/main.css?v1" id="main-stylesheet">
+<link rel="prefetch" href="/css/highlight-light.css?v1" id="highlight-light-stylesheet">
+
+
+<link rel="stylesheet" href="/css/dark.css?v1" id="dark-stylesheet">
+<link rel="stylesheet" href="/css/highlight-dark.css?v1" id="highlight-dark-stylesheet">
+
+
+
+</head>
+<body>
+  <header>
+    
+
+  <nav>
+    <div id="navigation">
+      <a href="/">Home</a>
+      <a href="/projects/">Projekty</a>
+  
+  
+    
+      <a href="/en/posts/google-mock-override-expect-call/">In English</a>
+    
+  
+  
+  <span id="toggle-theme-button" title="Toggle light/dark theme">🌞</span>
+    </div>
+    <span id="site-title">Kyriet&#39;s Blog 🦔</span>
+  </nav>
+
+
+  </header>
+  <main>
+    
+  <h1>Google Mock: Nadpisanie <code>EXPECT_CALL</code>-a</h1>
+
+   
+  <time datetime="2024-05-05" style="display: none">2024-05-05</time>
+
+  <p><strong>EXPECT_CALL jest nienadpisywalny</strong>. Nie oznacza to, że nie można mieć kilku <code>EXPECT_CALL</code>-ów na tę samą funkcję.</p>
+<h2 id="przykład-1">PRZYKŁAD 1 
+  <a href="#przyk%c5%82ad-1" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+</span></span></code></pre></div><p>W teście będą obowiązywały <strong>oba</strong> <code>EXPECT_CALL</code>-e. Test przejdzie tylko wtedy, kiedy funkcja <code>myMethod</code> zostanie wywołana raz z argumentem <code>1</code> i raz z argumentem <code>2</code>. Kolejność tych wywołań nie ma znaczenia.</p>
+<p>Test sfailuje gdy:</p>
+<ul>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy z argumentem <code>1</code> lub <code>2</code>.</li>
+<li>Funkcja <code>myMethod</code> zostanie wywołana z argumentem innym niż <code>1</code> i <code>2</code>.</li>
+</ul>
+<h2 id="przykład-2">PRZYKŁAD 2 
+  <a href="#przyk%c5%82ad-2" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="n">_</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span></code></pre></div><p>W teście będą obowiązywały <strong>oba</strong> <code>EXPECT_CALL</code>-e i każdy z nich musiy być spełniony <strong>dokładnie raz</strong>. Trzeba jednak uważać, bo <code>EXPECT_CALL</code>-e są dopasowywane w kolejności odwrotnej do pojawienia się w kodzie. Czyli:</p>
+<ul>
+<li>Najpierw nastąpi próba dopasowania <code>myMethod(1)</code> i zwrócenie wartości <code>123</code>.</li>
+<li>Jeśli dopasowanie się nie uda, to nastąpi próba dopasowania <code>myMethod(_)</code> i zwrócenie wartości <code>999</code>.</li>
+</ul>
+<p>Zatem dwukrotne wywołanie funkcji <code>myMethod(1)</code> spowoduje błąd, bo drugi <code>EXPECT_CALL</code> zostanie dopasowany i spełniony 2 razy. Test przejdzie tylko wtedy, kiedy funkcja <code>myMethod</code> zostanie wywołana 2 razy, raz z argumentem <code>1</code> i raz z argumentem innym niż <code>1</code>. Kolejność tych wywołań nie ma znaczenia.</p>
+<h2 id="przykład-3">PRZYKŁAD 3 
+  <a href="#przyk%c5%82ad-3" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="n">_</span><span class="p">));</span>
+</span></span></code></pre></div><p>W teście będą obowiązywały <strong>oba</strong> <code>EXPECT_CALL</code>-e, ale ten pierwszy nigdy nie zostanie spełniony, bo w pierwszej kolejności zawsze sprawdzany będzie <code>myMethod(_)</code>, który pasuje do wszystkiego.</p>
+<p>W szczególności, test sfailuje gdy:</p>
+<ul>
+<li>Funkcja <code>myMethod</code> zostanie wywołana raz. Mamy 2 <code>EXPECT_CALL</code>-e do spełnienia, więc muszą być dokładnie 2 wywołania.</li>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy z dwoma dowolnymi argumentami. Oba wywołania zostaną dopasowane do drugiego <code>EXPECT_CALL</code>-a. Pierwszy nie zostanie spełniony (fail), a drugi zostanie spełniony podwójnie (fail).</li>
+</ul>
+<h2 id="przykład-4">PRZYKŁAD 4 
+  <a href="#przyk%c5%82ad-4" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="n">_</span><span class="p">)).</span><span class="n">RetireOnSaturation</span><span class="p">();</span>
+</span></span></code></pre></div><p>W teście będą obowiązywały <strong>oba</strong> <code>EXPECT_CALL</code>-e. Najpierw nastąpi próba dopasowania tego drugiego (zawsze sprawdzamy od końca) i gdy zostanie on spełniony, to przestanie obowiązywać. Od tego momentu aktywny będzie jedynie pierwszy <code>EXPECT_CALL</code> na funkcję <code>myMethod(1)</code>.</p>
+<p>Test przejdzie gdy:</p>
+<ul>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy, pierwszy raz z dowolnym argumentem i drugi raz z argumentem <code>1</code>.</li>
+</ul>
+<p>Test sfailuje gdy:</p>
+<ul>
+<li>Funkcja <code>myMethod</code> zostanie wywołana tylko 1 raz lub więcej niż 2 razy.</li>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy, pierwszy raz z dowolnym argumentem i drugi raz z argumentem innym niż <code>1</code>.</li>
+</ul>
+<h2 id="przykład-5">PRZYKŁAD 5 
+  <a href="#przyk%c5%82ad-5" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="n">_</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">)).</span><span class="n">RetireOnSaturation</span><span class="p">();</span>
+</span></span></code></pre></div><p>W teście będą obowiązywały <strong>oba</strong> <code>EXPECT_CALL</code>-e. Najpierw nastąpi próba dopasowania tego drugiego (zawsze sprawdzamy od końca) i gdy zostanie on spełniony, to przestanie obowiązywać.</p>
+<p>Test przejdzie gdy:</p>
+<ul>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy, pierwszy raz z argumentem <code>5</code> i drugi raz z argumentem <code>1</code>.</li>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy, pierwszy raz z argumentem <code>1</code> i drugi raz z argumentem <code>5</code>.</li>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy, pierwszy raz z argumentem <code>1</code> i drugi raz z argumentem <code>1</code>.</li>
+</ul>
+<p>Test sfailuje gdy:</p>
+<ul>
+<li>Funkcja <code>myMethod</code> zostanie wywołana tylko 1 raz lub więcej niż 2 razy.</li>
+<li>Funkcja <code>myMethod</code> zostanie wywołana 2 razy z argumentem innym niż <code>1</code>.</li>
+</ul>
+<p>Zauważ, że gdyby usunąć <code>.RetireOnSaturation()</code>, to test przestałby przechodzić dla przypadku wywołania <code>myMethod</code> dwa razy z argumentem <code>1</code>, bo oba wywołania dopasowałyby się do drugiego, wiecznie aktywnego, <code>EXPECT_CALL</code>-a powodując fail.</p>
+<h2 id="przykład-6">PRZYKŁAD 6 
+  <a href="#przyk%c5%82ad-6" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span></code></pre></div><p>Powyższy test nigdy nie przejdzie, bo każde wywołanie <code>myMethod(1)</code> będzie zawsze dopasowywane do drugiego <code>EXPECT_CALL</code>-a.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">)).</span><span class="n">RetireOnSaturation</span><span class="p">();</span>
+</span></span></code></pre></div><p>Teraz test przejdzie jak dwa razy wywołamy <code>myMethod(1)</code>. Po pierwszym dopasowaniu drugi <code>EXPECT_CALL</code> stanie się nieaktywny i dopasujemy się do tego pierwszego. Powyższy kod jest równoważny użyciu <code>Times(2)</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">)).</span><span class="n">Times</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</span></span></code></pre></div><h2 id="zobacz-również">Zobacz również 
+  <a href="#zobacz-r%c3%b3wnie%c5%bc" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><ul>
+<li><a href="https://kyriets.github.io/posts/google-mock-on-call-&#43;-expect-call/">Google Mock: <code>ON_CALL</code> + <code>EXPECT_CALL</code></a></li>
+</ul>
+
+  </main>
+  <footer>
+    <div class="footer-links">
+    <p><a href="https://github.com/KyrietS">github</a></p>
+    <p><a href="/projects/">projekty</a></p>
+    <p><a href="/">o mnie</a></p>
+    <p><a href="/contact/">kontakt</a></p>
+</div>
+
+
+<div class="footer-last-edited">
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/2953466b437ec3df28dcdb272ecf6227da87f9d0">Ostatnia modyfikacja: 2024-05-05</a>
+</div>
+
+  </footer>
+</body>
+
+
+<script src="/js/main.js"></script>
+
+<!--Szata graficzna tego bloga została "zainspirowana" 😏 z tego bloga: https://thomashope.xyz/ -->
+</html>

@@ -8,6 +8,20 @@
     <language>en</language>
     <atom:link href="https://kyriets.github.io/en/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Google Mock: Override &lt;code&gt;EXPECT_CALL&lt;/code&gt;</title>
+      <link>https://kyriets.github.io/en/posts/google-mock-override-expect-call/</link>
+      <pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/en/posts/google-mock-override-expect-call/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;EXPECT_CALL is not overridable&lt;/strong&gt;. This does not mean that you cannot have multiple &lt;code&gt;EXPECT_CALL&lt;/code&gt;s for the same function.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Google Mock: &lt;code&gt;ON_CALL&lt;/code&gt; &#43; &lt;code&gt;EXPECT_CALL&lt;/code&gt;</title>
+      <link>https://kyriets.github.io/en/posts/google-mock-on-call-&#43;-expect-call/</link>
+      <pubDate>Sat, 04 May 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/en/posts/google-mock-on-call-&#43;-expect-call/</guid>
+      <description>&lt;p&gt;A short post about how &lt;code&gt;ON_CALL&lt;/code&gt; and &lt;code&gt;EXPECT_CALL&lt;/code&gt; can complement each other. It is worth remembering that &lt;code&gt;EXPECT_CALL&lt;/code&gt; does not &amp;ldquo;override&amp;rdquo; behaviors defined by &lt;code&gt;ON_CALL&lt;/code&gt;. Both of these macros can be used simultaneously on the same mock.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>A reflection on the success of Steve Jobs based on the book &#34;Steve Jobs&#34; by Walter Isaacson</title>
       <link>https://kyriets.github.io/en/posts/reflection-on-the-success-of-steve-jobs/</link>
       <pubDate>Fri, 16 Feb 2024 00:00:00 +0000</pubDate>
