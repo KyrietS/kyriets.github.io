@@ -2,6 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://kyriets.github.io/posts/</loc>
+    <lastmod>2024-05-05T12:34:14+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kyriets.github.io/en/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://kyriets.github.io/posts/"
+                />
+  </url><url>
+    <loc>https://kyriets.github.io/posts/refleksja-nad-sukcesem-stevea-jobsa/</loc>
+    <lastmod>2024-05-05T12:34:14+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kyriets.github.io/en/posts/reflection-on-the-success-of-steve-jobs/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://kyriets.github.io/posts/refleksja-nad-sukcesem-stevea-jobsa/"
+                />
+  </url><url>
     <loc>https://kyriets.github.io/categories/inne/</loc>
     <lastmod>2024-02-08T08:35:39+01:00</lastmod>
     <xhtml:link
@@ -26,19 +52,6 @@
                 rel="alternate"
                 hreflang="pl"
                 href="https://kyriets.github.io/posts/jak-powstal-ten-blog/"
-                />
-  </url><url>
-    <loc>https://kyriets.github.io/posts/</loc>
-    <lastmod>2024-02-12T21:54:50+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kyriets.github.io/en/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://kyriets.github.io/posts/"
                 />
   </url><url>
     <loc>https://kyriets.github.io/posts/jak-jest-zbudowany-fat/</loc>

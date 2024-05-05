@@ -2,6 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://kyriets.github.io/en/posts/reflection-on-the-success-of-steve-jobs/</loc>
+    <lastmod>2024-05-05T12:34:14+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://kyriets.github.io/posts/refleksja-nad-sukcesem-stevea-jobsa/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kyriets.github.io/en/posts/reflection-on-the-success-of-steve-jobs/"
+                />
+  </url><url>
+    <loc>https://kyriets.github.io/en/posts/</loc>
+    <lastmod>2024-05-05T12:34:14+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://kyriets.github.io/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kyriets.github.io/en/posts/"
+                />
+  </url><url>
     <loc>https://kyriets.github.io/en/categories/</loc>
     <lastmod>2024-02-13T23:51:15+01:00</lastmod>
     <xhtml:link
@@ -39,19 +65,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://kyriets.github.io/en/categories/inne/"
-                />
-  </url><url>
-    <loc>https://kyriets.github.io/en/posts/</loc>
-    <lastmod>2024-02-13T23:51:15+01:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://kyriets.github.io/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kyriets.github.io/en/posts/"
                 />
   </url><url>
     <loc>https://kyriets.github.io/en/contact/</loc>
