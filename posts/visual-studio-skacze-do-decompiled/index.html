@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Visual Studio skacze do pliku [decompiled] zamiast oryginalnego | Kyriet&#39;s Blog 🦔</title>
+
+<link rel="stylesheet" href="/css/main.css?v1" id="main-stylesheet">
+<link rel="prefetch" href="/css/highlight-light.css?v1" id="highlight-light-stylesheet">
+
+
+<link rel="stylesheet" href="/css/dark.css?v1" id="dark-stylesheet">
+<link rel="stylesheet" href="/css/highlight-dark.css?v1" id="highlight-dark-stylesheet">
+
+
+
+</head>
+<body>
+  <header>
+    
+
+  <nav>
+    <div id="navigation">
+      <a href="/">Home</a>
+      <a href="/projects/">Projekty</a>
+  
+  
+    
+      <a href="/en/posts/visual-studio-avalonia-goto-definition-decompiled/">In English</a>
+    
+  
+  
+  <span id="toggle-theme-button" title="Toggle light/dark theme">🌞</span>
+    </div>
+    <span id="site-title">Kyriet&#39;s Blog 🦔</span>
+  </nav>
+
+
+  </header>
+  <main>
+    
+  <h1>Visual Studio skacze do pliku [decompiled] zamiast oryginalnego</h1>
+
+   
+  <time datetime="2024-08-15" style="display: none">2024-08-15</time>
+
+  <p>Po utworzeniu domyślnego projektu Avalonia (C#) przy użyciu kreatora Visual Studio może się okazać, że skakanie do definicji typów będzie otwierało [decompiled] źródła zamiast oryginalnych plików. To może być frustrujące, kiedy chcemy podpatrzeć jak Avalonia robi coś pod spodem. Naprawmy to.</p>
+<p>Upewnij się, że masz zaznaczone następujące opcje w <code>Tools</code> &gt; <code>Options</code>:</p>
+<ul>
+<li><code>Text Editor</code> &gt; <code>C#</code> &gt; <code>Advanced</code> &gt; <code>Go To Definition</code>
+<ul>
+<li>✅ Enable navigation to Source Link and Embedded Sources</li>
+<li>✅ Always use default symbol servers for navigation</li>
+</ul>
+</li>
+<li><code>Debugging</code> &gt; <code>General</code>
+<ul>
+<li>✅ Enable source server support</li>
+<li>✅ Enable Source Link support</li>
+</ul>
+</li>
+</ul>
+<p>Jeśli pomimo zaznaczenia tych opcji skakanie do źródeł nie działa, to następnym krokiem będzie <a href="https://learn.microsoft.com/en-us/nuget/consume-packages/package-source-mapping">dodanie paczki do filtrów</a>, które zezwolą IDE na pobranie źródeł Avalonia.</p>
+<p>Zaznacz nuget.org jako źródło do źródeł <code>Tools</code> &gt; <code>Options</code> &gt; <code>NuGet Package Manager</code> &gt; <code>Package Sources</code></p>
+<ul>
+<li>✅ nuget.org</li>
+</ul>
+<p>Na koniec w <code>Tools</code> &gt; <code>Options</code> &gt; <code>NuGet Package Manager</code> &gt; <code>Package Source Mapping</code> dodaj regułę <code>Avalonia.*</code></p>
+<p><img src="avalonia-package-source-mapping.png?center" alt="Add New Package Source Mapping"></p>
+<p>Na koniec kliknij <code>OK</code>, aby zapisać zmiany.</p>
+<p>Możesz teraz przejść do <code>Project</code> &gt; <code>Manage NuGet Packages...</code> i w zakładce <em>Installed</em> wybierz jakąś paczkę Avalonia. W oknie po prawej stronie powinen pojawiś się zielony znaczek z informacją: <em>Package source mapping found.</em></p>
+<p><img src="avalonia-package-source-mapping-found.png" alt="avalonia-package-source-mapping-found"></p>
+<p>Przy niektórych paczkach może się pojawić zamiast tego informacja</p>
+<blockquote>
+<p>A package source mapping will be created.</p>
+</blockquote>
+<p>To oznacza, że źródła nie są pobrane w całości i będą zaciągane w miarę potrzeb. Może się zdarzyć, że skok do definicji typu przeniesie nas do kodu zdekompilowanego. Należy wtedy odczekać chwilę i spróbować skoczyć do typu ponownie. Jeśli źródła zostaną raz pobrane, to następne skoki będą już błyskawiczne. Visual Studio zapisuje pobrane pliki w katalogu <code>%LocalAppData%\SourceServer\</code>.</p>
+<p>Powyższa procedura powinna również działać dla bibliotek innych niż Avalonia.</p>
+
+  </main>
+  <footer>
+    <div class="footer-links">
+    <p><a href="https://github.com/KyrietS">github</a></p>
+    <p><a href="/projects/">projekty</a></p>
+    <p><a href="/">o mnie</a></p>
+    <p><a href="/contact/">kontakt</a></p>
+</div>
+
+
+<div class="footer-last-edited">
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/1ac28dbc9ac90e837a2e819fc308e7f9990ed9d2">Ostatnia modyfikacja: 2024-08-15</a>
+</div>
+
+  </footer>
+</body>
+
+
+<script src="/js/main.js"></script>
+
+<!--Szata graficzna tego bloga została "zainspirowana" 😏 z tego bloga: https://thomashope.xyz/ -->
+</html>

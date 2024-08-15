@@ -8,6 +8,13 @@
     <language>en</language>
     <atom:link href="https://kyriets.github.io/en/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Visual Studio jumps to [decompiled] file instead of original source</title>
+      <link>https://kyriets.github.io/en/posts/visual-studio-avalonia-goto-definition-decompiled/</link>
+      <pubDate>Thu, 15 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/en/posts/visual-studio-avalonia-goto-definition-decompiled/</guid>
+      <description>&lt;p&gt;When you create a default Avalonia (C#) project using the Visual Studio wizard, you may find that go to type definition option will open [decompiled] sources instead of the original files. This can be frustrating when you want to preview how Avalonia does things underneath. Let&amp;rsquo;s fix it.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Google Mock: Override &lt;code&gt;EXPECT_CALL&lt;/code&gt;</title>
       <link>https://kyriets.github.io/en/posts/google-mock-override-expect-call/</link>
       <pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate>

@@ -8,6 +8,13 @@
     <language>pl</language>
     <atom:link href="https://kyriets.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Visual Studio skacze do pliku [decompiled] zamiast oryginalnego</title>
+      <link>https://kyriets.github.io/posts/visual-studio-skacze-do-decompiled/</link>
+      <pubDate>Thu, 15 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/visual-studio-skacze-do-decompiled/</guid>
+      <description>&lt;p&gt;Po utworzeniu domyślnego projektu Avalonia (C#) przy użyciu kreatora Visual Studio może się okazać, że skakanie do definicji typów będzie otwierało [decompiled] źródła zamiast oryginalnych plików. To może być frustrujące, kiedy chcemy podpatrzeć jak Avalonia robi coś pod spodem. Naprawmy to.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Google Mock: Nadpisanie &lt;code&gt;EXPECT_CALL&lt;/code&gt;-a</title>
       <link>https://kyriets.github.io/posts/google-mock-nadpisanie-expect-calla/</link>
       <pubDate>Sun, 05 May 2024 00:00:00 +0000</pubDate>

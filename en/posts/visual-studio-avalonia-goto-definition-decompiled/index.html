@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Visual Studio jumps to [decompiled] file instead of original source | Kyriet&#39;s Blog 🦔</title>
+
+<link rel="stylesheet" href="/css/main.css?v1" id="main-stylesheet">
+<link rel="prefetch" href="/css/highlight-light.css?v1" id="highlight-light-stylesheet">
+
+
+<link rel="stylesheet" href="/css/dark.css?v1" id="dark-stylesheet">
+<link rel="stylesheet" href="/css/highlight-dark.css?v1" id="highlight-dark-stylesheet">
+
+
+
+</head>
+<body>
+  <header>
+    
+
+  <nav>
+    <div id="navigation">
+      <a href="/en/">Home</a>
+      <a href="/en/projects/">Projects</a>
+  
+  
+    
+      <a href="/posts/visual-studio-skacze-do-decompiled/">Po polsku</a>
+    
+  
+  
+  <span id="toggle-theme-button" title="Toggle light/dark theme">🌞</span>
+    </div>
+    <span id="site-title">Kyriet&#39;s Blog 🦔</span>
+  </nav>
+
+
+  </header>
+  <main>
+    
+  <h1>Visual Studio jumps to [decompiled] file instead of original source</h1>
+
+   
+  <time datetime="2024-08-15" style="display: none">2024-08-15</time>
+
+  <p>When you create a default Avalonia (C#) project using the Visual Studio wizard, you may find that go to type definition option will open [decompiled] sources instead of the original files. This can be frustrating when you want to preview how Avalonia does things underneath. Let&rsquo;s fix it.</p>
+<p>Make sure you have the following options checked in <code>Tools</code> &gt; <code>Options</code>:</p>
+<ul>
+<li><code>Text Editor</code> &gt; <code>C#</code> &gt; <code>Advanced</code> &gt; <code>Go To Definition</code>
+<ul>
+<li>✅ Enable navigation to Source Link and Embedded Sources</li>
+<li>✅ Always use default symbol servers for navigation</li>
+</ul>
+</li>
+<li><code>Debugging</code> &gt; <code>General</code>
+<ul>
+<li>✅ Enable source server support</li>
+<li>✅ Enable Source Link support</li>
+</ul>
+</li>
+</ul>
+<p>If, despite checking these options, going to original sources does not work, the next step will be to <a href="https://learn.microsoft.com/en-us/nuget/consume-packages/package-source-mapping">add package to the filters</a>, which will allow the IDE to download Avalonia sources.</p>
+<p>Select nuget.org as a source for the sources <code>Tools</code> &gt; <code>Options</code> &gt; <code>NuGet Package Manager</code> &gt; <code>Package Sources</code></p>
+<ul>
+<li>✅ nuget.org</li>
+</ul>
+<p>Also, in <code>Tools</code> &gt; <code>Options</code> &gt; <code>NuGet Package Manager</code> &gt; <code>Package Source Mapping</code> add the <code>Avalonia.*</code> rule.</p>
+<p><img src="avalonia-package-source-mapping.png" alt="Add New Package Source Mapping"></p>
+<p>Finally, click <code>OK</code> to save your changes.</p>
+<p>You can now go to <code>Project</code> &gt; <code>Manage NuGet Packages...</code> and under the <em>Installed</em> tab, select any Avalonia package. A green checkmark should appear in the window on the right with a text: <em>Package source mapping found</em>.</p>
+<p><img src="avalonia-package-source-mapping-found.png" alt="avalonia-package-source-mapping-found"></p>
+<p>With some packages you may see this message instead</p>
+<blockquote>
+<p>A package source mapping will be created.</p>
+</blockquote>
+<p>This means that the sources are not downloaded in full and will be pulled as needed. It may happen that jumping to the type definition takes you to decompiled code. You should then wait a while and try jumping to the type again. If the sources are downloaded once, subsequent jumps will be instantaneous. Visual Studio saves the downloaded files in the <code>%LocalAppData%\SourceServer</code> directory.</p>
+<p>Same procedure should apply to any other library.</p>
+
+  </main>
+  <footer>
+    <div class="footer-links">
+    <p><a href="https://github.com/KyrietS">github</a></p>
+    <p><a href="/en/projects/">projects</a></p>
+    <p><a href="/en/">about me</a></p>
+    <p><a href="/en/contact/">contact</a></p>
+</div>
+
+
+<div class="footer-last-edited">
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/1ac28dbc9ac90e837a2e819fc308e7f9990ed9d2">Last modified: 2024-08-15</a>
+</div>
+
+  </footer>
+</body>
+
+
+<script src="/js/main.js"></script>
+
+<!--Szata graficzna tego bloga została "zainspirowana" 😏 z tego bloga: https://thomashope.xyz/ -->
+</html>
