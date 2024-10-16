@@ -2,21 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</loc>
-    <lastmod>2024-10-16T18:38:55+02:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="pl"
-                href="https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/"
-                />
-  </url><url>
     <loc>https://kyriets.github.io/en/posts/</loc>
-    <lastmod>2024-10-16T18:38:55+02:00</lastmod>
+    <lastmod>2024-10-16T18:48:19+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
@@ -39,6 +26,19 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://kyriets.github.io/en/posts/visual-studio-avalonia-goto-definition-decompiled/"
+                />
+  </url><url>
+    <loc>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</loc>
+    <lastmod>2024-10-16T18:48:19+02:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="pl"
+                href="https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/"
                 />
   </url><url>
     <loc>https://kyriets.github.io/en/posts/google-mock-override-expect-call/</loc>

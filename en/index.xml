@@ -8,18 +8,18 @@
     <language>en</language>
     <atom:link href="https://kyriets.github.io/en/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Perfectionism — the killer of productivity</title>
-      <link>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</link>
-      <pubDate>Tue, 15 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</guid>
-      <description>&lt;p&gt;Perfectionism is the worst enemy of productivity. Surely everyone has at some point fallen into the trap of endless tweaking, constant dissatisfaction and starting over.&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Visual Studio jumps to [decompiled] file instead of original source</title>
       <link>https://kyriets.github.io/en/posts/visual-studio-avalonia-goto-definition-decompiled/</link>
       <pubDate>Thu, 15 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://kyriets.github.io/en/posts/visual-studio-avalonia-goto-definition-decompiled/</guid>
       <description>&lt;p&gt;When you create a default Avalonia (C#) project using the Visual Studio wizard, you may find that go to type definition option will open [decompiled] sources instead of the original files. This can be frustrating when you want to preview how Avalonia does things underneath. Let&amp;rsquo;s fix it.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Perfectionism — the killer of productivity</title>
+      <link>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</link>
+      <pubDate>Sat, 15 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</guid>
+      <description>&lt;p&gt;Perfectionism is the worst enemy of productivity. Surely everyone has at some point fallen into the trap of endless tweaking, constant dissatisfaction and starting over.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Google Mock: Override &lt;code&gt;EXPECT_CALL&lt;/code&gt;</title>

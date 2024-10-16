@@ -6,14 +6,14 @@
     <description>Recent content in Posts on Kyriet&#39;s Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl</language>
-    <lastBuildDate>Wed, 16 Oct 2024 18:38:55 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2024 19:46:19 +0200</lastBuildDate>
     <atom:link href="https://kyriets.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Perfekcjonizm — zabójca produktywności</title>
-      <link>https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/</link>
-      <pubDate>Tue, 15 Oct 2024 00:00:00 +0000</pubDate>
-      <guid>https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/</guid>
-      <description>&lt;p&gt;Perfekcjonizm to największa zmora produktywności. Na pewno każdy kiedyś wpadł w pułapkę niekończącego się majsterkowania, ciągłego niezadowolenia i zaczynania od nowa.&lt;/p&gt;</description>
+      <title>LycaMobile — kocham wasze ceny, ale nienawidzę całej reszty</title>
+      <link>https://kyriets.github.io/posts/lycamobile-kocham-ich-ceny-ale-nienawidze-calej-reszty/</link>
+      <pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/lycamobile-kocham-ich-ceny-ale-nienawidze-calej-reszty/</guid>
+      <description>&lt;p&gt;To co mnie jeszcze trzyma w sieci LycaMobile, to absurdalnie niskie ceny za pakiety. Trzyma tylko umieć przebrnąć przez antyludzki user experience ich strony internetowej i aplikacji.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Visual Studio skacze do pliku [decompiled] zamiast oryginalnego</title>
@@ -21,6 +21,13 @@
       <pubDate>Thu, 15 Aug 2024 00:00:00 +0000</pubDate>
       <guid>https://kyriets.github.io/posts/visual-studio-skacze-do-decompiled/</guid>
       <description>&lt;p&gt;Po utworzeniu domyślnego projektu Avalonia (C#) przy użyciu kreatora Visual Studio może się okazać, że skakanie do definicji typów będzie otwierało [decompiled] źródła zamiast oryginalnych plików. To może być frustrujące, kiedy chcemy podpatrzeć jak Avalonia robi coś pod spodem. Naprawmy to.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Perfekcjonizm — zabójca produktywności</title>
+      <link>https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/</link>
+      <pubDate>Sat, 15 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/</guid>
+      <description>&lt;p&gt;Perfekcjonizm to największa zmora produktywności. Na pewno każdy kiedyś wpadł w pułapkę niekończącego się majsterkowania, ciągłego niezadowolenia i zaczynania od nowa.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Google Mock: Nadpisanie &lt;code&gt;EXPECT_CALL&lt;/code&gt;-a</title>
