@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Kyriet&#39;s Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 15 Aug 2024 21:16:39 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2024 18:38:55 +0200</lastBuildDate>
     <atom:link href="https://kyriets.github.io/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Perfectionism — the killer of productivity</title>
+      <link>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</link>
+      <pubDate>Tue, 15 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/en/posts/perfectionism-the-killer-of-productivity/</guid>
+      <description>&lt;p&gt;Perfectionism is the worst enemy of productivity. Surely everyone has at some point fallen into the trap of endless tweaking, constant dissatisfaction and starting over.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Visual Studio jumps to [decompiled] file instead of original source</title>
       <link>https://kyriets.github.io/en/posts/visual-studio-avalonia-goto-definition-decompiled/</link>

@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Kyriet&#39;s Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl</language>
-    <lastBuildDate>Thu, 15 Aug 2024 21:16:39 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2024 18:38:55 +0200</lastBuildDate>
     <atom:link href="https://kyriets.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Perfekcjonizm — zabójca produktywności</title>
+      <link>https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/</link>
+      <pubDate>Tue, 15 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/perfekcjonizm-to-nic-dobrego/</guid>
+      <description>&lt;p&gt;Perfekcjonizm to największa zmora produktywności. Na pewno każdy kiedyś wpadł w pułapkę niekończącego się majsterkowania, ciągłego niezadowolenia i zaczynania od nowa.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Visual Studio skacze do pliku [decompiled] zamiast oryginalnego</title>
       <link>https://kyriets.github.io/posts/visual-studio-skacze-do-decompiled/</link>
