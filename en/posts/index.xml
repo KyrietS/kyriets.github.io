@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Kyriet&#39;s Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 Oct 2024 18:48:19 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2024 21:58:48 +0200</lastBuildDate>
     <atom:link href="https://kyriets.github.io/en/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Visual Studio jumps to [decompiled] file instead of original source</title>
@@ -41,7 +41,7 @@
       <link>https://kyriets.github.io/en/posts/reflection-on-the-success-of-steve-jobs/</link>
       <pubDate>Fri, 16 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://kyriets.github.io/en/posts/reflection-on-the-success-of-steve-jobs/</guid>
-      <description>&lt;p&gt;At university I was given an assignment to read the book &amp;lsquo;Steve Jobs&amp;rsquo; by Walter Isaacson and write down my thoughts. The goal was to extract clues and maybe even advice that could help repeat the kind of spectacular success that the Apple founder achieved. Years later, I found this essay and thought it was interesting enough to be published. You can read it below.&lt;/p&gt;</description>
+      <description>&lt;p&gt;My goal for reading the book ‘Steve Jobs’ by Walter Isaacson was to extract clues and maybe even advice that could help to repeat the kind of spectacular success that the founder of Apple achieved. Years later I found this essay and thought it was interesting enough to publish. You can find its content below.&lt;/p&gt;</description>
     </item>
     <item>
       <title>How this blog was created</title>
