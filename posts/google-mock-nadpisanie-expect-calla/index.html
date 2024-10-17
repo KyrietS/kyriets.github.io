@@ -71,8 +71,8 @@
 </span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
 </span></span></code></pre></div><p>W teście będą obowiązywały <strong>oba</strong> <code>EXPECT_CALL</code>-e i każdy z nich musiy być spełniony <strong>dokładnie raz</strong>. Trzeba jednak uważać, bo <code>EXPECT_CALL</code>-e są dopasowywane w kolejności odwrotnej do pojawienia się w kodzie. Czyli:</p>
 <ul>
-<li>Najpierw nastąpi próba dopasowania <code>myMethod(1)</code> i zwrócenie wartości <code>123</code>.</li>
-<li>Jeśli dopasowanie się nie uda, to nastąpi próba dopasowania <code>myMethod(_)</code> i zwrócenie wartości <code>999</code>.</li>
+<li>Najpierw nastąpi próba dopasowania <code>myMethod(1)</code>.</li>
+<li>Jeśli dopasowanie się nie uda, to nastąpi próba dopasowania <code>myMethod(_)</code>.</li>
 </ul>
 <p>Zatem dwukrotne wywołanie funkcji <code>myMethod(1)</code> spowoduje błąd, bo drugi <code>EXPECT_CALL</code> zostanie dopasowany i spełniony 2 razy. Test przejdzie tylko wtedy, kiedy funkcja <code>myMethod</code> zostanie wywołana 2 razy, raz z argumentem <code>1</code> i raz z argumentem innym niż <code>1</code>. Kolejność tych wywołań nie ma znaczenia.</p>
 <h2 id="przykład-3">PRZYKŁAD 3 
@@ -167,7 +167,7 @@
 
 
 <div class="footer-last-edited">
-  <a target="_blank" href="https://github.com/KyrietS/blog/commit/2953466b437ec3df28dcdb272ecf6227da87f9d0">Ostatnia modyfikacja: 2024-05-05</a>
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/7b392ca5a079a5c580797e0580932e600571438d">Ostatnia modyfikacja: 2024-10-17</a>
 </div>
 
   </footer>

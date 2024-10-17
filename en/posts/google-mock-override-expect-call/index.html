@@ -71,8 +71,8 @@
 </span></span><span class="line"><span class="cl"><span class="n">EXPECT_CALL</span><span class="p">(</span><span class="n">myMock</span><span class="p">,</span> <span class="n">myMethod</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
 </span></span></code></pre></div><p>In the test, <strong>both</strong> <code>EXPECT_CALL</code>s must be fulfilled <strong>exactly once</strong>. However, you have to be careful because <code>EXPECT_CALL</code>s are matched in reverse order of appearance in the code. That is:</p>
 <ul>
-<li>First, an attempt will be made to match <code>myMethod(1)</code> and return the value <code>123</code>.</li>
-<li>If the match fails, an attempt will be made to match <code>myMethod(_)</code> and return the value <code>999</code>.</li>
+<li>First, an attempt will be made to match <code>myMethod(1)</code>.</li>
+<li>If the match fails, an attempt will be made to match <code>myMethod(_)</code>.</li>
 </ul>
 <p>Therefore two calls to the <code>myMethod(1)</code> function will cause an error because the second <code>EXPECT_CALL</code> will be matched and fulfilled twice. The test will pass only if the <code>myMethod</code> function is called twice, once with the argument <code>1</code> and once with an argument other than <code>1</code>. The order of these calls does not matter.</p>
 <h2 id="example-3">EXAMPLE 3 
@@ -167,7 +167,7 @@
 
 
 <div class="footer-last-edited">
-  <a target="_blank" href="https://github.com/KyrietS/blog/commit/2953466b437ec3df28dcdb272ecf6227da87f9d0">Last modified: 2024-05-05</a>
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/7b392ca5a079a5c580797e0580932e600571438d">Last modified: 2024-10-17</a>
 </div>
 
   </footer>
