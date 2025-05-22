@@ -8,11 +8,25 @@
     <language>pl</language>
     <atom:link href="https://kyriets.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Jak to jest nie widzieć lub nie słyszeć?</title>
+      <link>https://kyriets.github.io/posts/jak-to-jest-nie-widziec-lub-nie-slyszec/</link>
+      <pubDate>Thu, 22 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/jak-to-jest-nie-widziec-lub-nie-slyszec/</guid>
+      <description>&lt;p&gt;Osobie widzącej i słyszącej bardzo trudno jest wyobrazić sobie &lt;em&gt;jak to jest&lt;/em&gt; nie widzieć lub nie słyszeć od zawsze. W tym wpisie postaram się to zrobić.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>LycaMobile — kocham wasze ceny, ale nienawidzę całej reszty</title>
       <link>https://kyriets.github.io/posts/lycamobile-kocham-ich-ceny-ale-nienawidze-calej-reszty/</link>
       <pubDate>Wed, 16 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://kyriets.github.io/posts/lycamobile-kocham-ich-ceny-ale-nienawidze-calej-reszty/</guid>
       <description>&lt;p&gt;To co mnie jeszcze trzyma w sieci LycaMobile, to absurdalnie niskie ceny za pakiety. Trzyma tylko umieć przebrnąć przez antyludzki user experience ich strony internetowej i aplikacji.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Przydatne alt-kody dla polskiej typografii</title>
+      <link>https://kyriets.github.io/posts/przydatne-alt-kody-do-polskiej-typografii/</link>
+      <pubDate>Tue, 15 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/przydatne-alt-kody-do-polskiej-typografii/</guid>
+      <description>&lt;p&gt;Prezentuję przydatne alt-kody, które pod Windowsem pozwalają wprowadzać takie znaki jak: &lt;code&gt;„&lt;/code&gt;, &lt;code&gt;”&lt;/code&gt;, &lt;code&gt;—&lt;/code&gt;, &lt;code&gt;–&lt;/code&gt;, itp. Wystarczy przytrzymać klawisz &lt;code&gt;Alt&lt;/code&gt; i wpisać odpowiednią liczbę na numerycznej klawiaturze.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Visual Studio skacze do pliku [decompiled] zamiast oryginalnego</title>

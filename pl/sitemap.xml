@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://kyriets.github.io/posts/lycamobile-kocham-ich-ceny-ale-nienawidze-calej-reszty/</loc>
-    <lastmod>2024-10-17T19:18:23+02:00</lastmod>
+    <loc>https://kyriets.github.io/posts/jak-to-jest-nie-widziec-lub-nie-slyszec/</loc>
+    <lastmod>2025-05-22T23:27:19+02:00</lastmod>
   </url><url>
     <loc>https://kyriets.github.io/posts/</loc>
-    <lastmod>2024-11-09T01:10:49+01:00</lastmod>
+    <lastmod>2025-05-22T23:27:19+02:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -17,6 +17,12 @@
                 hreflang="pl"
                 href="https://kyriets.github.io/posts/"
                 />
+  </url><url>
+    <loc>https://kyriets.github.io/posts/lycamobile-kocham-ich-ceny-ale-nienawidze-calej-reszty/</loc>
+    <lastmod>2024-10-17T19:18:23+02:00</lastmod>
+  </url><url>
+    <loc>https://kyriets.github.io/posts/przydatne-alt-kody-do-polskiej-typografii/</loc>
+    <lastmod>2025-05-22T23:26:43+02:00</lastmod>
   </url><url>
     <loc>https://kyriets.github.io/posts/visual-studio-skacze-do-decompiled/</loc>
     <lastmod>2024-10-17T19:18:23+02:00</lastmod>
