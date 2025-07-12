@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Wzorzec Visitor, czyli separacja danych i zachowania | Kyriet&#39;s Blog 🦔</title>
+
+<link rel="stylesheet" href="/css/main.css?v1" id="main-stylesheet">
+<link rel="prefetch" href="/css/highlight-light.css?v1" id="highlight-light-stylesheet">
+
+
+<link rel="stylesheet" href="/css/dark.css?v1" id="dark-stylesheet">
+<link rel="stylesheet" href="/css/highlight-dark.css?v1" id="highlight-dark-stylesheet">
+
+
+
+</head>
+<body>
+  <header>
+    
+
+  <nav>
+    <div id="navigation">
+      <a href="/">Home</a>
+      <a href="/projects/">Projekty</a>
+  
+  
+    
+      <a href="/en/posts/wzorzec-visitor-czyli-separacja-danych-i-zachowania/">In English</a>
+    
+  
+  
+  <span id="toggle-theme-button" title="Toggle light/dark theme">🌞</span>
+    </div>
+    <span id="site-title">Kyriet&#39;s Blog 🦔</span>
+  </nav>
+
+
+  </header>
+  <main>
+    
+  <h1>Wzorzec Visitor, czyli separacja danych i zachowania</h1>
+
+   
+  <time datetime="2025-06-11" style="display: none">2025-06-11</time>
+
+  <p>Wzorzec visitor oddziela dane od algorytmu. Pokażę na przykładach, kiedy warto stosować ten wzorzec, a kiedy nie. Warto wspomnieć, że nie zawsze chcemy takiej separacji.</p>
+<p>Załóżmy, że piszemy moduł dla jakiegoś procesora tekstu. Mamy następujące 3 struktury:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Element</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Paragraph</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Link</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">url</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">List</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">items</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Nasz program ma wypisać powyższe struktury w formacie Markdown i HTML.</p>
+<p><em>(uwaga, dla uproszczenia przykładów stosuję wszędzie <code>struct</code> zamiast <code>class</code>)</em></p>
+<h2 id="przykład-1-jedna-klasa-kilka-algorytmów">Przykład 1. Jedna klasa, kilka algorytmów 
+  <a href="#przyk%c5%82ad-1-jedna-klasa-kilka-algorytm%c3%b3w" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Jeśli jedna klasa potrzebuje kilku zachowań, to nie musimy stosować wzorca visitor. Załóżmy, że mamy tylko klasę <code>Paragraph</code>, a <code>Link</code> i <code>List</code> nie istnieją. Wtedy wystarczy zwykły polimorficzny printer.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Printer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Paragraph</span><span class="o">&amp;</span> <span class="n">paragraph</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">HtmlPrinter</span> <span class="o">:</span> <span class="n">Printer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Paragraph</span><span class="o">&amp;</span> <span class="n">paragraph</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;p&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">paragraph</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;/p&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">MarkdownPrinter</span> <span class="o">:</span> <span class="n">Printer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Paragraph</span><span class="o">&amp;</span> <span class="n">paragraph</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">paragraph</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Użycie mogłoby wyglądać tak:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Paragraph</span> <span class="n">paragraph</span><span class="p">{</span><span class="s">&#34;Hello, world!&#34;</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Printer</span><span class="o">*</span> <span class="n">printer</span> <span class="o">=</span> <span class="n">getPrinter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printer</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="n">paragraph</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Nie wnikajmy w to jak dokładnie działa <code>getPrinter</code>, bo nie jest to istotne dla tego przykładu. Ważne, że funkcja ta podejmuje jakąś decyzję i zwraca abstrakcyjny printer. Mamy zatem odseparowaną logikę wyboru zachowania od danych i od samego wypisywania.</p>
+<p>Jeśli chcemy dodać wsparcie dla nowego formatu, wystarczy dodać nową klasę dziedziczącą po <code>Printer</code> i zaimplementować metodę <code>print</code> dla typu <code>Paragraph</code>. Nie ma potrzeby stosowania wzorca visitor, bo mamy pełną separację danych i zachowania. Kod jest rozszerzalny i łatwy do utrzymania.</p>
+<p>Występuje tutaj tzw. &ldquo;dynamic dispatch&rdquo;, czyli po prostu polimorfizm. Wybór odpowiedniej metody <code>print</code> jest podejmowany w czasie wykonywania programu.</p>
+<p>Gdybyśmy chcieli dodać wsparcie dla nowego elementu, np. <code>Link</code>, to będzie trzeba dodać nową metodę do klasy <code>Printer</code> i do wszystkich klas dziedziczących. Ale wcale nie będzie to takie proste jak się na pierwszy rzut oka wydaje. W kolejnym przykładzie zobaczymy dlaczego.</p>
+<h2 id="przykład-2-wiele-klas-jeden-algorytm">Przykład 2. Wiele klas, jeden algorytm 
+  <a href="#przyk%c5%82ad-2-wiele-klas-jeden-algorytm" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Teraz mamy kilka klas, ale wszystkie z nich będą się wypisywać do Markdownu.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">MarkdownPrinter</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Paragraph</span><span class="o">&amp;</span> <span class="n">paragraph</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">paragraph</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Link</span><span class="o">&amp;</span> <span class="n">link</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">link</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;](&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">link</span><span class="p">.</span><span class="n">url</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">List</span><span class="o">&amp;</span> <span class="n">list</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">item</span> <span class="p">:</span> <span class="n">list</span><span class="p">.</span><span class="n">items</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;- &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">item</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Tym razem użycie wygląda tak:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MarkdownPrinter</span> <span class="n">printer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Element</span><span class="o">*</span> <span class="n">element</span> <span class="o">=</span> <span class="n">getElement</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Auć, to nie wygląda dobrze!
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">paragraph</span> <span class="o">=</span> <span class="k">dynamic_cast</span><span class="o">&lt;</span><span class="n">Paragraph</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">element</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="n">paragraph</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">link</span> <span class="o">=</span> <span class="k">dynamic_cast</span><span class="o">&lt;</span><span class="n">Link</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">element</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="n">link</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">auto</span> <span class="n">list</span> <span class="o">=</span> <span class="k">dynamic_cast</span><span class="o">&lt;</span><span class="n">List</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">element</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="n">list</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Mamy tutaj tzw. &ldquo;static dispatch&rdquo;, czyli wybór metody <code>print</code> jest podejmowany w czasie kompilacji. Ale jest to możliwe dopiero po uzyskaniu konkretnego elementu poprzez rzutowanie dynamiczne.</p>
+<p>Jeśli widzimy tego typu rzutowanie, to od razu wiadomo, że coś jest nie tak. Widząc taki kod część osób uzna, że funkcja <code>print</code> powinna być metodą wirtualną w klasie <code>Element</code> implementowaną przez <code>Paragraph</code>, <code>Link</code> i <code>List</code>. Wtedy nie będzie rzutowania, a polimorfizm załatwi sprawę.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">printInMarkdown</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Paragraph</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">printInMarkdown</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Link</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">url</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">printInMarkdown</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;](&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">url</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">List</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">items</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">printInMarkdown</span><span class="p">()</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">item</span> <span class="p">:</span> <span class="n">items</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;- &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">item</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Nie mamy już dedykowanego printera, a kod wygląda tak:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Element</span><span class="o">*</span> <span class="n">element</span> <span class="o">=</span> <span class="n">getElement</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">element</span><span class="o">-&gt;</span><span class="n">printInMarkdown</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>I rzeczywiście, to często jest wystarczające rozwiązanie, choć ma ono jedną zasadniczą wadę: implementacja wypisywania do Markdown-u będzie teraz rozrzucona po kilku klasach, zamiast być zebrana w jednym miejscu.</p>
+<p>Co więcej zachowanie, które dodaliśmy do klasy <code>Element</code> wcale nie musi tam pasować. Proste kontenery na dane stały się nagle odpowiedzialne za wypisywanie siebie.</p>
+<p>Z pomocą przychodzi wzorzec visitor, który pozwoli nam na odseparowanie danych od zachowania.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">MarkdownPrinter</span><span class="o">*</span> <span class="n">printer</span><span class="p">)</span> <span class="k">override</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Paragraph</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">MarkdownPrinter</span><span class="o">*</span> <span class="n">printer</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Link</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">url</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">MarkdownPrinter</span><span class="o">*</span> <span class="n">printer</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">List</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">items</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">MarkdownPrinter</span><span class="o">*</span> <span class="n">printer</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>I teraz jest całkiem nieźle, bo mamy pełną separację danych i zachowania. Dokładnie do tego służy visitor.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Element</span><span class="o">*</span> <span class="n">element</span> <span class="o">=</span> <span class="n">getElement</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MarkdownPrinter</span> <span class="n">printer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">element</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="o">&amp;</span><span class="n">printer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Uzyskaliśmy tutaj tzw. &ldquo;double dispatch&rdquo;, czyli wybór metody <code>Element::print</code> jest dynamiczny (polimorfizm), a wybór metody <code>MarkdownPrinter::print</code> jest statyczny (przeciążenie nazwy funkcji).</p>
+<p>Najpoważniejszy problem pojawi się, gdy poza Markdown-em zechcemy dodać wsparcie dla HTML-a. Podobnie jak w przykładzie 1, to wcale nie jest takie proste jak się może wydawać. W tym celu będziemy musieli zmodyfikować zarówno wszystkie podklasy <code>Element</code>, jak i dodać nową klasę <code>HtmlPrinter</code> (to jest akurat zrozumiałe). A jeśli w ogóle nie skorzystaliśmy z visitora, to uzyskamy prawdopodobnie kod podobny do tego:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Element</span><span class="o">*</span> <span class="n">element</span> <span class="o">=</span> <span class="n">getElement</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Znowu wracamy do serii warunków
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">shouldPrintInMarkdown</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">element</span><span class="o">-&gt;</span><span class="n">printInMarkdown</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">shouldPrintInHtml</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">element</span><span class="o">-&gt;</span><span class="n">printInHtml</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Nie rzuca się to aż tak w oczy jak <code>dynamic_cast</code>, ale nadal otrzymaliśmy kod, który jest trudniejszy do rozszerzenia niż mógłby być. Dodanie nowego formatu wymaga dodania metody <code>printInXXX</code> i pamiętania o dopisaniu kolejnego if-a w kodzie powyżej.</p>
+<p>Oczywiście powyższe przykłady są bardzo uproszczone, aby dało się je zrozumieć bez większego wysiłku. W dużym systemie problemy, które tu pokazuję mają dużo poważniejsze konsekwencje.</p>
+<p>Czy da się lepiej? Oczywiście! Z pomocą przychodzi abstrakcyjny visitor.</p>
+<h2 id="przykład-3-wiele-klas-wiele-algorytmów">Przykład 3. Wiele klas, wiele algorytmów 
+  <a href="#przyk%c5%82ad-3-wiele-klas-wiele-algorytm%c3%b3w" class="anchor">
+    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.2218 3.32234C15.3697 1.17445 18.8521 1.17445 21 3.32234C23.1479 5.47022 23.1479 8.95263 21 11.1005L17.4645 14.636C15.3166 16.7839 11.8342 16.7839 9.6863 14.636C9.48752 14.4373 9.30713 14.2271 9.14514 14.0075C8.90318 13.6796 8.97098 13.2301 9.25914 12.9419C9.73221 12.4688 10.5662 12.6561 11.0245 13.1435C11.0494 13.1699 11.0747 13.196 11.1005 13.2218C12.4673 14.5887 14.6834 14.5887 16.0503 13.2218L19.5858 9.6863C20.9526 8.31947 20.9526 6.10339 19.5858 4.73655C18.219 3.36972 16.0029 3.36972 14.636 4.73655L13.5754 5.79721C13.1849 6.18774 12.5517 6.18774 12.1612 5.79721C11.7706 5.40669 11.7706 4.77352 12.1612 4.383L13.2218 3.32234Z"></path>
+        <path d="M6.85787 9.6863C8.90184 7.64233 12.2261 7.60094 14.3494 9.42268C14.7319 9.75083 14.7008 10.3287 14.3444 10.685C13.9253 11.1041 13.2317 11.0404 12.7416 10.707C11.398 9.79292 9.48593 9.88667 8.27209 11.1005L4.73655 14.636C3.36972 16.0029 3.36972 18.219 4.73655 19.5858C6.10339 20.9526 8.31947 20.9526 9.6863 19.5858L10.747 18.5251C11.1375 18.1346 11.7706 18.1346 12.1612 18.5251C12.5517 18.9157 12.5517 19.5488 12.1612 19.9394L11.1005 21C8.95263 23.1479 5.47022 23.1479 3.32234 21C1.17445 18.8521 1.17445 15.3697 3.32234 13.2218L6.85787 9.6863Z"></path>
+    </svg>
+  </a>
+</h2><p>Przejdźmy od razu do kodu:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">Printer</span><span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Paragraph</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">Printer</span><span class="o">*</span> <span class="n">printer</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Link</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">url</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">text</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">Printer</span><span class="o">*</span> <span class="n">printer</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">List</span> <span class="o">:</span> <span class="n">Element</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">items</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">Printer</span><span class="o">*</span> <span class="n">printer</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printer</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Widzimy, że klasy nadal wiedzą o tym, że mają być wypisywane, ale logika, która to robi jest gdzieś indziej.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Printer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Paragraph</span><span class="o">&amp;</span> <span class="n">paragraph</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Link</span><span class="o">&amp;</span> <span class="n">link</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">virtual</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">List</span><span class="o">&amp;</span> <span class="n">list</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">HtmlPrinter</span> <span class="o">:</span> <span class="n">Printer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Paragraph</span><span class="o">&amp;</span> <span class="n">paragraph</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;p&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">paragraph</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;/p&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Link</span><span class="o">&amp;</span> <span class="n">link</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;a href=</span><span class="se">\&#34;</span><span class="s">&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">link</span><span class="p">.</span><span class="n">url</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\&#34;</span><span class="s">&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">link</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;/a&gt;&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">List</span><span class="o">&amp;</span> <span class="n">list</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;ul&gt;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">item</span> <span class="p">:</span> <span class="n">list</span><span class="p">.</span><span class="n">items</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;  &lt;li&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">item</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;/li&gt;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&lt;/ul&gt;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">MarkdownPrinter</span> <span class="o">:</span> <span class="n">Printer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Paragraph</span><span class="o">&amp;</span> <span class="n">paragraph</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">paragraph</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">Link</span><span class="o">&amp;</span> <span class="n">link</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;[&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">link</span><span class="p">.</span><span class="n">text</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;](&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">link</span><span class="p">.</span><span class="n">url</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="k">const</span> <span class="n">List</span><span class="o">&amp;</span> <span class="n">list</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="nl">item</span> <span class="p">:</span> <span class="n">list</span><span class="p">.</span><span class="n">items</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;- &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">item</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><p>Mamy teraz dwie implementacje <code>Printer</code>-a. Każda z nich skupia się na jednym formacie.</p>
+<p>Pora na użycie tego kodu:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Element</span><span class="o">*</span> <span class="n">element</span> <span class="o">=</span> <span class="n">getElement</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Printer</span><span class="o">*</span> <span class="n">printer</span> <span class="o">=</span> <span class="n">getPrinter</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">element</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">(</span><span class="n">printer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>No cudo! Myślę, że powyższy kod sam się broni. Połączyliśmy wiele typów danych z wieloma zachowaniami zachowując przy tym pełną separację. Jeśli trzeba coś poprawić w składni HTML, to mamy jedną klasę, która zajmuje się tylko tym - wypisywaniem wszystkich elementów do HTML-a.</p>
+<p>Dodanie nowego formatu nie wymaga modyfikacji Element-ów.</p>
+<p>Dodanie nowego elementu, poza trywialną implementacją metody <code>Element::print</code>, wymaga dopisania nowej metody <code>Printer::print</code> do każdego <code>Printer</code>-a. To jest akurat zrozumiałe, nikt tego za nas nie zrobi. Plus jest taki, że jeśli zapomnimy o dopisaniu jednej z metod, to kompilacja programu się nie powiedzie. Dla porównania, wcześniej mogliśmy zapomnieć o dopisaniu kolejnego if-a i program by się uruchomił, ale działałby niepoprawnie.</p>
+<p>Uzyskaliśmy połączenie zalet z obu poprzednich przykładów.</p>
+<p>Na koniec zmapujmy nazwy klas i metod do terminologii wzorca visitor:</p>
+<table>
+<thead>
+<tr>
+<th>Klasa/Metoda</th>
+<th>Terminologia wzorca visitor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Printer</code></td>
+<td><code>Visitor</code></td>
+</tr>
+<tr>
+<td><code>Printer::print()</code></td>
+<td>Metoda <code>visit</code></td>
+</tr>
+<tr>
+<td><code>Element::print()</code></td>
+<td>Metoda <code>accept</code></td>
+</tr>
+</tbody>
+</table>
+<p>Osobiście nie jestem fanem używania tej terminologii w kodzie. Doświadczony programista i tak szybko zorientuje się, że ma do czynienia z visitorem, a nazywanie funkcji i klas w sposób, który jest zgodny z ich rolą w kodzie jest dla mnie bardziej naturalne.</p>
+
+  </main>
+  <footer>
+    <div class="footer-links">
+    <p><a href="https://github.com/KyrietS">github</a></p>
+    <p><a href="/projects/">projekty</a></p>
+    <p><a href="/">o mnie</a></p>
+    <p><a href="/contact/">kontakt</a></p>
+</div>
+
+
+<div class="footer-last-edited">
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/e34420e00a8ae2d7cf37c40dce1f1d9c4b8eef03">Ostatnia modyfikacja: 2025-07-12</a>
+</div>
+
+  </footer>
+</body>
+
+
+<script src="/js/main.js"></script>
+
+<!--Szata graficzna tego bloga została "zainspirowana" 😏 z tego bloga: https://thomashope.xyz/ -->
+</html>

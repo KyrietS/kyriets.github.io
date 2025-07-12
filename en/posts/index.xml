@@ -6,8 +6,22 @@
     <description>Recent content in Posts on Kyriet&#39;s Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Oct 2024 19:18:23 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 12 Jul 2025 21:41:04 +0200</lastBuildDate>
     <atom:link href="https://kyriets.github.io/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Visitor pattern - separation of data and behavior</title>
+      <link>https://kyriets.github.io/en/posts/wzorzec-visitor-czyli-separacja-danych-i-zachowania/</link>
+      <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/en/posts/wzorzec-visitor-czyli-separacja-danych-i-zachowania/</guid>
+      <description>&lt;p&gt;The visitor pattern separates the data from the algorithm. I will show with examples when it is worth using this pattern and when it is not. It is noteworthy that we do not always want such a separation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>How to implement frictional in a game</title>
+      <link>https://kyriets.github.io/en/posts/jak-zaimplementowac-sile-tarcia-w-grze/</link>
+      <pubDate>Fri, 23 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/en/posts/jak-zaimplementowac-sile-tarcia-w-grze/</guid>
+      <description>&lt;p&gt;Some time ago I watched a YouTube video in which indie game developer &lt;a href=&#34;https://www.youtube.com/@randyprime&#34;&gt;@randy&lt;/a&gt; showed how he implemented physics in his game. My attention was drawn to the incorrectly (not in accordance with the rules of physics) implemented frictional force. In this post I will answer why.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Visual Studio jumps to [decompiled] file instead of original source</title>
       <link>https://kyriets.github.io/en/posts/visual-studio-avalonia-goto-definition-decompiled/</link>

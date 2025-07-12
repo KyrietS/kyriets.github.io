@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Jak zaimplementować siłę tarcia w grze | Kyriet&#39;s Blog 🦔</title>
+
+<link rel="stylesheet" href="/css/main.css?v1" id="main-stylesheet">
+<link rel="prefetch" href="/css/highlight-light.css?v1" id="highlight-light-stylesheet">
+
+
+<link rel="stylesheet" href="/css/dark.css?v1" id="dark-stylesheet">
+<link rel="stylesheet" href="/css/highlight-dark.css?v1" id="highlight-dark-stylesheet">
+
+
+
+</head>
+<body>
+  <header>
+    
+
+  <nav>
+    <div id="navigation">
+      <a href="/">Home</a>
+      <a href="/projects/">Projekty</a>
+  
+  
+    
+      <a href="/en/posts/jak-zaimplementowac-sile-tarcia-w-grze/">In English</a>
+    
+  
+  
+  <span id="toggle-theme-button" title="Toggle light/dark theme">🌞</span>
+    </div>
+    <span id="site-title">Kyriet&#39;s Blog 🦔</span>
+  </nav>
+
+
+  </header>
+  <main>
+    
+  <h1>Jak zaimplementować siłę tarcia w grze</h1>
+
+   
+  <time datetime="2025-05-23" style="display: none">2025-05-23</time>
+
+  <p>Jakiś czas temu oglądałem wideo na YouTube, w którym indie game deweloper <a href="https://www.youtube.com/@randyprime">@randy</a> pokazywał jak zaimplementował fizykę w swojej grze. Moją uwagę zwróciła niepoprawnie (niezgodnie z zasadami fizyki) zaimplementowana siła tarcia. W tym wpisie odpowiem dlaczego.</p>
+<p>Najpierw zobaczmy jak zaimplementowana została podstawowa kinematyka ruchu przez randiego. Poniżej przedstawiam pseudo kod:</p>
+<pre tabindex="0"><code>new_velocity = old_velocity + acceleration * delta_time  // prędkość v(t)
+new_position = old_position + new_velocity * delta_time  // przmieszczenie d(t)
+</code></pre><p>Wszystko tutaj wygląda dobrze. Zmiana przemieszczenia w czasie, to jest fizyczna interpretacja prędkości, natomiast zmiana prędkości w czasie, to jest przyspieszenie.</p>
+<p>A teraz popatrzmy jak @randy zaimplementował siłę tarcia:</p>
+<pre tabindex="0"><code>new_acceleration = old_acceleration - velocity * friction * delta_time
+</code></pre><p>Choć powyższy kod generuje efekt spowalniania ciała, które jest w ruchu, to jest to implementacja niezgodna z tym jak tarcie działa w rzeczywistości. Dodam tylko, że my tutaj mówimy o tarciu dynamicznym, które działa na ciało poruszające się z prędkością v. Siła taka nie zależy od prędkości, a jedynie od nacisku ciała na podłoże (masa + siła grawitacji). Powyższy wzór zakłada, że im szybciej porusza się ciało sunące po podłożu, tym bardziej tarcie je spowalnia.</p>
+<p>Tarcie jako „siła” powinno wpływać na (zmieniać) prędkość ciała. A ponieważ zarówno masa jak i siła grawitacji są stałe, to tarcie powinno być stałe przez cały okres trwania ruchu.</p>
+<p>W każdym przedziale czasu o długości <code>delta_time</code> bierzemy wartość prędkości (która jest średnią prędkością w tym przedziale czasu, bo w grach czas nie jest ciągły jak w rzeczywistości) i odejmujemy od niej wartość siły tarcia. Tarcie jest siłą, a więc zmianą prędkości w czasie, więc również mnożymy ją przez <code>delta_time</code>.</p>
+<pre tabindex="0"><code>new_velocity = old_velocity + acceleration * delta_time - friction * delta_time
+             = old_velocity + (acceleration - friction) * delta_time
+new_position = old_position + new_velocity * delta_time
+</code></pre><p>Wychodzi na to, że tarcie jest zwykłą stałą, która zmniejsza przyspieszenie.</p>
+<p>Ponadto zauważmy, jak w rezultacie, do wyliczenia <code>new_position</code> mnożymy tarcie <code>friction</code> przez <code>delta_time</code> do kwadratu. Ponieważ <em>tarcie</em> reprezentuje zmianę <em>prędkości</em> w czasie, a <em>prędkość</em> reprezentuje zmianę <em>przemieszczenia</em> w czasie, to oznacza, że <em>tarcie</em> jest w tej sytuacji drugą pochodną od <em>przemieszczenia</em> po czasie.</p>
+<pre tabindex="0"><code>d&#34;(t) = v&#39;(t) = a(t) &lt;- tarcie w chwili t
+</code></pre><p>Oczywiście w grach nie mamy prawdziwej „chwili” <code>t</code> o długości dążącej do zera, więc takie idealne wzory stanowią jedynie model do aproksymowania praw fizyki w przedziałach czasu między jedną wyświetloną klatką gry a drugą.</p>
+<p>Całkując powyższy wzór po czasie (dt) i zakładając, że tarcie <code>a(t)</code> jest stałe i równe <code>a</code> (co wcześniej ustaliliśmy, że jest prawdą), otrzymujemy:</p>
+<pre tabindex="0"><code>v(t) = v0 + a * t
+d(t) = d0 + v0 * t + (a * t * t) / 2
+</code></pre><p>Zatem wyszły klasyczne wzory na prędkość i przemieszczenie w ruchu jednostajnie przyspieszonym. Zero zaskoczenia, bo tarcie to po prostu siła, a więc przyspieszenie (spowolnienie) w kierunku przeciwnym do kierunku ruchu.</p>
+<p>Na koniec dodam, że istnieje znana siła hamująca proporcjonalna do prędkości i jest to opór powietrza. Więc w rzeczywistości do wyliczenia <em>spowolnienia</em> i tak należy tę prędkość uwzględnić. Może się zatem okazać, że tarcie zaimplementowane przez @randiego wcale nie jest aż taką złą aproksymacją jak się na pierwszy rzut oka wydaje :)</p>
+
+  </main>
+  <footer>
+    <div class="footer-links">
+    <p><a href="https://github.com/KyrietS">github</a></p>
+    <p><a href="/projects/">projekty</a></p>
+    <p><a href="/">o mnie</a></p>
+    <p><a href="/contact/">kontakt</a></p>
+</div>
+
+
+<div class="footer-last-edited">
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/a4258b88e348eeda4e9826f6fe6a9a7de51ee4ef">Ostatnia modyfikacja: 2025-07-12</a>
+</div>
+
+  </footer>
+</body>
+
+
+<script src="/js/main.js"></script>
+
+<!--Szata graficzna tego bloga została "zainspirowana" 😏 z tego bloga: https://thomashope.xyz/ -->
+</html>

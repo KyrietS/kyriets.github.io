@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>How to implement frictional in a game | Kyriet&#39;s Blog 🦔</title>
+
+<link rel="stylesheet" href="/css/main.css?v1" id="main-stylesheet">
+<link rel="prefetch" href="/css/highlight-light.css?v1" id="highlight-light-stylesheet">
+
+
+<link rel="stylesheet" href="/css/dark.css?v1" id="dark-stylesheet">
+<link rel="stylesheet" href="/css/highlight-dark.css?v1" id="highlight-dark-stylesheet">
+
+
+
+</head>
+<body>
+  <header>
+    
+
+  <nav>
+    <div id="navigation">
+      <a href="/en/">Home</a>
+      <a href="/en/projects/">Projects</a>
+  
+  
+    
+      <a href="/posts/jak-zaimplementowac-sile-tarcia-w-grze/">Po polsku</a>
+    
+  
+  
+  <span id="toggle-theme-button" title="Toggle light/dark theme">🌞</span>
+    </div>
+    <span id="site-title">Kyriet&#39;s Blog 🦔</span>
+  </nav>
+
+
+  </header>
+  <main>
+    
+  <h1>How to implement frictional in a game</h1>
+
+   
+  <time datetime="2025-05-23" style="display: none">2025-05-23</time>
+
+  <p>Some time ago I watched a YouTube video in which indie game developer <a href="https://www.youtube.com/@randyprime">@randy</a> showed how he implemented physics in his game. My attention was drawn to the incorrectly (not in accordance with the rules of physics) implemented frictional force. In this post I will answer why.</p>
+<p>First, let&rsquo;s see how randy&rsquo;s basic motion kinematics is implemented. Below I present the pseudo code:</p>
+<pre tabindex="0"><code>new_velocity = old_velocity + acceleration * delta_time  // velocity v(t)
+new_position = old_position + new_velocity * delta_time  // displacement d(t)
+</code></pre><p>Everything looks good here. Change in displacement over time, that&rsquo;s the physical interpretation of velocity, while change in velocity over time, that&rsquo;s acceleration.</p>
+<p>Now let&rsquo;s look at how @randy implemented friction:</p>
+<pre tabindex="0"><code>new_acceleration = old_acceleration - velocity * friction * delta_time
+</code></pre><p>Although the above code generates the effect of slowing down a body that is in motion, it is an implementation that is inconsistent with how friction works in reality. I would only add that we are here talking about dynamic friction, which acts on a body moving with velocity v. Such a force does not depend on the speed, but only on the pressure of the body on the ground (mass + gravitational force). The above formula assumes that the faster a body gliding on the ground moves, the more friction slows it down.</p>
+<p>Friction as a “force” should affect (change) the speed of the body. And since both mass and gravitational force are constant, friction should be constant throughout the entire duration of motion.</p>
+<p>In each time interval of length <code>delta_time</code> we take the value of the velocity (which is the average velocity in that time interval, because in games time is not continuous as in reality) and subtract from it the value of the frictional force. Friction is a force and therefore a change in velocity over time, so we also multiply it by <code>delta_time</code>.</p>
+<pre tabindex="0"><code>new_velocity = old_velocity + acceleration * delta_time - friction * delta_time
+             = old_velocity + (acceleration - friction) * delta_time
+new_position = old_position + new_velocity * delta_time
+</code></pre><p>It appears that friction is a simple constant that reduces acceleration.</p>
+<p>Furthermore, note how, in effect, to calculate <code>new_position</code> we multiply <code>friction</code> by <code>delta_time</code> squared. Since <em>friction</em> represents the change in <em>velocity</em> over time, and <em>velocity</em> represents the change in <em>displacement</em> over time, this means that <em>friction</em> is in this situation the second derivative of <em>velocity</em> after time.</p>
+<pre tabindex="0"><code>d&#34;(t) = v&#39;(t) = a(t) &lt;- friction at time t
+</code></pre><p>Of course, in games we do not have a real “moment” <code>t</code> of length going to zero, so such ideal formulas are only a model for approximating the laws of physics in the intervals between one displayed game frame and another.</p>
+<p>Integrating the above formula after time (dt) and assuming that the friction <code>a(t)</code> is constant and equal to <code>a</code> (which we established earlier to be true), we get:</p>
+<pre tabindex="0"><code>v(t) = v0 + a * t
+d(t) = d0 + v0 * t + (a * t * t) / 2
+</code></pre><p>So we came up with the classic formulas for velocity and displacement in uniformly accelerated motion. Zero surprise, because friction is simply a force, so acceleration (deceleration) in the direction opposite to the direction of motion.</p>
+<p>Finally, there is a known deceleration force proportional to velocity, and it is air resistance. So, in fact, for the calculation of <em>deceleration</em> this velocity must be taken into account anyway. So it may turn out that the friction implemented by @randy is not at all such a bad approximation as it seems at first glance :)</p>
+
+  </main>
+  <footer>
+    <div class="footer-links">
+    <p><a href="https://github.com/KyrietS">github</a></p>
+    <p><a href="/en/projects/">projects</a></p>
+    <p><a href="/en/">about me</a></p>
+    <p><a href="/en/contact/">contact</a></p>
+</div>
+
+
+<div class="footer-last-edited">
+  <a target="_blank" href="https://github.com/KyrietS/blog/commit/a4258b88e348eeda4e9826f6fe6a9a7de51ee4ef">Last modified: 2025-07-12</a>
+</div>
+
+  </footer>
+</body>
+
+
+<script src="/js/main.js"></script>
+
+<!--Szata graficzna tego bloga została "zainspirowana" 😏 z tego bloga: https://thomashope.xyz/ -->
+</html>

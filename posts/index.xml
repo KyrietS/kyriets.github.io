@@ -6,8 +6,22 @@
     <description>Recent content in Posts on Kyriet&#39;s Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl</language>
-    <lastBuildDate>Sun, 01 Jun 2025 14:04:05 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 12 Jul 2025 21:41:04 +0200</lastBuildDate>
     <atom:link href="https://kyriets.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wzorzec Visitor, czyli separacja danych i zachowania</title>
+      <link>https://kyriets.github.io/posts/wzorzec-visitor-czyli-separacja-danych-i-zachowania/</link>
+      <pubDate>Wed, 11 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/wzorzec-visitor-czyli-separacja-danych-i-zachowania/</guid>
+      <description>&lt;p&gt;Wzorzec visitor oddziela dane od algorytmu. Pokażę na przykładach, kiedy warto stosować ten wzorzec, a kiedy nie. Warto wspomnieć, że nie zawsze chcemy takiej separacji.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jak zaimplementować siłę tarcia w grze</title>
+      <link>https://kyriets.github.io/posts/jak-zaimplementowac-sile-tarcia-w-grze/</link>
+      <pubDate>Fri, 23 May 2025 00:00:00 +0000</pubDate>
+      <guid>https://kyriets.github.io/posts/jak-zaimplementowac-sile-tarcia-w-grze/</guid>
+      <description>&lt;p&gt;Jakiś czas temu oglądałem wideo na YouTube, w którym indie game deweloper &lt;a href=&#34;https://www.youtube.com/@randyprime&#34;&gt;@randy&lt;/a&gt; pokazywał jak zaimplementował fizykę w swojej grze. Moją uwagę zwróciła niepoprawnie (niezgodnie z zasadami fizyki) zaimplementowana siła tarcia. W tym wpisie odpowiem dlaczego.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Jak to jest nie widzieć lub nie słyszeć?</title>
       <link>https://kyriets.github.io/posts/jak-to-jest-nie-widziec-lub-nie-slyszec/</link>
