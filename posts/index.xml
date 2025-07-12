@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Kyriet&#39;s Blog 🦔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl</language>
-    <lastBuildDate>Sat, 12 Jul 2025 21:41:04 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 12 Jul 2025 22:41:08 +0200</lastBuildDate>
     <atom:link href="https://kyriets.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Wzorzec Visitor, czyli separacja danych i zachowania</title>
@@ -83,7 +83,7 @@
       <link>https://kyriets.github.io/posts/jak-powstal-ten-blog/</link>
       <pubDate>Thu, 08 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://kyriets.github.io/posts/jak-powstal-ten-blog/</guid>
-      <description>&lt;p&gt;Standardowo już każdy mój nowy blog otwieram wpisem o tym, jak powstał. Mam już za sobą conajmniej 5 blogów, każdy zbudowany na innej technologii. Tym razem postanowiłem wykorzystać &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Standardowo już każdy mój nowy blog otwieram wpisem o tym, jak powstał. Mam już za sobą co najmniej 5 blogów, każdy zbudowany na innej technologii. Tym razem postanowiłem wykorzystać &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Jak jest zbudowany system plików FAT</title>
